@@ -4,15 +4,13 @@ import 'package:network_inspector/infrastructure/models/map_to_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  Database? database;
-
   static const String databaseName = 'network_inspector.db';
   static const int databaseVersion = 1;
 
-  Future<void> initialize() async {
+  static Future<Database> initialize() async {
     var databasePath = await getDatabasesPath();
     var fullPath = '$databasePath$databaseName';
-    database = await openDatabase(
+    var database = openDatabase(
       fullPath,
       version: databaseVersion,
       onCreate: (Database db, int version) async {
@@ -25,16 +23,21 @@ class DatabaseHelper {
         debugPrint('Database opened successfully, path : $fullPath');
       },
     );
+    return database;
   }
 
-  Future<void> initializeTable({
+  static Future<void> initializeTable({
     required Database database,
     required int version,
   }) async {
-    createTable(migrationScript: await ActivityModel.migration);
+    createTable(
+      migrationScript: await ActivityModel.migration,
+      database: database,
+    );
   }
 
-  Future<void> createTable({
+  static Future<void> createTable({
+    required Database database,
     required Map<String, dynamic> migrationScript,
   }) async {
     var migrationObject = MapToTable.fromJson(migrationScript);
@@ -49,12 +52,12 @@ class DatabaseHelper {
       if ((definitionLength - 1) != i) query += ", ";
     }
     var ddl = '''create table ${migrationObject.tableName} ($query)''';
-    await database?.execute(ddl).onError((error, stackTrace) {
+    await database.execute(ddl).onError((error, stackTrace) {
       debugPrint('Error hen execute ddl : ${stackTrace.toString()}');
-    }).whenComplete(() => close());
+    }).whenComplete(() => close(database));
   }
 
-  Future<void> close() async {
-    await database?.close();
+  static Future<void> close(Database database) async {
+    await database.close();
   }
 }
