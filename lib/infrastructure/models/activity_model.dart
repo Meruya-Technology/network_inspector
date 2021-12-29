@@ -53,7 +53,7 @@ class ActivityModel {
 
   static Future<Map<String, dynamic>> get migration async {
     final stringJson = await rootBundle.loadString(
-      'packages/network_inspector/assets/json/activity_migration.json',
+      'packages/network_inspector/assets/json/migration_template.json',
     );
     final migrateScript = json.decode(stringJson);
     return migrateScript;

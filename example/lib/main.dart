@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'presentation/controllers/main_provider.dart';
 
 void main() {
-  NetworkInspector.initialize();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
+  NetworkInspector.initialize();
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         context: context,
       ),
       builder: (context, child) => MaterialApp(
-        title: 'Network inpsector',
+        title: 'Network inspector',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

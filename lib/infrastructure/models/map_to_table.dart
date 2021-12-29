@@ -11,8 +11,10 @@ class MapToTable {
   factory MapToTable.fromJson(Map<String, dynamic> json) => MapToTable(
         tableName: json['tabel_name'],
         definition: (json['definition']) != null
-            ? (json['definition']).map(
-                (definition) => DefinitionModel.fromJson(definition),
+            ? List<DefinitionModel>.from(
+                (json['definition']).map(
+                  (definition) => DefinitionModel.fromJson(definition),
+                ),
               )
             : null,
       );

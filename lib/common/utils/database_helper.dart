@@ -8,19 +8,21 @@ class DatabaseHelper {
   static const int databaseVersion = 1;
 
   static Future<Database> initialize() async {
-    var databasePath = await getDatabasesPath();
-    var fullPath = '$databasePath$databaseName';
     var database = openDatabase(
-      fullPath,
+      databaseName,
       version: databaseVersion,
       onCreate: (Database db, int version) async {
+        debugPrint('Database Created');
         initializeTable(
           database: db,
           version: version,
         );
       },
+      onConfigure: (Database db) {
+        debugPrint('Configuring Database..');
+      },
       onOpen: (Database db) {
-        debugPrint('Database opened successfully, path : $fullPath');
+        debugPrint('Database Open & Connected');
       },
     );
     return database;
@@ -40,20 +42,28 @@ class DatabaseHelper {
     required Database database,
     required Map<String, dynamic> migrationScript,
   }) async {
+    /// Initialize query
+    debugPrint('Initialize Table');
     var migrationObject = MapToTable.fromJson(migrationScript);
     var definitions = migrationObject.definition;
     var definitionLength = definitions?.length ?? 0;
     var query = '';
+
+    /// DDL Building
     for (var i = 0; i < definitionLength; i++) {
       var definition = definitions?[i];
-      query += '${definition?.fields} '
-          '${definition?.type} '
-          '${definition?.attribute}';
+      if (definition?.fields != null) query += '${definition?.fields}';
+      if (definition?.type != null) query += ' ${definition?.type}';
+      if (definition?.attribute != null) query += ' ${definition?.attribute}';
       if ((definitionLength - 1) != i) query += ", ";
     }
     var ddl = '''create table ${migrationObject.tableName} ($query)''';
-    await database.execute(ddl).onError((error, stackTrace) {
-      debugPrint('Error hen execute ddl : ${stackTrace.toString()}');
+
+    /// Execute ddl
+    await database.execute(ddl).then((_) {
+      debugPrint('DDL Executed DDL : $ddl');
+    }).onError((error, stackTrace) {
+      debugPrint('Error when execute DDL : ${stackTrace.toString()}');
     }).whenComplete(() => close(database));
   }
 
