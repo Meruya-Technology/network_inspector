@@ -1,7 +1,4 @@
 library network_inspector;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'network_inspector_common.dart';
+export 'network_inspector_infrastructure.dart';
