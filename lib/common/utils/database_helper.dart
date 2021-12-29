@@ -67,6 +67,11 @@ class DatabaseHelper {
     }).whenComplete(() => close(database));
   }
 
+  static Future<Database> connect() async {
+    var database = openDatabase(databaseName);
+    return database;
+  }
+
   static Future<void> close(Database database) async {
     await database.close();
   }

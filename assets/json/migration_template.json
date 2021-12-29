@@ -45,6 +45,11 @@
             "fields": "response_size",
             "type":"real",
             "attribute": null
+        },
+        {
+            "fields": "created_at",
+            "type":"int",
+            "attribute": null
         }
     ]
 }

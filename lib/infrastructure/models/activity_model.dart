@@ -12,6 +12,7 @@ class ActivityModel {
   final String responseStatusCode;
   final String responseTime;
   final String responseSize;
+  final int? createdAt;
 
   ActivityModel({
     required this.id,
@@ -23,6 +24,7 @@ class ActivityModel {
     required this.responseStatusCode,
     required this.responseTime,
     required this.responseSize,
+    this.createdAt,
   });
 
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
@@ -35,6 +37,7 @@ class ActivityModel {
         responseStatusCode: json['response_status_code'],
         responseTime: json['response_time'],
         responseSize: json['response_size'],
+        createdAt: json['created_at'],
       );
 
   Map<String, dynamic> toJson() {
@@ -48,6 +51,7 @@ class ActivityModel {
     json['response_status_code'] = responseStatusCode;
     json['response_time'] = responseTime;
     json['response_size'] = responseSize;
+    json['created_at'] = createdAt;
     return json;
   }
 
