@@ -1,7 +1,13 @@
 import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
 import 'package:network_inspector/infrastructure/models/activity_model.dart';
+import 'package:sqflite/sqflite.dart';
 
-class LogDatasourceImpl extends LogDatasource {
+class LogDatasourceImpl implements LogDatasource {
+  final Database database;
+  LogDatasourceImpl({
+    required this.database,
+  });
+
   Future<ActivityModel?> activities({
     int? id,
     int? startDate,
@@ -12,9 +18,13 @@ class LogDatasourceImpl extends LogDatasource {
   }
 
   @override
-  Future<ActivityModel?> logActivity({
+  Future<bool> logActivity({
     required ActivityModel activityModel,
-  }) {
-    throw UnimplementedError();
+  }) async {
+    var id = await database.insert(
+      ActivityModel.tableName,
+      activityModel.toJson(),
+    );
+    return (id != 0);
   }
 }

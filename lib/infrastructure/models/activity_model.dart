@@ -4,26 +4,26 @@ import 'package:flutter/services.dart';
 
 class ActivityModel {
   final int id;
-  final String url;
-  final String requestHeader;
-  final String requestBody;
-  final String responseHeader;
-  final String responseBody;
-  final String responseStatusCode;
-  final String responseTime;
-  final String responseSize;
+  final String? url;
+  final String? requestHeader;
+  final String? requestBody;
+  final String? responseHeader;
+  final String? responseBody;
+  final String? responseStatusCode;
+  final String? responseTime;
+  final String? responseSize;
   final int? createdAt;
 
   ActivityModel({
     required this.id,
-    required this.url,
-    required this.requestHeader,
-    required this.requestBody,
-    required this.responseHeader,
-    required this.responseBody,
-    required this.responseStatusCode,
-    required this.responseTime,
-    required this.responseSize,
+    this.url,
+    this.requestHeader,
+    this.requestBody,
+    this.responseHeader,
+    this.responseBody,
+    this.responseStatusCode,
+    this.responseTime,
+    this.responseSize,
     this.createdAt,
   });
 
@@ -54,6 +54,8 @@ class ActivityModel {
     json['created_at'] = createdAt;
     return json;
   }
+
+  static String tableName = 'activities';
 
   static Future<Map<String, dynamic>> get migration async {
     final stringJson = await rootBundle.loadString(

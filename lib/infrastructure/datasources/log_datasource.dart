@@ -8,7 +8,7 @@ abstract class LogDatasource {
     String? url,
   });
 
-  Future<ActivityModel?> logActivity({
+  Future<bool> logActivity({
     required ActivityModel activityModel,
   });
 }
