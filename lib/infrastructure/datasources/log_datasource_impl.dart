@@ -8,13 +8,21 @@ class LogDatasourceImpl implements LogDatasource {
     required this.database,
   });
 
-  Future<List<ActivityModel>> activities({
+  Future<List<ActivityModel>?> activities({
     int? id,
     int? startDate,
     int? endDate,
     String? url,
-  }) {
-    return Future.value();
+  }) async {
+    List<Map<String, Object?>> rows = await database.query(
+      ActivityModel.tableName,
+    );
+    var models = List<ActivityModel>.from(
+      rows.map(
+        (row) => ActivityModel.fromJson(row),
+      ),
+    );
+    return models;
   }
 
   @override

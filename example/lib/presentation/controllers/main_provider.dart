@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:network_inspector/network_inspector.dart';
 
 class MainProvider extends ChangeNotifier {
+  final BuildContext context;
   MainProvider({
-    required BuildContext context,
+    required this.context,
   }) {
     initialize();
   }

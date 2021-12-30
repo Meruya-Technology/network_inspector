@@ -4,7 +4,7 @@ abstract class UseCase<T, P> {
   Future<T> execute(P param) async {
     /// Validate usecase
     /// Execute
-    return build(param).catchError((error) {
+    return await build(param).catchError((error) {
       handleError(error);
 
       /// TODO: Add error mapper

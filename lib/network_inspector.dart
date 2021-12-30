@@ -11,6 +11,7 @@ import 'network_inspector_common.dart';
 /// Core class section
 class NetworkInspector {
   static Future<void> initialize() async {
-    DatabaseHelper.initialize();
+    var database = await DatabaseHelper.initialize();
+    print(database.hashCode);
   }
 }

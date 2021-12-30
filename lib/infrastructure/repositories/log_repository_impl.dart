@@ -9,7 +9,7 @@ class LogRepositoryImpl implements LogRepository {
     required this.logDatasource,
   });
 
-  Future<List<Activity>> fetchActivities({
+  Future<List<Activity>?> fetchActivities({
     int? id,
     int? startDate,
     int? endDate,
@@ -21,13 +21,15 @@ class LogRepositoryImpl implements LogRepository {
       startDate: startDate,
       endDate: endDate,
     );
-    var entities = List<Activity>.from(
-      models.map(
-        (model) => ActivityMapper.toEntity(
-          model,
-        ),
-      ),
-    );
+    var entities = (models != null)
+        ? List<Activity>.from(
+            models.map(
+              (model) => ActivityMapper.toEntity(
+                model,
+              ),
+            ),
+          )
+        : null;
     return entities;
   }
 
