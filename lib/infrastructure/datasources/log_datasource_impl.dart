@@ -8,7 +8,7 @@ class LogDatasourceImpl implements LogDatasource {
     required this.database,
   });
 
-  Future<ActivityModel?> activities({
+  Future<List<ActivityModel>> activities({
     int? id,
     int? startDate,
     int? endDate,

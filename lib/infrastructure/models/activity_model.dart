@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 class ActivityModel {
-  final int id;
+  final int? id;
   final String? url;
   final String? requestHeader;
   final String? requestBody;
@@ -15,7 +15,7 @@ class ActivityModel {
   final int? createdAt;
 
   ActivityModel({
-    required this.id,
+    this.id,
     this.url,
     this.requestHeader,
     this.requestBody,

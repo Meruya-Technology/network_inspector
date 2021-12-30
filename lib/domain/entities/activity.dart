@@ -1,5 +1,5 @@
 class Activity {
-  final int id;
+  final int? id;
   final String? url;
   final String? requestHeader;
   final String? requestBody;
@@ -11,7 +11,7 @@ class Activity {
   final int? createdAt;
 
   Activity({
-    required this.id,
+    this.id,
     this.url,
     this.requestHeader,
     this.requestBody,
