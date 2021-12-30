@@ -12,4 +12,6 @@ class MainProvider extends ChangeNotifier {
   Future<void> initialize() async {
     NetworkInspector.initialize();
   }
+
+  Future<void> httpGet() async {}
 }

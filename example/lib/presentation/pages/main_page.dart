@@ -11,26 +11,58 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Network Inspector'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            MaterialButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ActivityPage(),
-                  ),
-                );
-              },
-              child: Text('Activity page'),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Json',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                Text(
+                  'Create Http Activity with Json payload',
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Divider(height: 0),
+          ListTile(
+            title: Text('Get'),
+            subtitle: Text(
+              'Create http activity with method GET',
+              style: Theme.of(context).textTheme.caption,
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Post'),
+            subtitle: Text(
+              'Create http activity with method POST',
+              style: Theme.of(context).textTheme.caption,
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Put'),
+            subtitle: Text(
+              'Create http activity with method PUT',
+              style: Theme.of(context).textTheme.caption,
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Delete'),
+            subtitle: Text(
+              'Create http activity with method DELETE',
+              style: Theme.of(context).textTheme.caption,
+            ),
+            onTap: () {},
+          ),
+        ],
       ),
     );
   }

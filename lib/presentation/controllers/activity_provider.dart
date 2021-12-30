@@ -14,33 +14,36 @@ class ActivityProvider extends ChangeNotifier {
   ActivityProvider({
     required this.context,
   }) {
-    print('initialize');
     injectDependencies().whenComplete(() {
       initState();
     });
   }
 
-  Database? database;
-  FetchActivities? fetchActivities;
+  Database? _database;
+  FetchActivities? _fetchActivities;
   Future<List<Activity>?>? fetchedActivity;
 
   Future<void> injectDependencies() async {
-    database = await DatabaseHelper.initialize();
-    if (database != null) {
+    _database = await DatabaseHelper.initialize();
+    if (_database != null) {
       LogDatasource logDatasource = LogDatasourceImpl(
-        database: database!,
+        database: _database!,
       );
       LogRepository logRepository = LogRepositoryImpl(
         logDatasource: logDatasource,
       );
-      fetchActivities = FetchActivities(
+      _fetchActivities = FetchActivities(
         logRepository: logRepository,
       );
     }
   }
 
   Future<void> initState() async {
-    fetchedActivity = fetchActivities?.execute(null).whenComplete(() {
+    fetchActivities();
+  }
+
+  Future<void> fetchActivities() async {
+    fetchedActivity = _fetchActivities?.execute(null).whenComplete(() {
       notifyListeners();
     });
   }
