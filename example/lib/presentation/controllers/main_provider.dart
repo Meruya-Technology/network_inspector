@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+import 'package:example/common/network_interceptor.dart';
+import 'package:example/common/notification_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:network_inspector/network_inspector.dart';
 
@@ -10,9 +13,25 @@ class MainProvider extends ChangeNotifier {
     initialize();
   }
 
+  NotificationHelper get notificationHelper {
+    return NotificationHelper();
+  }
+
+  Dio get dioClient {
+    return Dio(
+      BaseOptions(
+        baseUrl: 'http://192.168.1.12:8000/',
+        connectTimeout: 10 * 1000, // 10 second
+      ),
+    )..interceptors.add(
+        NetworkInterceptor(
+          logIsAllowed: true,
+          notificationHelper: notificationHelper,
+        ),
+      );
+  }
+
   Future<void> initialize() async {
     NetworkInspector.initialize();
   }
-
-  Future<void> httpGet() async {}
 }

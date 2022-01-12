@@ -9,9 +9,9 @@ import 'presentation/controllers/main_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
   NetworkInspector.initialize();
   NotificationHelper.initialize();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,9 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         navigatorKey: NavigationService.navigatorKey,
         initialRoute: MainPage.routeName,
-        routes: {
-          MainPage.routeName: (BuildContext context) => MainPage(),
-        },
+        routes: NavigationService.routes,
       ),
     );
   }

@@ -1,3 +1,6 @@
+import 'package:example/presentation/pages/dio_page.dart';
+import 'package:example/presentation/pages/http_page.dart';
+import 'package:example/presentation/pages/vanilla_page.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatelessWidget {
@@ -35,7 +38,9 @@ class MainPage extends StatelessWidget {
               'Create http activity with Dio package',
               style: Theme.of(context).textTheme.caption,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, DioPage.routeName);
+            },
           ),
           ListTile(
             title: Text('Http'),
@@ -43,7 +48,9 @@ class MainPage extends StatelessWidget {
               'Create http activity with http package',
               style: Theme.of(context).textTheme.caption,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, HttpPage.routeName);
+            },
           ),
           ListTile(
             title: Text('Http vanilla'),
@@ -51,7 +58,9 @@ class MainPage extends StatelessWidget {
               'Create http activity with vanilla http client (io/http)',
               style: Theme.of(context).textTheme.caption,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, VanillaPage.routeName);
+            },
           ),
         ],
       ),

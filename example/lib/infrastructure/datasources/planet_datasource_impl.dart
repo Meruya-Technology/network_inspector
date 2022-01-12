@@ -1,21 +1,27 @@
-import 'package:example/common/datasource_client.dart';
+import 'package:dio/dio.dart';
+import 'package:example/const/endpoint.dart';
 import 'package:example/infrastructure/datasources/planet_datasource.dart';
 import 'package:example/infrastructure/models/fetch_planet_response_model.dart';
+import 'package:http/http.dart';
 
 class PlanetDatasourceImpl implements PlanetDatasource {
-  final DatasourceClient datasourceClient;
+  final dynamic datasourceClient;
   PlanetDatasourceImpl({
     required this.datasourceClient,
   });
 
   Future<FetchPlanetResponseModel?> fetchPlanet() async {
-    switch (datasourceClient.datasourceClientType) {
-      case DatasourceClientType.Dio:
-        return null;
-      case DatasourceClientType.Http:
-        return null;
-      case DatasourceClientType.Vanilla:
-        return null;
+    if (datasourceClient is Dio) {
+      var response = await (datasourceClient as Dio).get(
+        Endpoint.planet,
+      );
+      return (response.data != null)
+          ? FetchPlanetResponseModel.fromJson(response.data)
+          : null;
+    } else if (datasourceClient is Client) {
+      throw UnimplementedError();
+    } else {
+      throw UnimplementedError();
     }
   }
 }

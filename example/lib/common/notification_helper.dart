@@ -7,7 +7,7 @@ class NotificationHelper {
   static final localNotification = FlutterLocalNotificationsPlugin();
 
   static AndroidInitializationSettings? get androidInitSetting {
-    return AndroidInitializationSettings('ic_launcher');
+    return AndroidInitializationSettings('meruya_logo');
   }
 
   static IOSInitializationSettings? get iosInitSetting {
@@ -48,5 +48,41 @@ class NotificationHelper {
         ),
       );
     }
+  }
+
+  static Future<void> showNotification({
+    required int classHashId,
+    required String title,
+    required String message,
+    required String payload,
+  }) async {
+    const androidNotificationDetail = AndroidNotificationDetails(
+      'network-inspector-channel',
+      'Channel for example',
+      channelDescription: 'This channel created for testing network inspector'
+          'package',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidNotificationDetail,
+    );
+    await localNotification.show(
+      /// Show id here
+      classHashId,
+
+      /// Use title here
+      title,
+
+      /// Use body here
+      message,
+
+      /// Use specific chanel here
+      platformChannelSpecifics,
+
+      /// Use payload here
+      payload: payload,
+    );
   }
 }

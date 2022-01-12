@@ -41,7 +41,10 @@ class DioPage extends StatelessWidget {
                 'Create http activity with method GET',
                 style: Theme.of(context).textTheme.caption,
               ),
-              onTap: () {},
+              onTap: () {
+                var provider = Provider.of<DioProvider>(context, listen: false);
+                provider.fetchPlanet!.execute();
+              },
             ),
             ListTile(
               title: Text('Post'),

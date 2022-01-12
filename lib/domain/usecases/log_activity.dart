@@ -11,7 +11,19 @@ class LogActivity extends UseCase<bool, LogActivityParam> {
 
   @override
   Future<bool> build(LogActivityParam param) async {
-    var result = await logRepository.logActivity(activity: Activity());
+    var result = await logRepository.logActivity(
+      activity: Activity(
+        url: param.url,
+        requestBody: param.requestBody,
+        requestHeader: param.requestHeader,
+        responseBody: param.responseBody,
+        responseHeader: param.responseHeader,
+        responseStatusCode: param.responseStatusCode,
+        responseTime: param.responseTime,
+        responseSize: param.responseSize,
+        createdAt: param.createdAt,
+      ),
+    );
     return result;
   }
 

@@ -7,7 +7,7 @@ class FetchPlanet {
     required this.planetRepository,
   });
 
-  Future<List<Planet>?> fetchPlanet() {
+  Future<List<Planet>?> execute() {
     return planetRepository.fetchPlanet();
   }
 }
