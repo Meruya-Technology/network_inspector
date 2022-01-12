@@ -14,11 +14,13 @@ class LogActivity extends UseCase<bool, LogActivityParam> {
     var result = await logRepository.logActivity(
       activity: Activity(
         url: param.url,
+        method: param.method,
         requestBody: param.requestBody,
         requestHeader: param.requestHeader,
         responseBody: param.responseBody,
         responseHeader: param.responseHeader,
         responseStatusCode: param.responseStatusCode,
+        responseStatusMessage: param.responseStatusMessage,
         responseTime: param.responseTime,
         responseSize: param.responseSize,
         createdAt: param.createdAt,
@@ -35,22 +37,26 @@ class LogActivity extends UseCase<bool, LogActivityParam> {
 
 class LogActivityParam {
   final String? url;
+  final String? method;
   final String? requestHeader;
   final String? requestBody;
   final String? responseHeader;
   final String? responseBody;
-  final String? responseStatusCode;
+  final int? responseStatusCode;
+  final String? responseStatusMessage;
   final String? responseTime;
   final String? responseSize;
   final int? createdAt;
 
   LogActivityParam({
     this.url,
+    this.method,
     this.requestHeader,
     this.requestBody,
     this.responseHeader,
     this.responseBody,
     this.responseStatusCode,
+    this.responseStatusMessage,
     this.responseTime,
     this.responseSize,
     this.createdAt,

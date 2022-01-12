@@ -12,6 +12,11 @@
             "attribute": null
         },
         {
+            "fields": "method",
+            "type":"text",
+            "attribute": null
+        },
+        {
             "fields": "request_header",
             "type":"text",
             "attribute": null
@@ -33,6 +38,11 @@
         },
         {
             "fields": "response_status_code",
+            "type":"integer",
+            "attribute": null
+        },
+        {
+            "fields": "response_status_message",
             "type":"text",
             "attribute": null
         },

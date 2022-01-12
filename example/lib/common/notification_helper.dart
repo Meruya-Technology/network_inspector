@@ -41,12 +41,14 @@ class NotificationHelper {
     }
     var context = NavigationService.navigatorKey.currentContext;
     if (context != null) {
-      await Navigator.push(
-        context,
-        MaterialPageRoute<void>(
-          builder: (context) => ActivityPage(),
-        ),
-      );
+      if (payload == 'networkInspector') {
+        await Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (context) => ActivityPage(),
+          ),
+        );
+      }
     }
   }
 
@@ -64,6 +66,8 @@ class NotificationHelper {
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'ticker',
+      styleInformation: BigTextStyleInformation(''),
+      fullScreenIntent: true,
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidNotificationDetail,

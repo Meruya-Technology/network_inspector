@@ -5,11 +5,13 @@ import 'package:flutter/services.dart';
 class ActivityModel {
   final int? id;
   final String? url;
+  final String? method;
   final String? requestHeader;
   final String? requestBody;
   final String? responseHeader;
   final String? responseBody;
-  final String? responseStatusCode;
+  final int? responseStatusCode;
+  final String? responseStatusMessage;
   final String? responseTime;
   final String? responseSize;
   final int? createdAt;
@@ -17,11 +19,13 @@ class ActivityModel {
   ActivityModel({
     this.id,
     this.url,
+    this.method,
     this.requestHeader,
     this.requestBody,
     this.responseHeader,
     this.responseBody,
     this.responseStatusCode,
+    this.responseStatusMessage,
     this.responseTime,
     this.responseSize,
     this.createdAt,
@@ -30,11 +34,13 @@ class ActivityModel {
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
         id: json['id'],
         url: json['url'],
+        method: json['method'],
         requestHeader: json['request_header'],
         requestBody: json['request_body'],
         responseHeader: json['response_header'],
         responseBody: json['response_body'],
         responseStatusCode: json['response_status_code'],
+        responseStatusMessage: json['response_status_message'],
         responseTime: json['response_time'],
         responseSize: json['response_size'],
         createdAt: json['created_at'],
@@ -44,11 +50,13 @@ class ActivityModel {
     final Map<String, dynamic> json = <String, dynamic>{};
     json['id'] = id;
     json['url'] = url;
+    json['method'] = method;
     json['request_header'] = requestHeader;
     json['request_body'] = requestBody;
     json['response_header'] = responseHeader;
     json['response_body'] = responseBody;
     json['response_status_code'] = responseStatusCode;
+    json['response_status_message'] = responseStatusMessage;
     json['response_time'] = responseTime;
     json['response_size'] = responseSize;
     json['created_at'] = createdAt;

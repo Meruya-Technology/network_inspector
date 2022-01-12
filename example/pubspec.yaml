@@ -27,6 +27,7 @@ dependencies:
   flutter_local_notifications: ^9.2.0
   http: ^0.13.4
   dio: ^4.0.4
+  intl: ^0.17.0
   network_inspector:
     path: ../
 

@@ -10,11 +10,15 @@ class MainProvider extends ChangeNotifier {
   MainProvider({
     required this.context,
   }) {
-    initialize();
+    injectDependencies();
   }
 
-  NotificationHelper get notificationHelper {
-    return NotificationHelper();
+  NotificationHelper? notificationHelper;
+  NetworkInspector? networkInspector;
+
+  Future<void> injectDependencies() async {
+    notificationHelper = NotificationHelper();
+    networkInspector = NetworkInspector();
   }
 
   Dio get dioClient {
@@ -22,6 +26,9 @@ class MainProvider extends ChangeNotifier {
       BaseOptions(
         baseUrl: 'http://192.168.1.12:8000/',
         connectTimeout: 10 * 1000, // 10 second
+        headers: {
+          'content-type': 'application/json',
+        },
       ),
     )..interceptors.add(
         NetworkInterceptor(
@@ -29,9 +36,5 @@ class MainProvider extends ChangeNotifier {
           notificationHelper: notificationHelper,
         ),
       );
-  }
-
-  Future<void> initialize() async {
-    NetworkInspector.initialize();
   }
 }

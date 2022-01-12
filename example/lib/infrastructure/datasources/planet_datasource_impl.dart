@@ -14,6 +14,9 @@ class PlanetDatasourceImpl implements PlanetDatasource {
     if (datasourceClient is Dio) {
       var response = await (datasourceClient as Dio).get(
         Endpoint.planet,
+        queryParameters: {
+          'id': 1,
+        },
       );
       return (response.data != null)
           ? FetchPlanetResponseModel.fromJson(response.data)
