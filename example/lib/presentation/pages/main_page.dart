@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/presentation/pages/activity_page.dart';
 
 class MainPage extends StatelessWidget {
   static const String routeName = '/main-page';
@@ -31,33 +30,25 @@ class MainPage extends StatelessWidget {
           ),
           Divider(height: 0),
           ListTile(
-            title: Text('Get'),
+            title: Text('Dio'),
             subtitle: Text(
-              'Create http activity with method GET',
+              'Create http activity with Dio package',
               style: Theme.of(context).textTheme.caption,
             ),
             onTap: () {},
           ),
           ListTile(
-            title: Text('Post'),
+            title: Text('Http'),
             subtitle: Text(
-              'Create http activity with method POST',
+              'Create http activity with http package',
               style: Theme.of(context).textTheme.caption,
             ),
             onTap: () {},
           ),
           ListTile(
-            title: Text('Put'),
+            title: Text('Http vanilla'),
             subtitle: Text(
-              'Create http activity with method PUT',
-              style: Theme.of(context).textTheme.caption,
-            ),
-            onTap: () {},
-          ),
-          ListTile(
-            title: Text('Delete'),
-            subtitle: Text(
-              'Create http activity with method DELETE',
+              'Create http activity with vanilla http client (io/http)',
               style: Theme.of(context).textTheme.caption,
             ),
             onTap: () {},
