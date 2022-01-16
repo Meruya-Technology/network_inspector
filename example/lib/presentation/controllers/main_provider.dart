@@ -34,6 +34,7 @@ class MainProvider extends ChangeNotifier {
         NetworkInterceptor(
           logIsAllowed: true,
           notificationHelper: notificationHelper,
+          networkInspector: networkInspector,
         ),
       );
   }

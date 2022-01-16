@@ -67,7 +67,8 @@ class NetworkInterceptor extends Interceptor {
   }
 
   Future<void> logRequest(RequestOptions request) async {
-    var logTemplate = '\n[Request header] ${request.headers.toString()}'
+    var logTemplate = '\n[Request url] ${request.uri.toString()}'
+        '\n[Request header] ${request.headers.toString()}'
         '\n[Request param] ${request.queryParameters}'
         '\n[Request body] ${json.encode(request.data)}'
         '\n[Request method] ${request.method}'
@@ -110,18 +111,26 @@ class NetworkInterceptor extends Interceptor {
         responseStatusMessage: response.statusMessage,
         createdAt: localResponseDate.millisecondsSinceEpoch,
       );
-      networkInspector?.log(activity).whenComplete(() {
-        notifyResponse(response);
+      print('do inspect');
+      await networkInspector!.log(activity).whenComplete(() {
+        print('Clear');
+        notifyResponse(
+          title: fullUrl,
+          message: response.toString(),
+        );
       });
     }
   }
 
-  Future<void> notifyResponse(Response response) async {
-    // NotificationHelper.showNotification(
-    //   classHashId: notificationHelper.hashCode,
-    //   title: fullUrl,
-    //   message: response.toString(),
-    //   payload: 'networkInspector',
-    // );
+  Future<void> notifyResponse({
+    required String title,
+    required String message,
+  }) async {
+    await NotificationHelper.showNotification(
+      classHashId: notificationHelper.hashCode,
+      title: title,
+      message: message,
+      payload: 'networkInspector',
+    );
   }
 }

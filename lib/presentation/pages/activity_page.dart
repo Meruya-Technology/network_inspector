@@ -55,7 +55,7 @@ class ActivityPage extends StatelessWidget {
   ) {
     return Visibility(
       visible: data.isNotEmpty,
-      child: Text('We have the data'),
+      child: activityList(context, data),
       replacement: emptyBody(context),
     );
   }
@@ -81,6 +81,43 @@ class ActivityPage extends StatelessWidget {
   Widget idleWidget(BuildContext context) {
     return Center(
       child: Text('Please wait'),
+    );
+  }
+
+  Widget activityList(
+    BuildContext context,
+    List<Activity> data,
+  ) {
+    return ListView.separated(
+      itemCount: data.length,
+      separatorBuilder: (context, index) => Divider(),
+      itemBuilder: (context, index) => ListTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                data[index].url ?? '-',
+              ),
+            ),
+            Text(
+              data[index].method ?? '-',
+            ),
+          ],
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              data[index].requestBody ?? '-',
+            ),
+            Text(
+              data[index].responseBody ?? '-',
+              maxLines: 4,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
