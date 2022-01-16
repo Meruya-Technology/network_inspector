@@ -4,8 +4,8 @@ jobs:
   Repository-Checker:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Event :" ${{ github.event_name }}
-      - run: echo "Branch :" ${GITHUB_REF##*/}
+      - run: echo "Event :" ${{github.event_name}}
+      - run: echo "Branch :" ${{GITHUB_REF#refs/heads/}}
       - name: Check out repository code
         uses: actions/checkout@v2
       - run: echo "Repository cloned successfully"
