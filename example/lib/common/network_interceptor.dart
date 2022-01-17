@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:network_inspector/domain/usecases/log_activity.dart';
 import 'package:network_inspector/network_inspector.dart';
 import 'form_data_extension.dart';
+import 'dart:typed_data';
 
 class NetworkInterceptor extends Interceptor {
   final bool logIsAllowed;
@@ -27,15 +28,21 @@ class NetworkInterceptor extends Interceptor {
         ? (options.data as FormData).toJson()
         : json.encode(options.data);
 
-    var logRequest = '\nRequest: ${options.baseUrl}${options.path} \n'
-        '[Headers] : ${json.encode(options.headers)} \n'
-        '[Params] : ${json.encode(options.queryParameters)} \n'
+    var newOption = options.copyWith(
+      extra: {
+        'date': new DateTime.now(),
+      },
+    );
+
+    var logRequest = '\nRequest: ${newOption.baseUrl}${newOption.path} \n'
+        '[Headers] : ${json.encode(newOption.headers)} \n'
+        '[Params] : ${json.encode(newOption.queryParameters)} \n'
         '[Body] : $data \n';
 
     if (logIsAllowed) {
       developer.log(logRequest);
     }
-    handler.next(options);
+    handler.next(newOption);
   }
 
   @override
@@ -92,6 +99,7 @@ class NetworkInterceptor extends Interceptor {
     var fullUrl = request.uri.toString();
 
     var headersMap = response.headers.map;
+    var responseBody = response.toString();
     var responseDate = headersMap['date']?.first;
     var parsedResponseDate = DateFormat(dateFormat).parse(responseDate!, false);
     var localResponseDate = parsedResponseDate.add(Duration(hours: 7));
@@ -103,17 +111,15 @@ class NetworkInterceptor extends Interceptor {
       var activity = LogActivityParam(
         url: fullUrl,
         method: request.method,
-        requestBody: request.toString(),
+        requestBody: request.data.toString(),
         requestHeader: headersMap.toString(),
-        responseBody: response.toString(),
+        responseBody: responseBody,
         responseHeader: response.headers.toString(),
         responseStatusCode: response.statusCode,
         responseStatusMessage: response.statusMessage,
         createdAt: localResponseDate.millisecondsSinceEpoch,
       );
-      print('do inspect');
       await networkInspector!.log(activity).whenComplete(() {
-        print('Clear');
         notifyResponse(
           title: fullUrl,
           message: response.toString(),
@@ -132,5 +138,11 @@ class NetworkInterceptor extends Interceptor {
       message: message,
       payload: 'networkInspector',
     );
+  }
+
+  int stringToBytes(String data) {
+    final bytes = utf8.encode(data);
+    final size = Uint8List.fromList(bytes);
+    return size.lengthInBytes;
   }
 }

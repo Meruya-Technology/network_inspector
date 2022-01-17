@@ -11,11 +11,10 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NetworkInspector.initialize();
   NotificationHelper.initialize();
-  runApp(MyApp());
+  runApp(ExampleApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MainProvider>(

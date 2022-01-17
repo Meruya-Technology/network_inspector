@@ -1,0 +1,50 @@
+{
+    "tabel_name":"responses",
+    "definition":[
+        {
+            "fields": "id",
+            "type":"integer",
+            "attribute":"primary key autoincrement not null"
+        },
+        {
+            "fields": "created_at",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "response_header",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "response_body",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "response_status_code",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "response_status_message",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "response_size",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "error_log",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "request_hash_code",
+            "type":"int",
+            "attribute": null
+        }
+    ]
+}
