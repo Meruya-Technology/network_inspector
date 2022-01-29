@@ -1,10 +1,9 @@
-import 'package:network_inspector/domain/entities/activity.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/domain/repositories/log_repository.dart';
-import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
-import 'package:network_inspector/infrastructure/mappers/http_request_mapper.dart';
-import 'package:network_inspector/infrastructure/mappers/http_response_mapper.dart';
+import '../../domain/entities/http_request.dart';
+import '../../domain/entities/http_response.dart';
+import '../../domain/repositories/log_repository.dart';
+import '../datasources/log_datasource.dart';
+import '../mappers/http_request_mapper.dart';
+import '../mappers/http_response_mapper.dart';
 
 class LogRepositoryImpl implements LogRepository {
   final LogDatasource logDatasource;

@@ -1,4 +1,4 @@
-import 'package:example/infrastructure/models/planet_model.dart';
+import 'planet_model.dart';
 
 class FetchPlanetResponseModel {
   final String message;

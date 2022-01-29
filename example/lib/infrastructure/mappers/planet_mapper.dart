@@ -1,5 +1,5 @@
-import 'package:example/domain/entities/planet.dart';
-import 'package:example/infrastructure/models/planet_model.dart';
+import '../../domain/entities/planet.dart';
+import '../models/planet_model.dart';
 
 class PlanetMapper {
   static Planet toEntity(PlanetModel model) {

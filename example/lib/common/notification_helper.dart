@@ -1,7 +1,8 @@
-import 'package:example/common/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:network_inspector/network_inspector_presentation.dart';
+
+import 'navigation_service.dart';
 
 class NotificationHelper {
   static final localNotification = FlutterLocalNotificationsPlugin();

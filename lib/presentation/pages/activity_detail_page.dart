@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ActivityDetailPage extends StatelessWidget {
-  ActivityDetailPage({
+  const ActivityDetailPage({
     Key? key,
   }) : super(key: key);
 

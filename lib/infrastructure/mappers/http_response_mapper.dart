@@ -1,5 +1,5 @@
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/infrastructure/models/http_response_model.dart';
+import '../../domain/entities/http_response.dart';
+import '../models/http_response_model.dart';
 
 class HttpResponseMapper {
   static HttpResponse toEntity(HttpResponseModel model) {

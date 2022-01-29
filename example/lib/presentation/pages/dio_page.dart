@@ -1,6 +1,7 @@
-import 'package:example/presentation/controllers/dio_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../controllers/dio_provider.dart';
 
 class DioPage extends StatelessWidget {
   static const String routeName = '/dio-page';

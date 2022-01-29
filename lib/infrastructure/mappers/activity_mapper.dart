@@ -1,5 +1,5 @@
-import 'package:network_inspector/domain/entities/activity.dart';
-import 'package:network_inspector/network_inspector_infrastructure.dart';
+import '../../domain/entities/activity.dart';
+import '../../network_inspector_infrastructure.dart';
 
 class ActivityMapper {
   static Activity toEntity(ActivityModel model) {

@@ -1,4 +1,4 @@
-import 'package:network_inspector/infrastructure/models/definition_model.dart';
+import 'definition_model.dart';
 
 class MapToTable {
   final String tableName;

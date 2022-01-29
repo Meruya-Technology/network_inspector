@@ -1,5 +1,5 @@
-import 'package:network_inspector/infrastructure/models/http_request_model.dart';
-import 'package:network_inspector/infrastructure/models/http_response_model.dart';
+import '../models/http_request_model.dart';
+import '../models/http_response_model.dart';
 
 abstract class LogDatasource {
   Future<List<HttpRequestModel>?> httpRequests({

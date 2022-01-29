@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/common/utils/usecase.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/domain/repositories/log_repository.dart';
+import '../../common/utils/usecase.dart';
+import '../entities/http_response.dart';
+import '../repositories/log_repository.dart';
 
 class FetchHttpResponses extends UseCase<List<HttpResponse>?, int> {
   final LogRepository logRepository;
@@ -10,9 +10,9 @@ class FetchHttpResponses extends UseCase<List<HttpResponse>?, int> {
   });
 
   @override
-  Future<List<HttpResponse>?> build(int requestHashCode) async {
+  Future<List<HttpResponse>?> build(int param) async {
     var result = await logRepository.httpResponses(
-      requestHashCode: requestHashCode,
+      requestHashCode: param,
     );
     return result;
   }

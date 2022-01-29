@@ -1,7 +1,7 @@
-import 'package:example/domain/entities/planet.dart';
-import 'package:example/domain/repositories/planet_repository.dart';
-import 'package:example/infrastructure/datasources/planet_datasource.dart';
-import 'package:example/infrastructure/mappers/planet_mapper.dart';
+import '../../domain/entities/planet.dart';
+import '../../domain/repositories/planet_repository.dart';
+import '../datasources/planet_datasource.dart';
+import '../mappers/planet_mapper.dart';
 
 class PlanetRepositoryImpl implements PlanetRepository {
   final PlanetDatasource planetDatasource;

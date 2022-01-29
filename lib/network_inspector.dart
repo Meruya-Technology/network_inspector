@@ -1,23 +1,23 @@
 library network_inspector;
 
+import 'package:sqflite/sqflite.dart';
+
+import 'domain/entities/http_request.dart';
+import 'domain/entities/http_response.dart';
+import 'domain/repositories/log_repository.dart';
+import 'domain/usecases/log_http_request.dart';
+import 'domain/usecases/log_http_response.dart';
+import 'infrastructure/datasources/log_datasource.dart';
+import 'infrastructure/datasources/log_datasource_impl.dart';
+import 'infrastructure/repositories/log_repository_impl.dart';
+
+/// Import section
+import 'network_inspector_common.dart';
+
 /// Export section
 export 'network_inspector_common.dart';
 export 'network_inspector_infrastructure.dart';
 export 'network_inspector_presentation.dart';
-
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/domain/repositories/log_repository.dart';
-import 'package:network_inspector/domain/usecases/log_http_request.dart';
-import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
-import 'package:network_inspector/infrastructure/datasources/log_datasource_impl.dart';
-import 'package:network_inspector/infrastructure/repositories/log_repository_impl.dart';
-import 'package:sqflite/sqflite.dart';
-
-import 'domain/usecases/log_http_response.dart';
-
-/// Import section
-import 'network_inspector_common.dart';
 
 /// Core class section
 class NetworkInspector {

@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:example/common/network_interceptor.dart';
-import 'package:example/common/notification_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:network_inspector/network_inspector.dart';
+
+import '../../common/network_interceptor.dart';
+import '../../common/notification_helper.dart';
 
 class MainProvider extends ChangeNotifier {
   final BuildContext context;

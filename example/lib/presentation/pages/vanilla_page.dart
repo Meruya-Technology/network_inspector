@@ -1,6 +1,7 @@
-import 'package:example/presentation/controllers/vanilla_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../controllers/vanilla_provider.dart';
 
 class VanillaPage extends StatelessWidget {
   static const String routeName = '/vanilla-page';

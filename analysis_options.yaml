@@ -1,0 +1,10 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - avoid_relative_lib_imports
+    - constant_identifier_names
+    - directives_ordering
+    - lines_longer_than_80_chars
+    - prefer_relative_imports
+    - prefer_interpolation_to_compose_strings

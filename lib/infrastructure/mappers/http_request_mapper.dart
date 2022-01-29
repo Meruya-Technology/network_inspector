@@ -1,5 +1,5 @@
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/infrastructure/models/http_request_model.dart';
+import '../../domain/entities/http_request.dart';
+import '../models/http_request_model.dart';
 
 class HttpRequestMapper {
   static HttpRequest toEntity(HttpRequestModel model) {

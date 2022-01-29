@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/common/extensions/date_util.dart';
-import 'package:network_inspector/domain/entities/activity.dart';
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/presentation/controllers/activity_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../common/extensions/date_util.dart';
+import '../../domain/entities/http_request.dart';
+import '../controllers/activity_provider.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class ActivityPage extends StatelessWidget {
       ),
       builder: (context, child) => Scaffold(
         appBar: AppBar(
-          title: Text('Activities'),
+          title: const Text('Activities'),
         ),
         body: buildBody(context),
       ),
@@ -25,7 +25,7 @@ class ActivityPage extends StatelessWidget {
 
   Widget buildBody(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Consumer<ActivityProvider>(
         builder: (context, provider, child) =>
             FutureBuilder<List<HttpRequest>?>(
@@ -64,7 +64,7 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget emptyBody(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('There is no log, try to fetch something !'),
     );
   }
@@ -76,13 +76,13 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget loadingWidget(BuildContext context) {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
   Widget idleWidget(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Please wait'),
     );
   }
@@ -93,7 +93,7 @@ class ActivityPage extends StatelessWidget {
   ) {
     return ListView.separated(
       itemCount: data.length,
-      separatorBuilder: (context, index) => Divider(),
+      separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) => ListTile(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

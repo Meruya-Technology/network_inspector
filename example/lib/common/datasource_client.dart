@@ -18,7 +18,7 @@ class DatasourceClient {
 }
 
 enum DatasourceClientType {
-  Dio,
-  Http,
-  Vanilla,
+  dio,
+  http,
+  vanilla,
 }

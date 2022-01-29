@@ -1,12 +1,12 @@
-import 'package:example/domain/entities/planet.dart';
-import 'package:example/domain/repositories/planet_repository.dart';
-import 'package:example/domain/usecases/fetch_planet.dart';
-import 'package:example/infrastructure/datasources/planet_datasource.dart';
-import 'package:example/infrastructure/datasources/planet_datasource_impl.dart';
-import 'package:example/infrastructure/repositories/planet_repository_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../domain/entities/planet.dart';
+import '../../domain/repositories/planet_repository.dart';
+import '../../domain/usecases/fetch_planet.dart';
+import '../../infrastructure/datasources/planet_datasource.dart';
+import '../../infrastructure/datasources/planet_datasource_impl.dart';
+import '../../infrastructure/repositories/planet_repository_impl.dart';
 import 'main_provider.dart';
 
 class DioProvider extends ChangeNotifier {

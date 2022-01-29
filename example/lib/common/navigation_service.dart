@@ -1,8 +1,9 @@
-import 'package:example/presentation/pages/dio_page.dart';
-import 'package:example/presentation/pages/http_page.dart';
-import 'package:example/presentation/pages/main_page.dart';
-import 'package:example/presentation/pages/vanilla_page.dart';
 import 'package:flutter/material.dart';
+
+import '../presentation/pages/dio_page.dart';
+import '../presentation/pages/http_page.dart';
+import '../presentation/pages/main_page.dart';
+import '../presentation/pages/vanilla_page.dart';
 
 class NavigationService {
   static var navigatorKey = GlobalKey<NavigatorState>();

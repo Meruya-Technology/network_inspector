@@ -1,7 +1,8 @@
-import 'package:example/presentation/pages/dio_page.dart';
-import 'package:example/presentation/pages/http_page.dart';
-import 'package:example/presentation/pages/vanilla_page.dart';
 import 'package:flutter/material.dart';
+
+import 'dio_page.dart';
+import 'http_page.dart';
+import 'vanilla_page.dart';
 
 class MainPage extends StatelessWidget {
   static const String routeName = '/main-page';

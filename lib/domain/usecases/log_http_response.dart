@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/common/utils/usecase.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/domain/repositories/log_repository.dart';
+import '../../common/utils/usecase.dart';
+import '../entities/http_response.dart';
+import '../repositories/log_repository.dart';
 
 class LogHttpResponse extends UseCase<bool, HttpResponse> {
   final LogRepository logRepository;

@@ -1,8 +1,8 @@
-import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
-import 'package:network_inspector/infrastructure/models/activity_model.dart';
-import 'package:network_inspector/infrastructure/models/http_response_model.dart';
-import 'package:network_inspector/infrastructure/models/http_request_model.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../models/http_request_model.dart';
+import '../models/http_response_model.dart';
+import 'log_datasource.dart';
 
 class LogDatasourceImpl implements LogDatasource {
   final Database database;

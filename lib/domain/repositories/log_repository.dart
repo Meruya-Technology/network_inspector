@@ -1,5 +1,5 @@
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
+import '../entities/http_request.dart';
+import '../entities/http_response.dart';
 
 abstract class LogRepository {
   Future<List<HttpRequest>?> httpRequests({

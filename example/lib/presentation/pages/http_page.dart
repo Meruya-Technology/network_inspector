@@ -1,6 +1,7 @@
-import 'package:example/presentation/controllers/http_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../controllers/http_provider.dart';
 
 class HttpPage extends StatelessWidget {
   static const String routeName = '/http-page';

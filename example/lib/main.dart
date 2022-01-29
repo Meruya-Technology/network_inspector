@@ -1,11 +1,11 @@
-import 'package:example/common/notification_helper.dart';
-import 'package:example/presentation/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:network_inspector/network_inspector.dart';
 import 'package:provider/provider.dart';
 
 import 'common/navigation_service.dart';
+import 'common/notification_helper.dart';
 import 'presentation/controllers/main_provider.dart';
+import 'presentation/pages/main_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

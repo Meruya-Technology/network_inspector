@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/common/utils/database_helper.dart';
-import 'package:network_inspector/domain/entities/activity.dart';
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/domain/repositories/log_repository.dart';
-import 'package:network_inspector/domain/usecases/fetch_http_requests.dart';
-import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
-import 'package:network_inspector/infrastructure/datasources/log_datasource_impl.dart';
-import 'package:network_inspector/infrastructure/repositories/log_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../common/utils/database_helper.dart';
+import '../../domain/entities/http_request.dart';
+import '../../domain/repositories/log_repository.dart';
+import '../../domain/usecases/fetch_http_requests.dart';
+import '../../infrastructure/datasources/log_datasource.dart';
+import '../../infrastructure/datasources/log_datasource_impl.dart';
+import '../../infrastructure/repositories/log_repository_impl.dart';
 
 class ActivityProvider extends ChangeNotifier {
   final BuildContext context;

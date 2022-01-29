@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
-import 'package:example/common/notification_helper.dart';
 import 'package:network_inspector/domain/entities/http_request.dart';
 import 'package:network_inspector/domain/entities/http_response.dart';
 import 'package:network_inspector/network_inspector.dart';
-import 'dart:typed_data';
+
+import 'notification_helper.dart';
 
 class NetworkInterceptor extends Interceptor {
   final bool logIsAllowed;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/infrastructure/models/activity_model.dart';
-import 'package:network_inspector/infrastructure/models/http_request_model.dart';
-import 'package:network_inspector/infrastructure/models/http_response_model.dart';
-import 'package:network_inspector/infrastructure/models/map_to_table.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../infrastructure/models/http_request_model.dart';
+import '../../infrastructure/models/http_response_model.dart';
+import '../../infrastructure/models/map_to_table.dart';
 
 class DatabaseHelper {
   static const String databaseName = 'network_inspector.db';
