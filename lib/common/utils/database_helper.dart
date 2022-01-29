@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:network_inspector/infrastructure/models/activity_model.dart';
+import 'package:network_inspector/infrastructure/models/http_request_model.dart';
+import 'package:network_inspector/infrastructure/models/http_response_model.dart';
 import 'package:network_inspector/infrastructure/models/map_to_table.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -13,7 +15,7 @@ class DatabaseHelper {
       version: databaseVersion,
       onCreate: (Database db, int version) async {
         debugPrint('Database Created');
-        initializeTable(
+        await initializeTable(
           database: db,
           version: version,
         );
@@ -32,8 +34,12 @@ class DatabaseHelper {
     required Database database,
     required int version,
   }) async {
-    createTable(
-      migrationScript: await ActivityModel.migration,
+    await createTable(
+      migrationScript: await HttpRequestModel.migration,
+      database: database,
+    );
+    await createTable(
+      migrationScript: await HttpResponseModel.migration,
       database: database,
     );
   }

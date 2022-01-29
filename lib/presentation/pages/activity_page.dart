@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:network_inspector/common/extensions/date_util.dart';
 import 'package:network_inspector/domain/entities/activity.dart';
 import 'package:network_inspector/domain/entities/http_request.dart';
 import 'package:network_inspector/presentation/controllers/activity_provider.dart';
@@ -53,7 +54,7 @@ class ActivityPage extends StatelessWidget {
 
   Widget successBody(
     BuildContext context,
-    List<Activity> data,
+    List<HttpRequest> data,
   ) {
     return Visibility(
       visible: data.isNotEmpty,
@@ -88,7 +89,7 @@ class ActivityPage extends StatelessWidget {
 
   Widget activityList(
     BuildContext context,
-    List<Activity> data,
+    List<HttpRequest> data,
   ) {
     return ListView.separated(
       itemCount: data.length,
@@ -111,12 +112,8 @@ class ActivityPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              data[index].requestBody ?? '-',
+              data[index].createdAt?.convertToYmdHms ?? '-',
             ),
-            Text(
-              data[index].responseBody ?? '-',
-              maxLines: 4,
-            )
           ],
         ),
       ),

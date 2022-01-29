@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
+
 class HttpRequestModel {
   final int? id;
   final int? createdAt;
@@ -24,25 +28,33 @@ class HttpRequestModel {
   factory HttpRequestModel.fromJson(Map<String, dynamic> json) =>
       HttpRequestModel(
         id: json['id'],
-        createdAt: json['createdAt'],
+        createdAt: json['created_at'],
         url: json['url'],
         method: json['method'],
-        requestHeader: json['requestHeader'],
-        requestBody: json['requestBody'],
-        requestSize: json['requestSize'],
-        requestHashCode: json['requestHashCode'],
+        requestHeader: json['request_header'],
+        requestBody: json['request_body'],
+        requestSize: json['request_size'],
+        requestHashCode: json['request_hash_code'],
       );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
     json['id'] = id;
-    json['createdAt'] = createdAt;
+    json['created_at'] = createdAt;
     json['url'] = url;
     json['method'] = method;
-    json['requestHeader'] = requestHeader;
-    json['requestBody'] = requestBody;
-    json['requestSize'] = requestSize;
-    json['requestHashCode'] = requestHashCode;
+    json['request_header'] = requestHeader;
+    json['request_body'] = requestBody;
+    json['request_size'] = requestSize;
+    json['request_hash_code'] = requestHashCode;
     return json;
+  }
+
+  static Future<Map<String, dynamic>> get migration async {
+    final stringJson = await rootBundle.loadString(
+      'packages/network_inspector/assets/json/http_request.json',
+    );
+    final migrateScript = json.decode(stringJson);
+    return migrateScript;
   }
 }

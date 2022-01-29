@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer' as developer;
 import 'package:dio/dio.dart';
 import 'package:example/common/notification_helper.dart';
-import 'package:intl/intl.dart';
 import 'package:network_inspector/domain/entities/http_request.dart';
 import 'package:network_inspector/domain/entities/http_response.dart';
 import 'package:network_inspector/network_inspector.dart';
@@ -55,8 +54,12 @@ class NetworkInterceptor extends Interceptor {
       responseSize: stringToBytes(response.data.toString()),
       requestHashCode: request.hashCode,
     );
-    await logActivity(response);
     await networkInspector!.writeHttpResponseLog(payload);
+    await finishActivity(
+      response,
+      request.uri.toString(),
+      response.data.toString(),
+    );
     handler.next(response);
   }
 
@@ -101,8 +104,16 @@ class NetworkInterceptor extends Interceptor {
     developer.log(logTemplate);
   }
 
-  Future<void> logActivity(Response response) async {
+  Future<void> finishActivity(
+    Response response,
+    String title,
+    String message,
+  ) async {
     var request = response.requestOptions;
+    notifyResponse(
+      title: title,
+      message: message,
+    );
     if (logIsAllowed) {
       await logRequest(request);
       await logResponse(response);
