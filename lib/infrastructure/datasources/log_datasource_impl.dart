@@ -1,5 +1,7 @@
 import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
 import 'package:network_inspector/infrastructure/models/activity_model.dart';
+import 'package:network_inspector/infrastructure/models/http_response_model.dart';
+import 'package:network_inspector/infrastructure/models/http_request_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LogDatasourceImpl implements LogDatasource {
@@ -8,31 +10,58 @@ class LogDatasourceImpl implements LogDatasource {
     required this.database,
   });
 
-  Future<List<ActivityModel>?> activities({
+  @override
+  Future<bool> logHttpRequest({
+    required HttpRequestModel httpRequestModel,
+  }) async {
+    var id = await database.insert(
+      HttpRequestModel.tableName,
+      httpRequestModel.toJson(),
+    );
+    return (id != 0);
+  }
+
+  @override
+  Future<bool> logHttpResponse({
+    required HttpResponseModel httpResponseModel,
+  }) async {
+    var id = await database.insert(
+      HttpResponseModel.tableName,
+      httpResponseModel.toJson(),
+    );
+    return (id != 0);
+  }
+
+  @override
+  Future<List<HttpRequestModel>?> httpRequests({
     int? id,
     int? startDate,
     int? endDate,
     String? url,
   }) async {
     List<Map<String, Object?>> rows = await database.query(
-      ActivityModel.tableName,
+      HttpRequestModel.tableName,
     );
-    var models = List<ActivityModel>.from(
+    var models = List<HttpRequestModel>.from(
       rows.map(
-        (row) => ActivityModel.fromJson(row),
+        (row) => HttpRequestModel.fromJson(row),
       ),
     );
     return models;
   }
 
   @override
-  Future<bool> logActivity({
-    required ActivityModel activityModel,
+  Future<List<HttpResponseModel>?> httpResponses({
+    int? requestHashCode,
   }) async {
-    var id = await database.insert(
-      ActivityModel.tableName,
-      activityModel.toJson(),
+    List<Map<String, Object?>> rows = await database.query(
+      HttpResponseModel.tableName,
     );
-    return (id != 0);
+    var models = List<HttpResponseModel>.from(
+      rows.map(
+        (row) => HttpResponseModel.fromJson(row),
+      ),
+    );
+    return models;
   }
 }

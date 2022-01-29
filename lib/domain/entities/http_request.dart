@@ -1,4 +1,4 @@
-class Request {
+class HttpRequest {
   final int? id;
   final int? createdAt;
   final String? url;
@@ -8,7 +8,7 @@ class Request {
   final int? requestSize;
   final int? requestHashCode;
 
-  Request({
+  HttpRequest({
     this.id,
     this.createdAt,
     this.url,

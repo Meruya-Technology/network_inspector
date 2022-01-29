@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:network_inspector/domain/entities/activity.dart';
+import 'package:network_inspector/domain/entities/http_request.dart';
 import 'package:network_inspector/presentation/controllers/activity_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,8 @@ class ActivityPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(8),
       child: Consumer<ActivityProvider>(
-        builder: (context, provider, child) => FutureBuilder<List<Activity>?>(
+        builder: (context, provider, child) =>
+            FutureBuilder<List<HttpRequest>?>(
           future: provider.fetchedActivity,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {

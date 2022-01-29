@@ -1,5 +1,5 @@
 {
-    "tabel_name":"requests",
+    "tabel_name":"http_requests",
     "definition":[
         {
             "fields": "id",

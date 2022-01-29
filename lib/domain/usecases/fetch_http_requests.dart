@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:network_inspector/common/utils/usecase.dart';
-import 'package:network_inspector/domain/entities/activity.dart';
+import 'package:network_inspector/domain/entities/http_request.dart';
 import 'package:network_inspector/domain/repositories/log_repository.dart';
 
-class FetchActivities extends UseCase<List<Activity>?, FetchActivitiesParam?> {
+class FetchHttpRequests
+    extends UseCase<List<HttpRequest>?, FetchHttpRequestsParam?> {
   final LogRepository logRepository;
-  FetchActivities({
+  FetchHttpRequests({
     required this.logRepository,
   });
 
   @override
-  Future<List<Activity>?> build(FetchActivitiesParam? param) async {
-    var result = await logRepository.fetchActivities(
+  Future<List<HttpRequest>?> build(FetchHttpRequestsParam? param) async {
+    var result = await logRepository.httpRequests(
       id: param?.id,
       url: param?.url,
       startDate: param?.startDate,
@@ -26,13 +27,13 @@ class FetchActivities extends UseCase<List<Activity>?, FetchActivitiesParam?> {
   }
 }
 
-class FetchActivitiesParam {
+class FetchHttpRequestsParam {
   int? id;
   int? startDate;
   int? endDate;
   String? url;
 
-  FetchActivitiesParam({
+  FetchHttpRequestsParam({
     this.id,
     this.startDate,
     this.endDate,

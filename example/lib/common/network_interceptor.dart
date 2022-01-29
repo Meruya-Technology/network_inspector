@@ -3,9 +3,9 @@ import 'dart:developer' as developer;
 import 'package:dio/dio.dart';
 import 'package:example/common/notification_helper.dart';
 import 'package:intl/intl.dart';
-import 'package:network_inspector/domain/usecases/log_activity.dart';
+import 'package:network_inspector/domain/entities/http_request.dart';
+import 'package:network_inspector/domain/entities/http_response.dart';
 import 'package:network_inspector/network_inspector.dart';
-import 'form_data_extension.dart';
 import 'dart:typed_data';
 
 class NetworkInterceptor extends Interceptor {
@@ -20,42 +20,51 @@ class NetworkInterceptor extends Interceptor {
   });
 
   @override
-  void onRequest(
+  Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
-  ) {
-    final data = (options.data is FormData)
-        ? (options.data as FormData).toJson()
-        : json.encode(options.data);
-
-    var newOption = options.copyWith(
-      extra: {
-        'date': new DateTime.now(),
-      },
+  ) async {
+    var headersMap = options.headers.map;
+    var fullUrl = options.uri.toString();
+    var payload = HttpRequest(
+      url: fullUrl,
+      method: options.method,
+      requestBody: options.data.toString(),
+      requestHeader: headersMap.toString(),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      requestSize: stringToBytes(options.data.toString()),
+      requestHashCode: options.hashCode,
     );
-
-    var logRequest = '\nRequest: ${newOption.baseUrl}${newOption.path} \n'
-        '[Headers] : ${json.encode(newOption.headers)} \n'
-        '[Params] : ${json.encode(newOption.queryParameters)} \n'
-        '[Body] : $data \n';
-
-    if (logIsAllowed) {
-      developer.log(logRequest);
-    }
-    handler.next(newOption);
+    await networkInspector!.writeHttpRequestLog(payload);
+    handler.next(options);
   }
 
   @override
-  void onResponse(
+  Future<void> onResponse(
     Response response,
     ResponseInterceptorHandler handler,
-  ) {
-    logActivity(response);
+  ) async {
+    var request = response.requestOptions;
+    var headersMap = response.headers.map;
+    var payload = HttpResponse(
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      responseHeader: headersMap.toString(),
+      responseBody: response.data.toString(),
+      responseStatusCode: response.statusCode,
+      responseStatusMessage: response.statusMessage,
+      responseSize: stringToBytes(response.data.toString()),
+      requestHashCode: request.hashCode,
+    );
+    await logActivity(response);
+    await networkInspector!.writeHttpResponseLog(payload);
     handler.next(response);
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(
+    DioError err,
+    ErrorInterceptorHandler handler,
+  ) {
     var logError = '\n[Error Message]: ${err.message}';
     if (logIsAllowed) {
       developer.log(logError);
@@ -93,38 +102,10 @@ class NetworkInterceptor extends Interceptor {
   }
 
   Future<void> logActivity(Response response) async {
-    const dateFormat = "EEE, d MMM y H:m:s Z";
-
     var request = response.requestOptions;
-    var fullUrl = request.uri.toString();
-
-    var headersMap = response.headers.map;
-    var responseBody = response.toString();
-    var responseDate = headersMap['date']?.first;
-    var parsedResponseDate = DateFormat(dateFormat).parse(responseDate!, false);
-    var localResponseDate = parsedResponseDate.add(Duration(hours: 7));
-
     if (logIsAllowed) {
       await logRequest(request);
       await logResponse(response);
-
-      var activity = LogActivityParam(
-        url: fullUrl,
-        method: request.method,
-        requestBody: request.data.toString(),
-        requestHeader: headersMap.toString(),
-        responseBody: responseBody,
-        responseHeader: response.headers.toString(),
-        responseStatusCode: response.statusCode,
-        responseStatusMessage: response.statusMessage,
-        createdAt: localResponseDate.millisecondsSinceEpoch,
-      );
-      await networkInspector!.log(activity).whenComplete(() {
-        notifyResponse(
-          title: fullUrl,
-          message: response.toString(),
-        );
-      });
     }
   }
 

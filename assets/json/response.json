@@ -1,5 +1,5 @@
 {
-    "tabel_name":"responses",
+    "tabel_name":"http_responses",
     "definition":[
         {
             "fields": "id",
@@ -28,7 +28,7 @@
         },
         {
             "fields": "response_status_message",
-            "type":"int",
+            "type":"text",
             "attribute": null
         },
         {

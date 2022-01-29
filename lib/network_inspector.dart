@@ -5,12 +5,16 @@ export 'network_inspector_common.dart';
 export 'network_inspector_infrastructure.dart';
 export 'network_inspector_presentation.dart';
 
+import 'package:network_inspector/domain/entities/http_request.dart';
+import 'package:network_inspector/domain/entities/http_response.dart';
 import 'package:network_inspector/domain/repositories/log_repository.dart';
-import 'package:network_inspector/domain/usecases/log_activity.dart';
+import 'package:network_inspector/domain/usecases/log_http_request.dart';
 import 'package:network_inspector/infrastructure/datasources/log_datasource.dart';
 import 'package:network_inspector/infrastructure/datasources/log_datasource_impl.dart';
 import 'package:network_inspector/infrastructure/repositories/log_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'domain/usecases/log_http_response.dart';
 
 /// Import section
 import 'network_inspector_common.dart';
@@ -32,7 +36,8 @@ class NetworkInspector {
   Database? database;
   LogDatasource? logDatasource;
   LogRepository? logRepository;
-  LogActivity? logActivity;
+  LogHttpRequest? logHttpRequest;
+  LogHttpResponse? logHttpResponse;
 
   Future<void> injectDependencies() async {
     database = await DatabaseHelper.connect();
@@ -42,14 +47,19 @@ class NetworkInspector {
     logRepository = LogRepositoryImpl(
       logDatasource: logDatasource!,
     );
-    logActivity = LogActivity(
+    logHttpRequest = LogHttpRequest(
+      logRepository: logRepository!,
+    );
+    logHttpResponse = LogHttpResponse(
       logRepository: logRepository!,
     );
   }
 
-  Future<bool?> log(LogActivityParam param) async {
-    return await logActivity?.execute(
-      param,
-    );
+  Future<bool?> writeHttpRequestLog(HttpRequest param) async {
+    return await logHttpRequest?.execute(param);
+  }
+
+  Future<bool?> writeHttpResponseLog(HttpResponse param) async {
+    return await logHttpResponse?.execute(param);
   }
 }
