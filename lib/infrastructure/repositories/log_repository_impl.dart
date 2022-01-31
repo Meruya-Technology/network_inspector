@@ -1,3 +1,6 @@
+import 'package:network_inspector/domain/entities/http_activity.dart';
+import 'package:network_inspector/infrastructure/mappers/http_activity_mapper.dart';
+
 import '../../domain/entities/http_request.dart';
 import '../../domain/entities/http_response.dart';
 import '../../domain/repositories/log_repository.dart';
@@ -10,6 +13,29 @@ class LogRepositoryImpl implements LogRepository {
   LogRepositoryImpl({
     required this.logDatasource,
   });
+
+  @override
+  Future<List<HttpActivity>?> httpActivities({
+    int? startDate,
+    int? endDate,
+    String? url,
+  }) async {
+    var models = await logDatasource.httpActivities(
+      url: url,
+      startDate: startDate,
+      endDate: endDate,
+    );
+    var entities = (models != null)
+        ? List<HttpActivity>.from(
+            models.map(
+              (model) => HttpActivityMapper.toEntity(
+                model,
+              ),
+            ),
+          )
+        : null;
+    return entities;
+  }
 
   @override
   Future<List<HttpRequest>?> httpRequests({

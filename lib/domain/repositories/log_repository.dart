@@ -1,7 +1,15 @@
+import 'package:network_inspector/domain/entities/http_activity.dart';
+
 import '../entities/http_request.dart';
 import '../entities/http_response.dart';
 
 abstract class LogRepository {
+  Future<List<HttpActivity>?> httpActivities({
+    int? startDate,
+    int? endDate,
+    String? url,
+  });
+
   Future<List<HttpRequest>?> httpRequests({
     int? requestHashCode,
   });
