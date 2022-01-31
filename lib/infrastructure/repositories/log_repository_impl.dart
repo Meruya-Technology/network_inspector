@@ -13,16 +13,10 @@ class LogRepositoryImpl implements LogRepository {
 
   @override
   Future<List<HttpRequest>?> httpRequests({
-    int? id,
-    int? startDate,
-    int? endDate,
-    String? url,
+    int? requestHashCode,
   }) async {
     var models = await logDatasource.httpRequests(
-      id: id,
-      url: url,
-      startDate: startDate,
-      endDate: endDate,
+      requestHashCode: requestHashCode,
     );
     var entities = (models != null)
         ? List<HttpRequest>.from(

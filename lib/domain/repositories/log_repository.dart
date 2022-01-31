@@ -3,10 +3,7 @@ import '../entities/http_response.dart';
 
 abstract class LogRepository {
   Future<List<HttpRequest>?> httpRequests({
-    int? id,
-    int? startDate,
-    int? endDate,
-    String? url,
+    int? requestHashCode,
   });
 
   Future<List<HttpResponse>?> httpResponses({
