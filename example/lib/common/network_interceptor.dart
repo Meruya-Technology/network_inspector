@@ -37,6 +37,7 @@ class NetworkInterceptor extends Interceptor {
       requestHashCode: options.hashCode,
     );
     await networkInspector!.writeHttpRequestLog(payload);
+    print(options.hashCode);
     handler.next(options);
   }
 
@@ -62,6 +63,7 @@ class NetworkInterceptor extends Interceptor {
       request.uri.toString(),
       response.data.toString(),
     );
+    print(request.hashCode);
     handler.next(response);
   }
 

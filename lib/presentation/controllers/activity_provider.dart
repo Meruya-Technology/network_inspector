@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:network_inspector/domain/entities/http_activity.dart';
+import 'package:network_inspector/domain/usecases/fetch_http_activities.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../common/utils/database_helper.dart';
@@ -21,8 +23,8 @@ class ActivityProvider extends ChangeNotifier {
   }
 
   Database? _database;
-  FetchHttpRequests? _fetchHttpRequests;
-  Future<List<HttpRequest>?>? fetchedActivity;
+  FetchHttpActivities? _fetchHttpActivities;
+  Future<List<HttpActivity>?>? fetchedActivity;
 
   Future<void> injectDependencies() async {
     _database = await DatabaseHelper.initialize();
@@ -33,7 +35,7 @@ class ActivityProvider extends ChangeNotifier {
       LogRepository logRepository = LogRepositoryImpl(
         logDatasource: logDatasource,
       );
-      _fetchHttpRequests = FetchHttpRequests(
+      _fetchHttpActivities = FetchHttpActivities(
         logRepository: logRepository,
       );
     }
@@ -44,7 +46,7 @@ class ActivityProvider extends ChangeNotifier {
   }
 
   Future<void> fetchActivities() async {
-    fetchedActivity = _fetchHttpRequests?.execute(null).whenComplete(() {
+    fetchedActivity = _fetchHttpActivities?.execute(null).whenComplete(() {
       notifyListeners();
     });
   }

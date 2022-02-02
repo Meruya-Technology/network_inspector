@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/extensions/date_util.dart';
-import '../../domain/entities/http_request.dart';
+import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_provider.dart';
 
 class ActivityPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class ActivityPage extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: Consumer<ActivityProvider>(
         builder: (context, provider, child) =>
-            FutureBuilder<List<HttpRequest>?>(
+            FutureBuilder<List<HttpActivity>?>(
           future: provider.fetchedActivity,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
@@ -54,10 +54,10 @@ class ActivityPage extends StatelessWidget {
 
   Widget successBody(
     BuildContext context,
-    List<HttpRequest> data,
+    List<HttpActivity>? data,
   ) {
     return Visibility(
-      visible: data.isNotEmpty,
+      visible: data?.isNotEmpty ?? false,
       child: activityList(context, data),
       replacement: emptyBody(context),
     );
@@ -89,10 +89,10 @@ class ActivityPage extends StatelessWidget {
 
   Widget activityList(
     BuildContext context,
-    List<HttpRequest> data,
+    List<HttpActivity>? data,
   ) {
     return ListView.separated(
-      itemCount: data.length,
+      itemCount: data?.length ?? 0,
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) => ListTile(
         title: Row(
@@ -100,11 +100,11 @@ class ActivityPage extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                data[index].url ?? '-',
+                data![index].request?.url ?? '-',
               ),
             ),
             Text(
-              data[index].method ?? '-',
+              data[index].request?.method ?? '-',
             ),
           ],
         ),
@@ -112,7 +112,10 @@ class ActivityPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              data[index].createdAt?.convertToYmdHms ?? '-',
+              '${data[index].response?.responseStatusCode ?? '-'}',
+            ),
+            Text(
+              data[index].request?.createdAt?.convertToYmdHms ?? '-',
             ),
           ],
         ),

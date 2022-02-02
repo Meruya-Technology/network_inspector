@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../network_inspector_infrastructure.dart';
@@ -73,27 +74,40 @@ class LogDatasourceImpl implements LogDatasource {
     int? endDate,
     String? url,
   }) async {
+    var filteredByDate = (startDate != null && endDate != null);
+    var hasFilter = filteredByDate && (url != null);
+    var query = '';
+    var queryArgs = [];
+    if (filteredByDate) {
+      queryArgs.addAll([startDate, endDate]);
+      query += "created_at >=  datetime(? / 1000, 'unixepoch')"
+          "and created_at <= datetime(? / 1000, 'unixepoch')";
+    }
+    if (url != null) {
+      queryArgs.add(url);
+      if (filteredByDate) {
+        query += "and ";
+      }
+      query += "url = ?";
+    }
+
     List<Map<String, Object?>> requestRows = await database.query(
       HttpRequestModel.tableName,
-      where: "created_at >=  datetime(? / 1000, 'unixepoch')"
-          "and created_at <= datetime(? / 1000, 'unixepoch')",
-      whereArgs: [
-        startDate,
-        endDate,
-      ],
+      where: hasFilter ? query : null,
+      whereArgs: queryArgs,
+      orderBy: 'created_at DESC',
     );
     var requestModels = List<HttpRequestModel>.from(
       requestRows.map(
         (row) => HttpRequestModel.fromJson(row),
       ),
     );
-    var requestIds =
-        requestModels.map((requestModel) => requestModel.id).toList();
-
+    var requestIds = requestModels
+        .map((requestModel) => requestModel.requestHashCode)
+        .toList();
     List<Map<String, Object?>> responseRows = await database.query(
       HttpResponseModel.tableName,
-      where: 'request_hash_code IN (?)',
-      whereArgs: requestIds,
+      where: 'request_hash_code in (${requestIds.join(', ')})',
     );
     var responseModels = List<HttpResponseModel>.from(
       responseRows.map(
@@ -101,16 +115,19 @@ class LogDatasourceImpl implements LogDatasource {
       ),
     );
 
-    var activities = List<HttpActivityModel>.from(
-      requestModels.map(
-        (requestModel) => HttpActivityModel(
-          request: requestModel,
-          response: responseModels.singleWhere(
-            (responseModel) => responseModel.hashCode == requestModel.hashCode,
-          ),
-        ),
-      ),
-    ).toList();
+    var activities = (responseModels.isNotEmpty)
+        ? List<HttpActivityModel>.from(
+            requestModels.map(
+              (requestModel) => HttpActivityModel(
+                request: requestModel,
+                response: responseModels.singleWhereOrNull(
+                  (responseModel) => (responseModel.requestHashCode ==
+                      requestModel.requestHashCode),
+                ),
+              ),
+            ),
+          ).toList()
+        : null;
     return activities;
   }
 }
