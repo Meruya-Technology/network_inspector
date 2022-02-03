@@ -25,19 +25,17 @@ class NetworkInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    var headersMap = options.headers.map;
     var fullUrl = options.uri.toString();
     var payload = HttpRequest(
       url: fullUrl,
       method: options.method,
       requestBody: options.data.toString(),
-      requestHeader: headersMap.toString(),
+      requestHeader: options.headers.toString(),
       createdAt: DateTime.now().millisecondsSinceEpoch,
       requestSize: stringToBytes(options.data.toString()),
       requestHashCode: options.hashCode,
     );
     await networkInspector!.writeHttpRequestLog(payload);
-    print(options.hashCode);
     handler.next(options);
   }
 
@@ -47,10 +45,9 @@ class NetworkInterceptor extends Interceptor {
     ResponseInterceptorHandler handler,
   ) async {
     var request = response.requestOptions;
-    var headersMap = response.headers.map;
     var payload = HttpResponse(
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: headersMap.toString(),
+      responseHeader: response.headers.toString(),
       responseBody: response.data.toString(),
       responseStatusCode: response.statusCode,
       responseStatusMessage: response.statusMessage,
@@ -63,7 +60,6 @@ class NetworkInterceptor extends Interceptor {
       request.uri.toString(),
       response.data.toString(),
     );
-    print(request.hashCode);
     handler.next(response);
   }
 

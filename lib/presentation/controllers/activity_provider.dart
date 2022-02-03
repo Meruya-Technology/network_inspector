@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:network_inspector/domain/entities/http_activity.dart';
 import 'package:network_inspector/domain/usecases/fetch_http_activities.dart';
+import 'package:network_inspector/network_inspector.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../common/utils/database_helper.dart';
 import '../../domain/entities/http_request.dart';
 import '../../domain/repositories/log_repository.dart';
-import '../../domain/usecases/fetch_http_requests.dart';
 import '../../infrastructure/datasources/log_datasource.dart';
 import '../../infrastructure/datasources/log_datasource_impl.dart';
 import '../../infrastructure/repositories/log_repository_impl.dart';
@@ -49,5 +49,16 @@ class ActivityProvider extends ChangeNotifier {
     fetchedActivity = _fetchHttpActivities?.execute(null).whenComplete(() {
       notifyListeners();
     });
+  }
+
+  Future<void> goToDetailActivity(HttpActivity httpActivity) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => ActivityDetailPage(
+          httpActivity: httpActivity,
+        ),
+      ),
+    );
   }
 }

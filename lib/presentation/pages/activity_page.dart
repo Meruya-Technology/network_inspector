@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:network_inspector/const/network_inspector_value.dart';
+import 'package:network_inspector/presentation/widgets/container_label.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/extensions/date_util.dart';
@@ -16,7 +18,7 @@ class ActivityPage extends StatelessWidget {
       ),
       builder: (context, child) => Scaffold(
         appBar: AppBar(
-          title: const Text('Activities'),
+          title: const Text('Http Activities'),
         ),
         body: buildBody(context),
       ),
@@ -94,31 +96,50 @@ class ActivityPage extends StatelessWidget {
     return ListView.separated(
       itemCount: data?.length ?? 0,
       separatorBuilder: (context, index) => const Divider(),
-      itemBuilder: (context, index) => ListTile(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                data![index].request?.url ?? '-',
-              ),
+      itemBuilder: (context, index) => activityTile(
+        context,
+        data![index],
+        index,
+      ),
+    );
+  }
+
+  Widget activityTile(
+    BuildContext context,
+    HttpActivity activity,
+    int index,
+  ) {
+    return ListTile(
+      onTap: () {
+        var provider = context.read<ActivityProvider>();
+        provider.goToDetailActivity(activity);
+      },
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              activity.request?.url ?? '-',
             ),
-            Text(
-              data[index].request?.method ?? '-',
-            ),
-          ],
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${data[index].response?.responseStatusCode ?? '-'}',
-            ),
-            Text(
-              data[index].request?.createdAt?.convertToYmdHms ?? '-',
-            ),
-          ],
-        ),
+          ),
+          ContainerLabel(
+            text: activity.request?.method,
+            color:
+                NetworkInspectorValue.containerColor[activity.request?.method]!,
+            textColor: Colors.white,
+          ),
+        ],
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${activity.response?.responseStatusCode ?? '-'}',
+          ),
+          Text(
+            activity.request?.createdAt?.convertToYmdHms ?? '-',
+          ),
+        ],
       ),
     );
   }
