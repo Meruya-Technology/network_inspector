@@ -6,7 +6,9 @@ class HttpRequestMapper {
     return HttpRequest(
       id: model.id,
       createdAt: model.createdAt,
-      url: model.url,
+      baseUrl: model.baseUrl,
+      path: model.path,
+      params: model.params,
       method: model.method,
       requestHeader: model.requestHeader,
       requestBody: model.requestBody,
@@ -19,7 +21,9 @@ class HttpRequestMapper {
     return HttpRequestModel(
       id: entity.id,
       createdAt: entity.createdAt,
-      url: entity.url,
+      baseUrl: entity.baseUrl,
+      path: entity.path,
+      params: entity.params,
       method: entity.method,
       requestHeader: entity.requestHeader,
       requestBody: entity.requestBody,

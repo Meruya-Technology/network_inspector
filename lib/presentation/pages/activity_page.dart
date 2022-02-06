@@ -119,7 +119,7 @@ class ActivityPage extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              activity.request?.url ?? '-',
+              activity.request?.baseUrl ?? '-',
             ),
           ),
           ContainerLabel(
@@ -138,6 +138,7 @@ class ActivityPage extends StatelessWidget {
           ),
           Text(
             activity.request?.createdAt?.convertToYmdHms ?? '-',
+            style: Theme.of(context).textTheme.caption,
           ),
         ],
       ),

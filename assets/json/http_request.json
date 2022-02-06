@@ -12,7 +12,17 @@
             "attribute": null
         },
         {
-            "fields": "url",
+            "fields": "base_url",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "path",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "params",
             "type":"text",
             "attribute": null
         },

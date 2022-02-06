@@ -11,10 +11,14 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   NetworkInspector.initialize();
   NotificationHelper.initialize();
-  runApp(ExampleApp());
+  runApp(const ExampleApp());
 }
 
 class ExampleApp extends StatelessWidget {
+  const ExampleApp({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MainProvider>(

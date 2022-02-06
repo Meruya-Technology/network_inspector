@@ -50,7 +50,7 @@ class ActivityDetailPage extends StatelessWidget {
       children: [
         TitledLabel(
           title: 'Url',
-          text: httpActivity.request?.url,
+          text: httpActivity.request?.baseUrl,
         ),
         TitledLabel(
           title: 'Method',
@@ -70,6 +70,11 @@ class ActivityDetailPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitledLabel(
+          title: 'Params',
+          text: httpActivity.request?.params ?? 'N/A',
+        ),
+        const SizedBox(height: 8),
+        TitledLabel(
           title: 'Size',
           text: '${httpActivity.request?.requestSize ?? 0} kb',
         ),
@@ -81,7 +86,7 @@ class ActivityDetailPage extends StatelessWidget {
         const SizedBox(height: 8),
         TitledLabel(
           title: 'Body',
-          text: '${httpActivity.request?.requestBody ?? 0}',
+          text: httpActivity.request?.requestBody ?? 'N/A',
         ),
       ],
     );

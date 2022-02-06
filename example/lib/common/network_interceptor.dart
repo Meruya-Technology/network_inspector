@@ -25,9 +25,10 @@ class NetworkInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    var fullUrl = options.uri.toString();
     var payload = HttpRequest(
-      url: fullUrl,
+      baseUrl: options.baseUrl,
+      path: options.uri.path,
+      params: options.queryParameters.toString(),
       method: options.method,
       requestBody: options.data.toString(),
       requestHeader: options.headers.toString(),

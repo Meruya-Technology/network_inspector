@@ -1,7 +1,9 @@
 class HttpRequest {
   final int? id;
   final int? createdAt;
-  final String? url;
+  final String? baseUrl;
+  final String? path;
+  final String? params;
   final String? method;
   final String? requestHeader;
   final String? requestBody;
@@ -11,7 +13,9 @@ class HttpRequest {
   HttpRequest({
     this.id,
     this.createdAt,
-    this.url,
+    this.baseUrl,
+    this.path,
+    this.params,
     this.method,
     this.requestHeader,
     this.requestBody,
