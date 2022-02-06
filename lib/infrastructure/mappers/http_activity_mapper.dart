@@ -1,8 +1,7 @@
-import 'package:network_inspector/infrastructure/mappers/http_request_mapper.dart';
-import 'package:network_inspector/infrastructure/mappers/http_response_mapper.dart';
-
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector_infrastructure.dart';
+import 'http_request_mapper.dart';
+import 'http_response_mapper.dart';
 
 class HttpActivityMapper {
   static HttpActivity toEntity(HttpActivityModel model) {

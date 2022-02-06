@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/const/network_inspector_value.dart';
-import 'package:network_inspector/presentation/widgets/container_label.dart';
-import 'package:network_inspector/presentation/widgets/titled_label.dart';
 import 'package:provider/provider.dart';
 
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector_presentation.dart';
+import '../widgets/titled_label.dart';
 
 class ActivityDetailPage extends StatelessWidget {
   final HttpActivity httpActivity;
@@ -51,15 +49,6 @@ class ActivityDetailPage extends StatelessWidget {
         TitledLabel(
           title: 'Url',
           text: httpActivity.request?.baseUrl,
-        ),
-        TitledLabel(
-          title: 'Method',
-          content: ContainerLabel(
-            text: httpActivity.request?.method,
-            color: NetworkInspectorValue
-                .containerColor[httpActivity.request?.method]!,
-            textColor: Colors.white,
-          ),
         ),
       ],
     );

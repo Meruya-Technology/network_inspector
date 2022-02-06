@@ -15,7 +15,7 @@ class DioPage extends StatelessWidget {
       ),
       builder: (context, child) => Scaffold(
         appBar: AppBar(
-          title: Text('Dio inspection'),
+          title: const Text('Dio inspection'),
         ),
         body: ListView(
           children: [
@@ -35,9 +35,9 @@ class DioPage extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(height: 0),
+            const Divider(height: 0),
             ListTile(
-              title: Text('Get'),
+              title: const Text('Get'),
               subtitle: Text(
                 'Create http activity with method GET',
                 style: Theme.of(context).textTheme.caption,
@@ -48,7 +48,7 @@ class DioPage extends StatelessWidget {
               },
             ),
             ListTile(
-              title: Text('Post'),
+              title: const Text('Post'),
               subtitle: Text(
                 'Create http activity with method POST',
                 style: Theme.of(context).textTheme.caption,
@@ -56,7 +56,7 @@ class DioPage extends StatelessWidget {
               onTap: () {},
             ),
             ListTile(
-              title: Text('Put'),
+              title: const Text('Put'),
               subtitle: Text(
                 'Create http activity with method PUT',
                 style: Theme.of(context).textTheme.caption,
@@ -64,7 +64,7 @@ class DioPage extends StatelessWidget {
               onTap: () {},
             ),
             ListTile(
-              title: Text('Delete'),
+              title: const Text('Delete'),
               subtitle: Text(
                 'Create http activity with method DELETE',
                 style: Theme.of(context).textTheme.caption,

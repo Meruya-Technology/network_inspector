@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/const/network_inspector_value.dart';
-import 'package:network_inspector/presentation/widgets/container_label.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/extensions/date_util.dart';
+import '../../common/extensions/url_util.dart';
+import '../../common/utils/date_time_util.dart';
+import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_provider.dart';
+import '../widgets/container_label.dart';
 
 class ActivityPage extends StatelessWidget {
   const ActivityPage({Key? key}) : super(key: key);
@@ -117,15 +119,16 @@ class ActivityPage extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Text(
-              activity.request?.baseUrl ?? '-',
-            ),
+          Text(
+            '${activity.request?.method} '
+            '${activity.request?.path ?? '-'}',
+            style: Theme.of(context).textTheme.bodyText1,
           ),
           ContainerLabel(
-            text: activity.request?.method,
-            color:
-                NetworkInspectorValue.containerColor[activity.request?.method]!,
+            text: '${activity.response?.responseStatusCode ?? 'N/A'}',
+            color: NetworkInspectorValue.containerColor(
+              activity.response?.responseStatusCode ?? 0,
+            ),
             textColor: Colors.white,
           ),
         ],
@@ -133,12 +136,52 @@ class ActivityPage extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '${activity.response?.responseStatusCode ?? '-'}',
+          Row(
+            children: [
+              Visibility(
+                visible: activity.request?.baseUrl?.isSecure ?? false,
+                replacement: const Icon(
+                  Icons.lock_open,
+                  size: 18,
+                  color: Colors.grey,
+                ),
+                child: const Icon(
+                  Icons.lock,
+                  size: 18,
+                  color: Colors.green,
+                ),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                activity.request?.baseUrl ?? '-',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+            ],
           ),
-          Text(
-            activity.request?.createdAt?.convertToYmdHms ?? '-',
-            style: Theme.of(context).textTheme.caption,
+          const SizedBox(height: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                activity.request?.createdAt?.convertToYmdHms ?? '-',
+                style: Theme.of(context).textTheme.caption,
+              ),
+              Text(
+                Provider.of<ActivityProvider>(context).totalTransferSize(
+                  activity.request?.requestSize,
+                  activity.response?.responseSize,
+                  false,
+                ),
+                style: Theme.of(context).textTheme.caption,
+              ),
+              Text(
+                DateTimeUtil.milliSecondDifference(
+                  activity.request?.createdAt,
+                  activity.response?.createdAt,
+                ),
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
           ),
         ],
       ),

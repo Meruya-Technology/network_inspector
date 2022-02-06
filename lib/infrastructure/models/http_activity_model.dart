@@ -1,5 +1,5 @@
-import 'package:network_inspector/infrastructure/models/http_request_model.dart';
-import 'package:network_inspector/infrastructure/models/http_response_model.dart';
+import 'http_request_model.dart';
+import 'http_response_model.dart';
 
 class HttpActivityModel {
   final HttpRequestModel? request;

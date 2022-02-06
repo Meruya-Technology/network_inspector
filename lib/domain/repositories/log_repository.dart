@@ -1,4 +1,4 @@
-import 'package:network_inspector/domain/entities/http_activity.dart';
+import '../entities/http_activity.dart';
 
 import '../entities/http_request.dart';
 import '../entities/http_response.dart';

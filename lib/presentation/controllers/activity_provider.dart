@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/domain/entities/http_activity.dart';
-import 'package:network_inspector/domain/usecases/fetch_http_activities.dart';
-import 'package:network_inspector/network_inspector.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../common/utils/database_helper.dart';
-import '../../domain/entities/http_request.dart';
+import '../../domain/entities/http_activity.dart';
 import '../../domain/repositories/log_repository.dart';
+import '../../domain/usecases/fetch_http_activities.dart';
 import '../../infrastructure/datasources/log_datasource.dart';
 import '../../infrastructure/datasources/log_datasource_impl.dart';
 import '../../infrastructure/repositories/log_repository_impl.dart';
+import '../../network_inspector.dart';
 
 class ActivityProvider extends ChangeNotifier {
   final BuildContext context;
@@ -60,5 +58,18 @@ class ActivityProvider extends ChangeNotifier {
         ),
       ),
     );
+  }
+
+  String totalTransferSize(
+    int? requestSize,
+    int? responseSize,
+    bool isRaw,
+  ) {
+    var reqSize = requestSize ?? 0;
+    var resSize = responseSize ?? 0;
+    var rawTotalSize = reqSize + resSize;
+    var totalSize =
+        (!isRaw) ? (rawTotalSize / 1024).toStringAsFixed(2) : rawTotalSize;
+    return '$totalSize kb';
   }
 }

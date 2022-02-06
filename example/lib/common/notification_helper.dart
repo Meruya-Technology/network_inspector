@@ -8,15 +8,15 @@ class NotificationHelper {
   static final localNotification = FlutterLocalNotificationsPlugin();
 
   static AndroidInitializationSettings? get androidInitSetting {
-    return AndroidInitializationSettings('meruya_logo');
+    return const AndroidInitializationSettings('meruya_logo');
   }
 
   static IOSInitializationSettings? get iosInitSetting {
-    return IOSInitializationSettings();
+    return const IOSInitializationSettings();
   }
 
   static MacOSInitializationSettings? get macOsInitSetting {
-    return MacOSInitializationSettings();
+    return const MacOSInitializationSettings();
   }
 
   static InitializationSettings get initializationSettings {
@@ -46,7 +46,7 @@ class NotificationHelper {
         await Navigator.push(
           context,
           MaterialPageRoute<void>(
-            builder: (context) => ActivityPage(),
+            builder: (context) => const ActivityPage(),
           ),
         );
       }

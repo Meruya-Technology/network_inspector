@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../common/utils/usecase.dart';
+import '../../common/utils/use_case.dart';
 import '../entities/http_activity.dart';
 import '../repositories/log_repository.dart';
 

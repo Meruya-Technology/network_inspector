@@ -12,7 +12,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Network Inspector'),
+        title: const Text('Network Inspector'),
       ),
       body: ListView(
         children: [
@@ -32,9 +32,9 @@ class MainPage extends StatelessWidget {
               ],
             ),
           ),
-          Divider(height: 0),
+          const Divider(height: 0),
           ListTile(
-            title: Text('Dio'),
+            title: const Text('Dio'),
             subtitle: Text(
               'Create http activity with Dio package',
               style: Theme.of(context).textTheme.caption,
@@ -44,7 +44,7 @@ class MainPage extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Http'),
+            title: const Text('Http'),
             subtitle: Text(
               'Create http activity with http package',
               style: Theme.of(context).textTheme.caption,
@@ -54,7 +54,7 @@ class MainPage extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Http vanilla'),
+            title: const Text('Http vanilla'),
             subtitle: Text(
               'Create http activity with vanilla http client (io/http)',
               style: Theme.of(context).textTheme.caption,
