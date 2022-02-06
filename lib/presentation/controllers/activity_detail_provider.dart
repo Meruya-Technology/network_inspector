@@ -11,6 +11,18 @@ class ActivityDetailProvider extends ChangeNotifier {
     required this.context,
   });
 
+  final pageViewController = PageController(
+    initialPage: 0,
+  );
+
+  var _currentPage = 0;
+
+  int get currentPage => _currentPage;
+
+  void changeCurrentPage(int index) {
+    _currentPage = index;
+  }
+
   bool headerIsNotEmpty(dynamic header) {
     var isNotEmpty = false;
     if (header is String) {

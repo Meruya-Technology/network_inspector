@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector_presentation.dart';
 import '../widgets/titled_label.dart';
+import 'http_request_page.dart';
+import 'http_response_page.dart';
 
 class ActivityDetailPage extends StatelessWidget {
   final HttpActivity httpActivity;
@@ -24,18 +26,19 @@ class ActivityDetailPage extends StatelessWidget {
           title: const Text('Detail Http Activity'),
         ),
         body: buildBody(context),
+        backgroundColor: Colors.white,
       ),
     );
   }
 
   Widget buildBody(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           bodyHeader(context),
-          const Divider(),
           bodyContent(context),
         ],
       ),
@@ -43,58 +46,60 @@ class ActivityDetailPage extends StatelessWidget {
   }
 
   Widget bodyHeader(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        TitledLabel(
-          title: 'Url',
-          text: httpActivity.request?.baseUrl,
+        Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.all(16),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitledLabel(
+                title: 'Url',
+                text: httpActivity.request?.baseUrl,
+              ),
+              const SizedBox(height: 8),
+              TitledLabel(
+                title: 'Path',
+                text: httpActivity.request?.path,
+              ),
+            ],
+          ),
+        ),
+        TabBar(
+          labelStyle: Theme.of(context).textTheme.button,
+          labelColor: Colors.black,
+          indicatorColor: Colors.blue,
+          unselectedLabelColor: Colors.grey,
+          tabs: const [
+            Tab(
+              child: Text('Request'),
+            ),
+            Tab(
+              child: Text('Response'),
+            ),
+          ],
         ),
       ],
     );
   }
 
   Widget bodyContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TitledLabel(
-          title: 'Params',
-          text: httpActivity.request?.params ?? 'N/A',
-        ),
-        const SizedBox(height: 8),
-        TitledLabel(
-          title: 'Size',
-          text: '${httpActivity.request?.requestSize ?? 0} kb',
-        ),
-        const SizedBox(height: 8),
-        TitledLabel(
-          title: 'Header',
-          content: bodyContentHeader(context),
-        ),
-        const SizedBox(height: 8),
-        TitledLabel(
-          title: 'Body',
-          text: httpActivity.request?.requestBody ?? 'N/A',
-        ),
-      ],
-    );
-  }
-
-  Widget bodyContentHeader(BuildContext context) {
-    return Visibility(
-      visible: Provider.of<ActivityDetailProvider>(context).headerIsNotEmpty(
-        httpActivity.request?.requestHeader,
-      ),
-      replacement: const Text('N/A'),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
+    return Expanded(
+      child: Consumer<ActivityDetailProvider>(
+        builder: (context, provider, child) => TabBarView(
           children: [
-            Text(httpActivity.request?.requestHeader ?? 'N/A'),
+            HttpRequestPage(
+              httpActivity: httpActivity,
+            ),
+            HttpResponsePage(
+              httpActivity: httpActivity,
+            ),
           ],
         ),
       ),

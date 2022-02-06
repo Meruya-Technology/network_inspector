@@ -30,8 +30,8 @@ class NetworkInterceptor extends Interceptor {
       path: options.uri.path,
       params: options.queryParameters.toString(),
       method: options.method,
-      requestBody: options.data.toString(),
       requestHeader: options.headers.toString(),
+      requestBody: json.encode(options.data),
       createdAt: DateTime.now().millisecondsSinceEpoch,
       requestSize: stringToBytes(options.data.toString()),
       requestHashCode: options.hashCode,
@@ -48,8 +48,8 @@ class NetworkInterceptor extends Interceptor {
     var request = response.requestOptions;
     var payload = HttpResponse(
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: response.headers.toString(),
-      responseBody: response.data.toString(),
+      responseHeader: json.encode(response.headers.map),
+      responseBody: json.encode(response.data),
       responseStatusCode: response.statusCode,
       responseStatusMessage: response.statusMessage,
       responseSize: stringToBytes(response.data.toString()),
