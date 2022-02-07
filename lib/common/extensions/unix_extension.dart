@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-extension IntToDateTime on int? {
+extension UnixExtension on int? {
   String? get convertToYmdHms {
     if (this != null) {
       var dateFormat = DateFormat('y-MM-DD hh:mm:ss');

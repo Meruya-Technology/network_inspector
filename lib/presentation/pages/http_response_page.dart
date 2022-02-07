@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../common/extensions/json_util.dart';
+import '../../common/extensions/json_extension.dart';
 import '../../domain/entities/http_activity.dart';
-import '../widgets/titled_label.dart';
+import '../widgets/section_title.dart';
 
 class HttpResponsePage extends StatelessWidget {
   final HttpActivity httpActivity;
@@ -19,25 +19,13 @@ class HttpResponsePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitledLabel(
-              title: 'Params',
-              content: queryParamsContent(context),
-            ),
+            queryParamsContent(context),
             const SizedBox(height: 8),
-            TitledLabel(
-              title: 'Size',
-              content: sizeContent(context),
-            ),
+            sizeContent(context),
             const SizedBox(height: 8),
-            TitledLabel(
-              title: 'Header',
-              content: headerContent(context),
-            ),
+            headerContent(context),
             const SizedBox(height: 8),
-            TitledLabel(
-              title: 'Body',
-              content: bodyContent(context),
-            ),
+            bodyContent(context),
           ],
         ),
       ),
@@ -45,68 +33,98 @@ class HttpResponsePage extends StatelessWidget {
   }
 
   Widget queryParamsContent(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        httpActivity.request?.params ?? 'N/A',
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(
+          title: 'Query Parameter',
+          onCopyTap: () {},
+          onShareTap: () {},
+        ),
+        Container(
+          padding: const EdgeInsets.all(16),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            httpActivity.request?.params.prettify ?? 'N/A',
+          ),
+        ),
+      ],
     );
   }
 
   Widget sizeContent(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.grey[100],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        '${httpActivity.response?.responseSize ?? 0} kb',
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(
+          title: 'Size',
+          onCopyTap: () {},
+          onShareTap: () {},
+        ),
+        Container(
+          padding: const EdgeInsets.all(16),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            '${httpActivity.response?.responseSize ?? 0} kb',
+          ),
+        ),
+      ],
     );
   }
 
   Widget headerContent(BuildContext context) {
-    return Visibility(
-      visible: httpActivity.response?.responseHeader != null,
-      replacement: const Text('N/A'),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(8),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionTitle(
+          title: 'Header',
+          onCopyTap: () {},
+          onShareTap: () {},
         ),
-        child: Text(httpActivity.response?.responseHeader?.prettify ?? 'N/A'),
-      ),
+        Container(
+          padding: const EdgeInsets.all(16),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(httpActivity.response?.responseHeader?.prettify ?? 'N/A'),
+        ),
+      ],
     );
   }
 
   Widget bodyContent(BuildContext context) {
-    return Visibility(
-      visible: httpActivity.response?.responseBody != null,
-      replacement: const Text('N/A'),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Colors.grey[100],
-          borderRadius: BorderRadius.circular(8),
+    return Column(
+      children: [
+        SectionTitle(
+          title: 'Body',
+          onCopyTap: () {},
+          onShareTap: () {},
         ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Text(
-            httpActivity.response?.responseBody.prettify ?? 'N/A',
-            style: Theme.of(context).textTheme.bodyText2,
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.grey[100],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              httpActivity.response?.responseBody.prettify ?? 'N/A',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }

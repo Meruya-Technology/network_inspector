@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../common/extensions/date_util.dart';
-import '../../common/extensions/url_util.dart';
+import '../../common/extensions/unix_extension.dart';
+import '../../common/extensions/url_extension.dart';
 import '../../common/utils/date_time_util.dart';
 import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
