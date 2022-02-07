@@ -1,5 +1,5 @@
 class DateTimeUtil {
-  static String milliSecondDifference(
+  String milliSecondDifference(
     int? startTime,
     int? endTime,
   ) {

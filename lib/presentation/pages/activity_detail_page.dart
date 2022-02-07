@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/utils/json_util.dart';
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector_presentation.dart';
 import '../widgets/titled_label.dart';
@@ -9,7 +10,7 @@ import 'http_response_page.dart';
 
 class ActivityDetailPage extends StatelessWidget {
   final HttpActivity httpActivity;
-  const ActivityDetailPage({
+  ActivityDetailPage({
     required this.httpActivity,
     Key? key,
   }) : super(key: key);
@@ -24,6 +25,25 @@ class ActivityDetailPage extends StatelessWidget {
       builder: (context, child) => Scaffold(
         appBar: AppBar(
           title: const Text('Detail Http Activity'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.share,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Provider.of<ActivityDetailProvider>(
+                  context,
+                  listen: false,
+                ).copyHttpActivity();
+              },
+              icon: const Icon(
+                Icons.copy,
+              ),
+            ),
+          ],
         ),
         body: buildBody(context),
         backgroundColor: Colors.white,

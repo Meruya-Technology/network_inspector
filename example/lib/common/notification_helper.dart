@@ -46,7 +46,7 @@ class NotificationHelper {
         await Navigator.push(
           context,
           MaterialPageRoute<void>(
-            builder: (context) => const ActivityPage(),
+            builder: (context) => ActivityPage(),
           ),
         );
       }

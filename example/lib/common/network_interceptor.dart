@@ -30,10 +30,10 @@ class NetworkInterceptor extends Interceptor {
     var payload = HttpRequest(
       baseUrl: options.baseUrl,
       path: options.uri.path,
-      params: _jsonUtil.proccessRaw(options.queryParameters),
+      params: _jsonUtil.encodeRawJson(options.queryParameters),
       method: options.method,
-      requestHeader: _jsonUtil.proccessRaw(options.headers),
-      requestBody: _jsonUtil.proccessRaw(options.data),
+      requestHeader: _jsonUtil.encodeRawJson(options.headers),
+      requestBody: _jsonUtil.encodeRawJson(options.data),
       createdAt: DateTime.now().millisecondsSinceEpoch,
       requestSize: stringToBytes(options.data.toString()),
       requestHashCode: options.hashCode,
@@ -50,8 +50,8 @@ class NetworkInterceptor extends Interceptor {
     var request = response.requestOptions;
     var payload = HttpResponse(
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: _jsonUtil.proccessRaw(response.headers.map),
-      responseBody: _jsonUtil.proccessRaw(response.data),
+      responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
+      responseBody: _jsonUtil.encodeRawJson(response.data),
       responseStatusCode: response.statusCode,
       responseStatusMessage: response.statusMessage,
       responseSize: stringToBytes(response.data.toString()),
@@ -79,7 +79,7 @@ class NetworkInterceptor extends Interceptor {
     var errorResponse = '\n[Error Response]'
         '\nHeaders : ${err.response?.headers.toString()}'
         '\nParams: ${err.response?.requestOptions.queryParameters.toString()}'
-        '\nData : ${_jsonUtil.proccessRaw(err.response?.data)}'
+        '\nData : ${_jsonUtil.encodeRawJson(err.response?.data)}'
         '\nStacktrace: ${err.stackTrace.toString()}';
 
     if (logIsAllowed) {
@@ -92,7 +92,7 @@ class NetworkInterceptor extends Interceptor {
     var logTemplate = '\n[Request url] ${request.uri.toString()}'
         '\n[Request header] ${request.headers.toString()}'
         '\n[Request param] ${request.queryParameters}'
-        '\n[Request body] ${_jsonUtil.proccessRaw(request.data)}'
+        '\n[Request body] ${_jsonUtil.encodeRawJson(request.data)}'
         '\n[Request method] ${request.method}'
         '\n[Request content-type] ${request.contentType}';
     developer.log(logTemplate);
@@ -100,7 +100,7 @@ class NetworkInterceptor extends Interceptor {
 
   Future<void> logResponse(Response response) async {
     var logTemplate = '\n[Response header] ${response.headers.toString()}'
-        '\n[Response body] ${_jsonUtil.proccessRaw(response.data)}'
+        '\n[Response body] ${_jsonUtil.encodeRawJson(response.data)}'
         '\n[Response code] ${response.statusCode}'
         '\n[Response message] ${response.statusMessage}'
         '\n[Response extra] ${response.extra}';

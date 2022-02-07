@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../common/extensions/unix_extension.dart';
 import '../../common/extensions/url_extension.dart';
+import '../../common/utils/byte_util.dart';
 import '../../common/utils/date_time_util.dart';
 import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
@@ -10,7 +11,10 @@ import '../controllers/activity_provider.dart';
 import '../widgets/container_label.dart';
 
 class ActivityPage extends StatelessWidget {
-  const ActivityPage({Key? key}) : super(key: key);
+  ActivityPage({Key? key}) : super(key: key);
+
+  final _byteUtil = ByteUtil();
+  final _dateTimeUtil = DateTimeUtil();
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +171,7 @@ class ActivityPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.caption,
               ),
               Text(
-                Provider.of<ActivityProvider>(context).totalTransferSize(
+                _byteUtil.totalTransferSize(
                   activity.request?.requestSize,
                   activity.response?.responseSize,
                   false,
@@ -175,7 +179,7 @@ class ActivityPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.caption,
               ),
               Text(
-                DateTimeUtil.milliSecondDifference(
+                _dateTimeUtil.milliSecondDifference(
                   activity.request?.createdAt,
                   activity.response?.createdAt,
                 ),
