@@ -2,6 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:share_plus/share_plus.dart';
+
+import '../../const/network_inspector_enum.dart';
+import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector.dart';
 
@@ -26,18 +30,35 @@ class ActivityDetailProvider extends ChangeNotifier {
     _currentPage = index;
   }
 
-  Future<void> copyHttpActivity() async {
-    _jsonUtil.buildJsonString(httpActivity).then((result) {
+  Future<void> copyHttpActivity(String content) async {
+    var clipBoardData = ClipboardData(text: content);
+    Clipboard.setData(clipBoardData).then((value) {
+      showSnackBar('Json copied successfully');
+    });
+  }
+
+  Future<void> shareHttpActivity(String content) async {
+    Share.share(
+      content,
+      subject: 'Http Activity ${httpActivity.request?.path}',
+    );
+  }
+
+  Future<void> buildJson(
+    Function(String content) action,
+    HttpActivityActionType actionType,
+  ) async {
+    _jsonUtil.buildActivityJson(httpActivity).then((result) {
       if (result != null) {
-        var clipBoardData = ClipboardData(text: result);
-        Clipboard.setData(clipBoardData).then((value) {
-          showSnackBar('Json copied successfully');
-        });
+        action(result);
       } else {
-        showSnackBar('Failed to copy json');
+        showSnackBar(
+          NetworkInspectorValue.actionFailedMessage[actionType]!,
+        );
       }
     }, onError: (e) {
-      showSnackBar('Failed to copy json, ${e.toString()}');
+      showSnackBar('${NetworkInspectorValue.actionFailedMessage[actionType]!}'
+          '${e.toString()}');
     });
   }
 

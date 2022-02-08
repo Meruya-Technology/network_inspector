@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'network_inspector_enum.dart';
+
 class NetworkInspectorValue {
   static Color containerColor(int statusCode) {
     if (statusCode >= 100 && statusCode < 200) {
@@ -16,4 +18,14 @@ class NetworkInspectorValue {
       return Colors.grey;
     }
   }
+
+  static Map<HttpActivityActionType, String> get actionSuccessMessage => {
+        HttpActivityActionType.copy: 'Json copied successfully',
+        HttpActivityActionType.share: 'Json shared successfully',
+      };
+
+  static Map<HttpActivityActionType, String> get actionFailedMessage => {
+        HttpActivityActionType.copy: 'Failed to copy json',
+        HttpActivityActionType.share: 'Failed to share json',
+      };
 }

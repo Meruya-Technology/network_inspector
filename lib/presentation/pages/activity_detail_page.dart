@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../common/utils/json_util.dart';
+import '../../const/network_inspector_enum.dart';
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector_presentation.dart';
 import '../widgets/titled_label.dart';
@@ -10,7 +10,7 @@ import 'http_response_page.dart';
 
 class ActivityDetailPage extends StatelessWidget {
   final HttpActivity httpActivity;
-  ActivityDetailPage({
+  const ActivityDetailPage({
     required this.httpActivity,
     Key? key,
   }) : super(key: key);
@@ -22,32 +22,40 @@ class ActivityDetailPage extends StatelessWidget {
         httpActivity: httpActivity,
         context: context,
       ),
-      builder: (context, child) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Detail Http Activity'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.share,
+      builder: (context, child) {
+        final provider = context.read<ActivityDetailProvider>();
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Detail Http Activity'),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  provider.buildJson(
+                    provider.shareHttpActivity,
+                    HttpActivityActionType.share,
+                  );
+                },
+                icon: const Icon(
+                  Icons.share,
+                ),
               ),
-            ),
-            IconButton(
-              onPressed: () {
-                Provider.of<ActivityDetailProvider>(
-                  context,
-                  listen: false,
-                ).copyHttpActivity();
-              },
-              icon: const Icon(
-                Icons.copy,
+              IconButton(
+                onPressed: () {
+                  provider.buildJson(
+                    provider.copyHttpActivity,
+                    HttpActivityActionType.copy,
+                  );
+                },
+                icon: const Icon(
+                  Icons.copy,
+                ),
               ),
-            ),
-          ],
-        ),
-        body: buildBody(context),
-        backgroundColor: Colors.white,
-      ),
+            ],
+          ),
+          body: buildBody(context),
+          backgroundColor: Colors.white,
+        );
+      },
     );
   }
 

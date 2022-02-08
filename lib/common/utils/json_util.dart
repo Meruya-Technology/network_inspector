@@ -1,12 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import '../../domain/entities/http_activity.dart';
 import 'byte_util.dart';
 import 'date_time_util.dart';
-import 'dart:developer' as developer;
 
 class JsonUtil {
   final _byteUtil = ByteUtil();
@@ -40,7 +36,7 @@ class JsonUtil {
     }
   }
 
-  Future<String?> buildJsonString(
+  Future<String?> buildActivityJson(
     HttpActivity httpActivity,
   ) async {
     final request = httpActivity.request;
