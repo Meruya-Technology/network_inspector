@@ -5,6 +5,7 @@ import '../../const/network_inspector_enum.dart';
 import '../../domain/entities/http_activity.dart';
 import '../../network_inspector_presentation.dart';
 import '../widgets/titled_label.dart';
+import 'http_error_page.dart';
 import 'http_request_page.dart';
 import 'http_response_page.dart';
 
@@ -61,7 +62,7 @@ class ActivityDetailPage extends StatelessWidget {
 
   Widget buildBody(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       initialIndex: 0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +112,9 @@ class ActivityDetailPage extends StatelessWidget {
             Tab(
               child: Text('Response'),
             ),
+            Tab(
+              child: Text('Error'),
+            ),
           ],
         ),
       ],
@@ -126,6 +130,9 @@ class ActivityDetailPage extends StatelessWidget {
               httpActivity: httpActivity,
             ),
             HttpResponsePage(
+              httpActivity: httpActivity,
+            ),
+            HttpErrorPage(
               httpActivity: httpActivity,
             ),
           ],

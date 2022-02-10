@@ -19,7 +19,7 @@ class HttpResponsePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            queryParamsContent(context),
+            statusContent(context),
             const SizedBox(height: 8),
             sizeContent(context),
             const SizedBox(height: 8),
@@ -32,24 +32,27 @@ class HttpResponsePage extends StatelessWidget {
     );
   }
 
-  Widget queryParamsContent(BuildContext context) {
+  Widget statusContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SectionTitle(
-          title: 'Query Parameter',
+          title: 'Response Status',
           onCopyTap: () {},
           onShareTap: () {},
         ),
         Container(
           padding: const EdgeInsets.all(16),
-          width: double.infinity,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            httpActivity.request?.params.prettify ?? 'N/A',
+            (httpActivity.response?.responseStatusCode != null)
+                ? '${httpActivity.response?.responseStatusCode} '
+                    '${httpActivity.response?.responseStatusMessage}'
+                : 'N/A',
           ),
         ),
       ],
@@ -67,7 +70,7 @@ class HttpResponsePage extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.all(16),
-          width: double.infinity,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(8),
@@ -91,7 +94,7 @@ class HttpResponsePage extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.all(16),
-          width: double.infinity,
+          width: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(8),
@@ -116,6 +119,7 @@ class HttpResponsePage extends StatelessWidget {
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(8),
           ),
+          width: double.maxFinite,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(
