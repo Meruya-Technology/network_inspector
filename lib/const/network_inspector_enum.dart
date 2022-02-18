@@ -1,0 +1,1 @@
+enum HttpActivityActionType { copy, share }
