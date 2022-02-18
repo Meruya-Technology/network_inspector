@@ -25,10 +25,12 @@ class MainProvider extends ChangeNotifier {
   Dio get dioClient {
     return Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.1.8:8000/',
+        baseUrl: 'http://192.168.1.4:8000/',
         connectTimeout: 10 * 1000, // 10 second
         headers: {
-          'content-type': 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer i109gh23j9u1h3811io2n391'
         },
       ),
     )..interceptors.add(

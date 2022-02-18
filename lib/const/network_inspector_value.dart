@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'network_inspector_enum.dart';
 
 class NetworkInspectorValue {
+  static String get defaultEmptyString => 'N/A';
+
   static Color containerColor(int statusCode) {
     if (statusCode >= 100 && statusCode < 200) {
       return Colors.blue;

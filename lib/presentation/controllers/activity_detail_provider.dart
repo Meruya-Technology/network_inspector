@@ -44,6 +44,20 @@ class ActivityDetailProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> copyActivityData(String content) async {
+    var clipBoardData = ClipboardData(text: content);
+    Clipboard.setData(clipBoardData).then((value) {
+      showSnackBar('Data copied successfully');
+    });
+  }
+
+  Future<void> shareActivityData(String title, String content) async {
+    Share.share(
+      content,
+      subject: '$title : ${httpActivity.request?.path}',
+    );
+  }
+
   Future<void> buildJson(
     Function(String content) action,
     HttpActivityActionType actionType,

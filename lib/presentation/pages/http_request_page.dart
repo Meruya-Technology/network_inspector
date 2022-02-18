@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/extensions/json_extension.dart';
+import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
-import '../widgets/section_title.dart';
+import '../controllers/activity_detail_provider.dart';
+import '../widgets/content_container.dart';
 
 class HttpRequestPage extends StatelessWidget {
   final HttpActivity httpActivity;
@@ -13,119 +15,89 @@ class HttpRequestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<ActivityDetailProvider>(
+      context,
+      listen: false,
+    );
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            queryParamsContent(context),
+            ContentContainer(
+              title: 'Query Parameter',
+              content: httpActivity.request?.params,
+              onCopyTap: () {
+                provider.copyActivityData(
+                  httpActivity.request?.params ??
+                      NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+              onShareTap: () {
+                provider.shareActivityData(
+                  'Query Parameter',
+                  httpActivity.request?.params ??
+                      NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+            ),
             const SizedBox(height: 8),
-            sizeContent(context),
+            ContentContainer(
+              title: 'Size',
+              content: '${httpActivity.request?.requestSize ?? 0} kb',
+              onCopyTap: () {
+                provider.copyActivityData(
+                  '${httpActivity.request?.requestSize ?? 0} kb',
+                );
+              },
+              onShareTap: () {
+                provider.shareActivityData(
+                  'Request Size',
+                  '${httpActivity.request?.requestSize ?? 0} kb',
+                );
+              },
+              isJson: false,
+            ),
             const SizedBox(height: 8),
-            headerContent(context),
+            ContentContainer(
+              title: 'Header',
+              content: httpActivity.request?.requestHeader,
+              onCopyTap: () {
+                provider.copyActivityData(
+                  httpActivity.request?.requestHeader ??
+                      NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+              onShareTap: () {
+                provider.shareActivityData(
+                  'Request Header',
+                  httpActivity.request?.requestHeader ??
+                      NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+            ),
             const SizedBox(height: 8),
-            bodyContent(context),
+            ContentContainer(
+              title: 'Body',
+              content: httpActivity.request?.requestBody,
+              onCopyTap: () {
+                provider.copyActivityData(
+                  httpActivity.request?.requestBody ??
+                      NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+              onShareTap: () {
+                provider.shareActivityData(
+                  'Request Body',
+                  httpActivity.request?.requestBody ??
+                      NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget queryParamsContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionTitle(
-          title: 'Query Parameter',
-          onCopyTap: () {},
-          onShareTap: () {},
-        ),
-        Container(
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            httpActivity.request?.params.prettify ?? 'N/A',
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget sizeContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionTitle(
-          title: 'Size',
-          onCopyTap: () {},
-          onShareTap: () {},
-        ),
-        Container(
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            '${httpActivity.request?.requestSize ?? 0} kb',
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget headerContent(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionTitle(
-          title: 'Header',
-          onCopyTap: () {},
-          onShareTap: () {},
-        ),
-        Container(
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(httpActivity.request?.requestHeader?.prettify ?? 'N/A'),
-        ),
-      ],
-    );
-  }
-
-  Widget bodyContent(BuildContext context) {
-    return Column(
-      children: [
-        SectionTitle(
-          title: 'Body',
-          onCopyTap: () {},
-          onShareTap: () {},
-        ),
-        Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              httpActivity.request?.requestBody.prettify ?? 'N/A',
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
