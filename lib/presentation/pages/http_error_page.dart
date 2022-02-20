@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:network_inspector/const/network_inspector_value.dart';
-import 'package:network_inspector/presentation/controllers/activity_detail_provider.dart';
-import 'package:network_inspector/presentation/widgets/content_container.dart';
 import 'package:provider/provider.dart';
+
+import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
-import '../widgets/section_title.dart';
+import '../controllers/activity_detail_provider.dart';
+import '../widgets/content_container.dart';
 
 class HttpErrorPage extends StatelessWidget {
   final HttpActivity httpActivity;

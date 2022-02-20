@@ -53,7 +53,13 @@ class DioPage extends StatelessWidget {
                 'Create http activity with method POST',
                 style: Theme.of(context).textTheme.caption,
               ),
-              onTap: () {},
+              onTap: () {
+                var provider = Provider.of<DioProvider>(context, listen: false);
+                provider.createPlanet!.execute(
+                  name: 'Earth',
+                  description: 'Our Home',
+                );
+              },
             ),
             ListTile(
               title: const Text('Put'),

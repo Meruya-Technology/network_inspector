@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../domain/entities/planet.dart';
 import '../../domain/repositories/planet_repository.dart';
+import '../../domain/usecases/create_planet.dart';
 import '../../domain/usecases/fetch_planet.dart';
 import '../../infrastructure/datasources/planet_datasource.dart';
 import '../../infrastructure/datasources/planet_datasource_impl.dart';
@@ -19,6 +20,7 @@ class DioProvider extends ChangeNotifier {
   PlanetDatasource? planetDatasource;
   PlanetRepository? planetRepository;
   FetchPlanet? fetchPlanet;
+  CreatePlanet? createPlanet;
   MainProvider get mainProvider {
     return Provider.of<MainProvider>(
       context,
@@ -34,6 +36,9 @@ class DioProvider extends ChangeNotifier {
       planetDatasource: planetDatasource!,
     );
     fetchPlanet = FetchPlanet(
+      planetRepository: planetRepository!,
+    );
+    createPlanet = CreatePlanet(
       planetRepository: planetRepository!,
     );
   }

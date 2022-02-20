@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:network_inspector/network_inspector.dart';
 
-import '../../common/network_interceptor.dart';
+import '../../common/dio_interceptor.dart';
+import '../../common/http_interceptor.dart';
 import '../../common/notification_helper.dart';
 
 class MainProvider extends ChangeNotifier {
@@ -34,11 +36,19 @@ class MainProvider extends ChangeNotifier {
         },
       ),
     )..interceptors.add(
-        NetworkInterceptor(
+        DioInterceptor(
           logIsAllowed: true,
           notificationHelper: notificationHelper,
           networkInspector: networkInspector,
         ),
       );
+  }
+
+  HttpInterceptor get httpClient {
+    final client = Client();
+    final interceptor = HttpInterceptor(
+      client: client,
+    );
+    return interceptor;
   }
 }

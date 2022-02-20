@@ -9,12 +9,12 @@ import 'package:network_inspector/network_inspector.dart';
 
 import 'notification_helper.dart';
 
-class NetworkInterceptor extends Interceptor {
+class DioInterceptor extends Interceptor {
   final bool logIsAllowed;
   final NotificationHelper? notificationHelper;
   final NetworkInspector? networkInspector;
 
-  NetworkInterceptor({
+  DioInterceptor({
     this.logIsAllowed = false,
     this.notificationHelper,
     this.networkInspector,
