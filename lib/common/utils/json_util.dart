@@ -8,16 +8,6 @@ class JsonUtil {
   final _byteUtil = ByteUtil();
   final _dateTimeUtil = DateTimeUtil();
 
-  String? encodeRawJson(dynamic rawJson) {
-    if (rawJson is Map<String, dynamic>) {
-      return (rawJson.isNotEmpty) ? json.encode(rawJson) : null;
-    } else if (rawJson is String) {
-      return rawJson;
-    } else {
-      return null;
-    }
-  }
-
   static Map<String, dynamic>? tryDecodeRawJson(String? rawJson) {
     try {
       final decoded = json.decode(rawJson!);
@@ -33,6 +23,34 @@ class JsonUtil {
       return Future.value(encoded);
     } catch (e) {
       throw Exception(e);
+    }
+  }
+
+  Map<String, String>? compileHeader(
+    Map<String, String>? globalHeaders,
+    Map<String, String>? headers,
+  ) {
+    if (globalHeaders != null) {
+      if (headers != null) {
+        for (var key in headers.keys) {
+          globalHeaders[key] = headers[key]!;
+        }
+        return globalHeaders;
+      } else {
+        return globalHeaders;
+      }
+    } else {
+      return headers;
+    }
+  }
+
+  String? encodeRawJson(dynamic rawJson) {
+    if (rawJson is Map<String, dynamic>) {
+      return (rawJson.isNotEmpty) ? json.encode(rawJson) : null;
+    } else if (rawJson is String) {
+      return rawJson.isNotEmpty ? rawJson : null;
+    } else {
+      return null;
     }
   }
 

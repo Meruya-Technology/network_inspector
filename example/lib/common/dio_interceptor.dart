@@ -1,44 +1,37 @@
-import 'dart:convert';
 import 'dart:developer' as developer;
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:network_inspector/common/utils/byte_util.dart';
 import 'package:network_inspector/domain/entities/http_request.dart';
 import 'package:network_inspector/domain/entities/http_response.dart';
 import 'package:network_inspector/network_inspector.dart';
 
-import 'notification_helper.dart';
-
 class DioInterceptor extends Interceptor {
   final bool logIsAllowed;
-  final NotificationHelper? notificationHelper;
   final NetworkInspector? networkInspector;
+  final Function(
+    int requestHashCode,
+    String title,
+    String message,
+  )? onHttpFinish;
 
   DioInterceptor({
     this.logIsAllowed = false,
-    this.notificationHelper,
     this.networkInspector,
+    this.onHttpFinish,
   });
 
   final _jsonUtil = JsonUtil();
+  final _byteUtil = ByteUtil();
 
   @override
   Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    var payload = HttpRequest(
-      baseUrl: options.baseUrl,
-      path: options.uri.path,
-      params: _jsonUtil.encodeRawJson(options.queryParameters),
-      method: options.method,
-      requestHeader: _jsonUtil.encodeRawJson(options.headers),
-      requestBody: _jsonUtil.encodeRawJson(options.data),
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      requestSize: stringToBytes(options.data.toString()),
-      requestHashCode: options.hashCode,
-    );
-    await networkInspector!.writeHttpRequestLog(payload);
+    if (logIsAllowed) {
+      await saveRequest(options);
+    }
     handler.next(options);
   }
 
@@ -47,22 +40,14 @@ class DioInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) async {
-    var request = response.requestOptions;
-    var payload = HttpResponse(
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
-      responseBody: _jsonUtil.encodeRawJson(response.data),
-      responseStatusCode: response.statusCode,
-      responseStatusMessage: response.statusMessage,
-      responseSize: stringToBytes(response.data.toString()),
-      requestHashCode: request.hashCode,
-    );
-    await networkInspector!.writeHttpResponseLog(payload);
-    await finishActivity(
-      response,
-      request.uri.toString(),
-      response.data.toString(),
-    );
+    if (logIsAllowed) {
+      await saveResponse(response);
+      await finishActivity(
+        response,
+        response.requestOptions.uri.toString(),
+        response.data.toString(),
+      );
+    }
     handler.next(response);
   }
 
@@ -107,37 +92,45 @@ class DioInterceptor extends Interceptor {
     developer.log(logTemplate);
   }
 
+  Future<void> saveRequest(RequestOptions options) async {
+    var payload = HttpRequest(
+      baseUrl: options.baseUrl,
+      path: options.uri.path,
+      params: _jsonUtil.encodeRawJson(options.queryParameters),
+      method: options.method,
+      requestHeader: _jsonUtil.encodeRawJson(options.headers),
+      requestBody: _jsonUtil.encodeRawJson(options.data),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      requestSize: _byteUtil.stringToBytes(options.data.toString()),
+      requestHashCode: options.hashCode,
+    );
+    await networkInspector!.writeHttpRequestLog(payload);
+  }
+
+  Future<void> saveResponse(Response response) async {
+    var request = response.requestOptions;
+    var payload = HttpResponse(
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
+      responseBody: _jsonUtil.encodeRawJson(response.data),
+      responseStatusCode: response.statusCode,
+      responseStatusMessage: response.statusMessage,
+      responseSize: _byteUtil.stringToBytes(response.data.toString()),
+      requestHashCode: request.hashCode,
+    );
+    await networkInspector!.writeHttpResponseLog(payload);
+  }
+
   Future<void> finishActivity(
     Response response,
     String title,
     String message,
   ) async {
     var request = response.requestOptions;
-    notifyResponse(
-      title: title,
-      message: message,
-    );
-    if (logIsAllowed) {
-      await logRequest(request);
-      await logResponse(response);
+    if (onHttpFinish is Function) {
+      await onHttpFinish!(response.requestOptions.hashCode, title, message);
     }
-  }
-
-  Future<void> notifyResponse({
-    required String title,
-    required String message,
-  }) async {
-    await NotificationHelper.showNotification(
-      classHashId: notificationHelper.hashCode,
-      title: title,
-      message: message,
-      payload: 'networkInspector',
-    );
-  }
-
-  int stringToBytes(String data) {
-    final bytes = utf8.encode(data);
-    final size = Uint8List.fromList(bytes);
-    return size.lengthInBytes;
+    await logRequest(request);
+    await logResponse(response);
   }
 }

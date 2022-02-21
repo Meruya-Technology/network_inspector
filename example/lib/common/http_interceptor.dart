@@ -3,19 +3,36 @@ import 'dart:developer' as developer;
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import 'package:network_inspector/common/utils/json_util.dart';
+import 'package:network_inspector/common/utils/byte_util.dart';
 import 'package:network_inspector/common/utils/url_util.dart';
+import 'package:network_inspector/domain/entities/http_request.dart';
+import 'package:network_inspector/domain/entities/http_response.dart';
+import 'package:network_inspector/network_inspector.dart';
 
 class HttpInterceptor extends BaseClient {
   final Uri? baseUrl;
+  final Map<String, String>? headers;
   final Client client;
+  final NetworkInspector? networkInspector;
+  final Function(
+    int requestHashCode,
+    String title,
+    String message,
+  )? onHttpFinish;
+  final bool logIsAllowed;
 
   HttpInterceptor({
     this.baseUrl,
+    this.headers,
+    this.networkInspector,
     required this.client,
+    this.onHttpFinish,
+    this.logIsAllowed = false,
   });
 
   final _jsonUtil = JsonUtil();
+  final _urlUtil = UrlUtil();
+  final _byteUtil = ByteUtil();
 
   @override
   Future<Response> head(
@@ -101,14 +118,11 @@ class HttpInterceptor extends BaseClient {
     body,
     Encoding? encoding,
   ]) async {
-    var processedUrl =
-        baseUrl != null ? UrlUtil.isUrlNeedToOveride(url, baseUrl!) : url;
-    var request = Request(
-      method,
-      processedUrl,
-    );
+    var processedHeader = _jsonUtil.compileHeader(this.headers, headers);
+    var processedUrl = _urlUtil.isUrlNeedToOveride(baseUrl, url);
+    var request = Request(method, processedUrl);
 
-    if (headers != null) request.headers.addAll(headers);
+    if (processedHeader != null) request.headers.addAll(processedHeader);
     if (encoding != null) request.encoding = encoding;
     if (body != null) {
       if (body is String) {
@@ -126,8 +140,16 @@ class HttpInterceptor extends BaseClient {
     );
 
     /// Intercept area
-    logRequest(request);
-    logResponse(response);
+    if (logIsAllowed) {
+      saveRequest(request);
+      saveResponse(response, request.hashCode);
+      finishActivity(
+        request,
+        response,
+        request.url.origin.toString(),
+        response.body.toString(),
+      );
+    }
     return response;
   }
 
@@ -139,17 +161,17 @@ class HttpInterceptor extends BaseClient {
   /// later point, or it could already be closed when it's returned. Any
   /// internal HTTP errors should be wrapped as [ClientException]s.
   @override
-  Future<StreamedResponse> send(BaseRequest request) {
-    return client.send(request);
-  }
+  Future<StreamedResponse> send(BaseRequest request) => client.send(request);
 
   Future<void> logRequest(Request request) async {
+    var isNotGet = request.method != 'GET';
+    var contentType = (isNotGet) ? request.headers['Content-Type'] : null;
     var logTemplate = '\n[Request url] ${request.url.toString()}'
         '\n[Request header] ${request.headers.toString()}'
         '\n[Request param] ${request.url.queryParameters}'
         '\n[Request body] ${_jsonUtil.encodeRawJson(request.body)}'
         '\n[Request method] ${request.method}'
-        '\n[Request content-type] ${request.headers['Content-Type']}';
+        '\n[Request content-type] $contentType';
     developer.log(logTemplate);
   }
 
@@ -159,6 +181,47 @@ class HttpInterceptor extends BaseClient {
         '\n[Response code] ${response.statusCode}'
         '\n[Response message] ${response.reasonPhrase}';
     developer.log(logTemplate);
+  }
+
+  Future<void> saveRequest(Request request) async {
+    var payload = HttpRequest(
+      baseUrl: request.url.origin,
+      path: request.url.path,
+      params: _jsonUtil.encodeRawJson(request.url.queryParameters),
+      method: request.method,
+      requestHeader: _jsonUtil.encodeRawJson(request.headers),
+      requestBody: _jsonUtil.encodeRawJson(request.body),
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      requestSize: _byteUtil.stringToBytes(request.body.toString()),
+      requestHashCode: request.hashCode,
+    );
+    await networkInspector!.writeHttpRequestLog(payload);
+  }
+
+  Future<void> saveResponse(Response response, int requestHashCode) async {
+    var payload = HttpResponse(
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      responseHeader: _jsonUtil.encodeRawJson(response.headers),
+      responseBody: _jsonUtil.encodeRawJson(response.body),
+      responseStatusCode: response.statusCode,
+      responseStatusMessage: response.reasonPhrase,
+      responseSize: _byteUtil.stringToBytes(response.body.toString()),
+      requestHashCode: requestHashCode,
+    );
+    await networkInspector!.writeHttpResponseLog(payload);
+  }
+
+  Future<void> finishActivity(
+    Request request,
+    Response response,
+    String title,
+    String message,
+  ) async {
+    if (onHttpFinish is Function) {
+      await onHttpFinish!(request.hashCode, title, message);
+    }
+    await logRequest(request);
+    await logResponse(response);
   }
 
   /// Throws an error if [response] is not successful.

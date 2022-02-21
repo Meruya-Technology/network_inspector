@@ -27,10 +27,10 @@ class MainProvider extends ChangeNotifier {
   Dio get dioClient {
     return Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.1.4:8000/',
+        baseUrl: 'http://192.168.1.3:8000/',
         connectTimeout: 10 * 1000, // 10 second
         headers: {
-          'Content-Type': 'application/json',
+          'Content-type': 'application/json',
           'Accept': 'application/json',
           'Authorization': 'Bearer i109gh23j9u1h3811io2n391'
         },
@@ -38,8 +38,13 @@ class MainProvider extends ChangeNotifier {
     )..interceptors.add(
         DioInterceptor(
           logIsAllowed: true,
-          notificationHelper: notificationHelper,
           networkInspector: networkInspector,
+          onHttpFinish: (hashCode, title, message) {
+            notifyActivity(
+              title: title,
+              message: message,
+            );
+          },
         ),
       );
   }
@@ -48,9 +53,34 @@ class MainProvider extends ChangeNotifier {
     final client = Client();
 
     final interceptor = HttpInterceptor(
+      logIsAllowed: true,
       client: client,
-      baseUrl: Uri.parse('http://192.168.1.4:8000/'),
+      baseUrl: Uri.parse('http://192.168.1.3:8000/'),
+      networkInspector: networkInspector,
+      onHttpFinish: (hashCode, title, message) {
+        notifyActivity(
+          title: title,
+          message: message,
+        );
+      },
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer WEKLSSS'
+      },
     );
     return interceptor;
+  }
+
+  Future<void> notifyActivity({
+    required String title,
+    required String message,
+  }) async {
+    await notificationHelper?.showNotification(
+      classHashId: notificationHelper.hashCode,
+      title: title,
+      message: message,
+      payload: 'networkInspector',
+    );
   }
 }
