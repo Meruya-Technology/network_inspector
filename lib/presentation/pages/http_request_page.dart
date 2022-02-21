@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/extensions/byte_extension.dart';
 import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_detail_provider.dart';
@@ -19,6 +20,7 @@ class HttpRequestPage extends StatelessWidget {
       context,
       listen: false,
     );
+    final request = httpActivity.request;
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -27,34 +29,32 @@ class HttpRequestPage extends StatelessWidget {
           children: [
             ContentContainer(
               title: 'Query Parameter',
-              content: httpActivity.request?.params,
+              content: request?.params,
               onCopyTap: () {
                 provider.copyActivityData(
-                  httpActivity.request?.params ??
-                      NetworkInspectorValue.defaultEmptyString,
+                  request?.params ?? NetworkInspectorValue.defaultEmptyString,
                 );
               },
               onShareTap: () {
                 provider.shareActivityData(
                   'Query Parameter',
-                  httpActivity.request?.params ??
-                      NetworkInspectorValue.defaultEmptyString,
+                  request?.params ?? NetworkInspectorValue.defaultEmptyString,
                 );
               },
             ),
             const SizedBox(height: 8),
             ContentContainer(
               title: 'Size',
-              content: '${httpActivity.request?.requestSize ?? 0} kb',
+              content: request?.requestSize?.byteToKiloByte(true),
               onCopyTap: () {
                 provider.copyActivityData(
-                  '${httpActivity.request?.requestSize ?? 0} kb',
+                  '${request?.requestSize?.byteToKiloByte(true)}',
                 );
               },
               onShareTap: () {
                 provider.shareActivityData(
                   'Request Size',
-                  '${httpActivity.request?.requestSize ?? 0} kb',
+                  '${request?.requestSize?.byteToKiloByte(true)}',
                 );
               },
               isJson: false,
@@ -62,17 +62,17 @@ class HttpRequestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ContentContainer(
               title: 'Header',
-              content: httpActivity.request?.requestHeader,
+              content: request?.requestHeader,
               onCopyTap: () {
                 provider.copyActivityData(
-                  httpActivity.request?.requestHeader ??
+                  request?.requestHeader ??
                       NetworkInspectorValue.defaultEmptyString,
                 );
               },
               onShareTap: () {
                 provider.shareActivityData(
                   'Request Header',
-                  httpActivity.request?.requestHeader ??
+                  request?.requestHeader ??
                       NetworkInspectorValue.defaultEmptyString,
                 );
               },
@@ -80,17 +80,17 @@ class HttpRequestPage extends StatelessWidget {
             const SizedBox(height: 8),
             ContentContainer(
               title: 'Body',
-              content: httpActivity.request?.requestBody,
+              content: request?.requestBody,
               onCopyTap: () {
                 provider.copyActivityData(
-                  httpActivity.request?.requestBody ??
+                  request?.requestBody ??
                       NetworkInspectorValue.defaultEmptyString,
                 );
               },
               onShareTap: () {
                 provider.shareActivityData(
                   'Request Body',
-                  httpActivity.request?.requestBody ??
+                  request?.requestBody ??
                       NetworkInspectorValue.defaultEmptyString,
                 );
               },

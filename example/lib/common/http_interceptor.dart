@@ -4,11 +4,14 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:network_inspector/common/utils/json_util.dart';
+import 'package:network_inspector/common/utils/url_util.dart';
 
 class HttpInterceptor extends BaseClient {
+  final Uri? baseUrl;
   final Client client;
 
   HttpInterceptor({
+    this.baseUrl,
     required this.client,
   });
 
@@ -98,7 +101,12 @@ class HttpInterceptor extends BaseClient {
     body,
     Encoding? encoding,
   ]) async {
-    var request = Request(method, url);
+    var processedUrl =
+        baseUrl != null ? UrlUtil.isUrlNeedToOveride(url, baseUrl!) : url;
+    var request = Request(
+      method,
+      processedUrl,
+    );
 
     if (headers != null) request.headers.addAll(headers);
     if (encoding != null) request.encoding = encoding;

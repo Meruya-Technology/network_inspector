@@ -46,8 +46,10 @@ class MainProvider extends ChangeNotifier {
 
   HttpInterceptor get httpClient {
     final client = Client();
+
     final interceptor = HttpInterceptor(
       client: client,
+      baseUrl: Uri.parse('http://192.168.1.4:8000/'),
     );
     return interceptor;
   }
