@@ -17,7 +17,7 @@ class DioInterceptor extends Interceptor {
   )? onHttpFinish;
 
   DioInterceptor({
-    this.logIsAllowed = false,
+    this.logIsAllowed = true,
     this.networkInspector,
     this.onHttpFinish,
   });
