@@ -69,7 +69,7 @@ HttpInterceptor get httpClient {
 ```
 
 # Acessing the UI
-We can use regular `Navigator.push`, we decide to use `MaterialPageRoute` instead of named route to keep package tightly coupled with your application.
+We can use regular `Navigator.push`, we decide to use `MaterialPageRoute` instead of named route to avoid tightly coupled.
 ```dart
 /// Use this on floating button / notification handler.
 void goToActivityPage(BuildContext context){
