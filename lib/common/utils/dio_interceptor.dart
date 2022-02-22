@@ -1,10 +1,11 @@
 import 'dart:developer' as developer;
 
 import 'package:dio/dio.dart';
-import 'package:network_inspector/common/utils/byte_util.dart';
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/network_inspector.dart';
+
+import '../../domain/entities/http_request.dart';
+import '../../domain/entities/http_response.dart';
+import '../../network_inspector.dart';
+import 'byte_util.dart';
 
 class DioInterceptor extends Interceptor {
   final bool logIsAllowed;

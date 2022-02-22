@@ -3,11 +3,12 @@ import 'dart:developer' as developer;
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import 'package:network_inspector/common/utils/byte_util.dart';
-import 'package:network_inspector/common/utils/url_util.dart';
-import 'package:network_inspector/domain/entities/http_request.dart';
-import 'package:network_inspector/domain/entities/http_response.dart';
-import 'package:network_inspector/network_inspector.dart';
+
+import '../../domain/entities/http_request.dart';
+import '../../domain/entities/http_response.dart';
+import '../../network_inspector.dart';
+import 'byte_util.dart';
+import 'url_util.dart';
 
 class HttpInterceptor extends BaseClient {
   final Uri? baseUrl;
@@ -122,6 +123,10 @@ class HttpInterceptor extends BaseClient {
     var processedUrl = _urlUtil.isUrlNeedToOveride(baseUrl, url);
     var request = Request(method, processedUrl);
 
+    if (logIsAllowed) {
+      saveRequest(request);
+    }
+
     if (processedHeader != null) request.headers.addAll(processedHeader);
     if (encoding != null) request.encoding = encoding;
     if (body != null) {
@@ -141,7 +146,6 @@ class HttpInterceptor extends BaseClient {
 
     /// Intercept area
     if (logIsAllowed) {
-      saveRequest(request);
       saveResponse(response, request.hashCode);
       finishActivity(
         request,

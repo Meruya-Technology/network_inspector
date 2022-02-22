@@ -11,6 +11,8 @@ import '../controllers/activity_provider.dart';
 import '../widgets/container_label.dart';
 
 class ActivityPage extends StatelessWidget {
+  static const String routeName = '/http-activity';
+
   ActivityPage({Key? key}) : super(key: key);
 
   final _byteUtil = ByteUtil();

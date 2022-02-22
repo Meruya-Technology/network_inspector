@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:network_inspector/common/utils/dio_interceptor.dart';
+import 'package:network_inspector/common/utils/http_interceptor.dart';
 import 'package:network_inspector/network_inspector.dart';
 
-import '../../common/dio_interceptor.dart';
-import '../../common/http_interceptor.dart';
 import '../../common/notification_helper.dart';
 
 class MainProvider extends ChangeNotifier {
