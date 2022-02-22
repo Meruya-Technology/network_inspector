@@ -28,7 +28,7 @@ class HttpInterceptor extends BaseClient {
     this.networkInspector,
     required this.client,
     this.onHttpFinish,
-    this.logIsAllowed = false,
+    this.logIsAllowed = true,
   });
 
   final _jsonUtil = JsonUtil();
