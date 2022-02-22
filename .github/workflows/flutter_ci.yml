@@ -35,5 +35,3 @@ jobs:
           flutter-version: '2.8.1'
       - run: flutter pub get
       - run: flutter test
-      - run: flutter build apk
-      - run: flutter build appbundle
