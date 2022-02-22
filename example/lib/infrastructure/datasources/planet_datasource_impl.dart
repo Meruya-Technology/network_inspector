@@ -39,7 +39,9 @@ class PlanetDatasourceImpl implements PlanetDatasource {
       );
 
       return (response.body != '')
-          ? FetchPlanetResponseModel.fromJson(jsonDecode(response.body))
+          ? FetchPlanetResponseModel.fromJson(
+              jsonDecode(response.body),
+            )
           : null;
     } else {
       throw UnimplementedError();
@@ -51,11 +53,11 @@ class PlanetDatasourceImpl implements PlanetDatasource {
     required String name,
     required String description,
   }) async {
+    var request = {
+      'name': name,
+      'description': description,
+    };
     if (datasourceClient is Dio) {
-      var request = {
-        'name': name,
-        'description': description,
-      };
       var response = await (datasourceClient as Dio).post(
         Endpoint.planet,
         data: request,
@@ -64,7 +66,15 @@ class PlanetDatasourceImpl implements PlanetDatasource {
           ? BaseResponseModel.fromJson(response.data)
           : null;
     } else if (datasourceClient is Client) {
-      throw UnimplementedError();
+      var response = await (datasourceClient as Client).post(
+        Uri.parse(Endpoint.planet),
+        body: jsonEncode(request),
+      );
+      return (response.body != '')
+          ? BaseResponseModel.fromJson(
+              jsonDecode(response.body),
+            )
+          : null;
     } else {
       throw UnimplementedError();
     }

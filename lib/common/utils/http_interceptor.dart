@@ -140,6 +140,7 @@ class HttpInterceptor extends BaseClient {
         throw ArgumentError('Invalid request body "$body".');
       }
     }
+    if (logIsAllowed) saveRequest(request);
     final response = await Response.fromStream(
       await send(request),
     );
