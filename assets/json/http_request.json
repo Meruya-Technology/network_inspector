@@ -1,0 +1,55 @@
+{
+    "tabel_name":"http_requests",
+    "definition":[
+        {
+            "fields": "id",
+            "type":"integer",
+            "attribute":"primary key autoincrement not null"
+        },
+        {
+            "fields": "created_at",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "base_url",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "path",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "params",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "method",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "request_header",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "request_body",
+            "type":"text",
+            "attribute": null
+        },
+        {
+            "fields": "request_size",
+            "type":"int",
+            "attribute": null
+        },
+        {
+            "fields": "request_hash_code",
+            "type":"int",
+            "attribute": null
+        }
+    ]
+}
