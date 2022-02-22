@@ -53,7 +53,7 @@ class NotificationHelper {
     }
   }
 
-  static Future<void> showNotification({
+  Future<void> showNotification({
     required int classHashId,
     required String title,
     required String message,

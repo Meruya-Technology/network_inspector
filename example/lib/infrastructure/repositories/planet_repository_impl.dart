@@ -21,4 +21,16 @@ class PlanetRepositoryImpl implements PlanetRepository {
         : null;
     return result;
   }
+
+  @override
+  Future<String?> createPlanet({
+    required String name,
+    required String description,
+  }) async {
+    var models = await planetDatasource.createPlanet(
+      name: name,
+      description: description,
+    );
+    return models?.message;
+  }
 }

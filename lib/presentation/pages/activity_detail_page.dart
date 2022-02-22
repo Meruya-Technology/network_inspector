@@ -10,6 +10,8 @@ import 'http_request_page.dart';
 import 'http_response_page.dart';
 
 class ActivityDetailPage extends StatelessWidget {
+  static const String routeName = '/http-activity-detail';
+
   final HttpActivity httpActivity;
   const ActivityDetailPage({
     required this.httpActivity,
