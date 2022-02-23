@@ -1,3 +1,7 @@
+## 1.0.0 - 23 February 2022
+
+* Update version for alpha release
+
 ## 0.0.2 - 22 February 2022
 
 * Http package interceptor
