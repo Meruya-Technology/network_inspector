@@ -5,7 +5,7 @@ This package contains a set of high-level functions and classes that make it eas
 add dependency
 ```yaml
 dependencies:
-  dio: ^4.0.4
+  network_inspector: ^1.0.0
 ```
 
 # Initialize
