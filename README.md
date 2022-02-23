@@ -19,7 +19,7 @@ void main() {
 ```
 
 # Dio Users
-1. Add interceptor class `DioInterceptor` for dio client. Set `logIsAllowed`  to `true`, to turn the logger & debugger on. 
+1. Add interceptor class `DioInterceptor` for dio client.
 2. Create another Network Inspector class to used on the `DioInterceptor` constructor.
 3. use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
 ```dart
@@ -39,7 +39,7 @@ Dio()..interceptors.add(
 ```
 
 # Http Users
-1. Add interceptor class `HttpInterceptor` for dio client. Set `logIsAllowed`  to `true`, to turn the logger & debugger on. 
+1. Add interceptor class `HttpInterceptor` for dio client.
 2. Initialize `Client` to client class, then use `client` on the `HttpInterceptor` constructor
 2. Create another Network Inspector class to used on the `DioInterceptor` constructor.
 3. use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
