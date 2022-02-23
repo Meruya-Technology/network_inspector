@@ -81,3 +81,35 @@ void goToActivityPage(BuildContext context){
     );
 }
 ```
+
+# Entry point from notification tap action
+If the entry point to http activity page is desired from notification tap action, create a class to store `GlobalKey<NavigatorState>` which we need to navigate to the http activity page, from anywhere add GlobalKey into the `MaterialApp` widget on the `navigatorKey` constructor. 
+```dart
+  @override
+  Widget build(BuildContext context) {
+     return MaterialApp(
+         title: 'Network inspector',
+         theme: ThemeData(
+             primarySwatch: Colors.blue,
+         ),
+         /// Put your navigation key into a class
+         /// In this case we put navigator key on
+         /// ```dart
+         /// class NavigationService{
+         ///    static var navigatorKey = GlobalKey<NavigatorState>();
+         /// }
+         /// ```
+         navigatorKey: NavigationService.navigatorKey,
+         initialRoute: MainPage.routeName,
+         routes: NavigationService.routes,
+     ),
+  }
+```
+
+Then you can use the global key to get the context for `Navigator.push`
+```dart
+/// Get the current context
+var context = NavigationService.navigatorKey.currentContext;
+/// Call the `goToActivityPage` method and Supply the context
+goToActivityPage(context);
+```
