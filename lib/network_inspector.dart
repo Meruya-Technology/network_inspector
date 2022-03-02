@@ -1,7 +1,8 @@
 library network_inspector;
 
+/// Import section
 import 'package:sqflite/sqflite.dart';
-
+import 'common/utils/database_helper.dart';
 import 'domain/entities/http_request.dart';
 import 'domain/entities/http_response.dart';
 import 'domain/repositories/log_repository.dart';
@@ -11,13 +12,8 @@ import 'infrastructure/datasources/log_datasource.dart';
 import 'infrastructure/datasources/log_datasource_impl.dart';
 import 'infrastructure/repositories/log_repository_impl.dart';
 
-/// Import section
-import 'network_inspector_common.dart';
-
-/// Export section
-export 'network_inspector_common.dart';
-export 'network_inspector_infrastructure.dart';
-export 'network_inspector_presentation.dart';
+/// Export
+export 'presentation/pages/activity_page.dart';
 
 /// Core class section
 class NetworkInspector {

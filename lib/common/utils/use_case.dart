@@ -6,8 +6,6 @@ abstract class UseCase<T, P> {
     /// Execute
     return await build(param).catchError((error) {
       handleError(error);
-
-      /// TODO: Add error mapper
     });
   }
 

@@ -23,19 +23,28 @@ void main() {
 2. Create another Network Inspector class to used on the `DioInterceptor` constructor.
 3. use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
 ```dart
-final networkInspector = NewtworkInspector();
-Dio()..interceptors.add(
-        DioInterceptor(
-          logIsAllowed: true,
-          networkInspector: networkInspector,
-          onHttpFinish: (hashCode, title, message) {
-            notifyActivity(
-              title: title,
-              message: message,
-            );
-          },
-        ),
-      );
+/// Client Declaration
+Dio get dioClient{
+  final networkInspector = NewtworkInspector();
+  final client = Dio()..interceptors.add(
+    DioInterceptor(
+      logIsAllowed: true,
+      networkInspector: networkInspector,
+      onHttpFinish: (hashCode, title, message) {
+        notifyActivity(
+          title: title,
+          message: message,
+        );
+      },
+    ),
+  );
+  return client;
+}
+
+/// Use dio regularly
+/// Every request, response & error will automatically fetched & stored by the network inspector.
+/// And also if the properties of declared `DioInterceptor` is not empty, it will set every properties as default.
+await dioClient.post('/test', data: {'id': 1, 'name': 'jhon folks'});
 ```
 
 # Http Users
@@ -45,27 +54,31 @@ Dio()..interceptors.add(
 3. use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
 ```dart
 HttpInterceptor get httpClient {
-    final networkInspector = NewtworkInspector();
-    final client = Client();
-    final interceptor = HttpInterceptor(
-      logIsAllowed: true,
-      client: client,
-      baseUrl: Uri.parse('http://192.168.1.3:8000/'),
-      networkInspector: networkInspector,
-      onHttpFinish: (hashCode, title, message) {
-        notifyActivity(
-          title: title,
-          message: message,
-        );
-      },
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer WEKLSSS'
-      },
-    );
-    return interceptor;
+  final networkInspector = NewtworkInspector();
+  final client = Client();
+  final interceptor = HttpInterceptor(
+    logIsAllowed: true,
+    client: client,
+    baseUrl: Uri.parse('http://192.168.1.3:8000/'),
+    networkInspector: networkInspector,
+    onHttpFinish: (hashCode, title, message) {
+      notifyActivity(
+        title: title,
+        message: message,
+      );
+    },
+    headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer WEKLSSS'
+    },
+  );
+  return interceptor;
 }
+/// Use http client regularly
+/// Every request, response & error will automatically fetched & stored by the network inspector.
+/// And also if the properties of declared `HttpInterceptor` is not empty, it will set every properties as default.
+await httpClient.post(url, body: {'name': 'doodle', 'color': 'blue'});
 ```
 
 # Acessing the UI
@@ -73,12 +86,12 @@ We can use regular `Navigator.push`, we decide to use `MaterialPageRoute` instea
 ```dart
 /// Use this on floating button / notification handler.
 void goToActivityPage(BuildContext context){
-    await Navigator.push(
-    context,
-        MaterialPageRoute<void>(
-            builder: (context) => ActivityPage(),
-        ),
-    );
+  await Navigator.push(
+  context,
+    MaterialPageRoute<void>(
+      builder: (context) => ActivityPage(),
+    ),
+  );
 }
 ```
 
@@ -87,22 +100,22 @@ If the entry point to http activity page is desired from notification tap action
 ```dart
   @override
   Widget build(BuildContext context) {
-     return MaterialApp(
-         title: 'Network inspector',
-         theme: ThemeData(
-             primarySwatch: Colors.blue,
-         ),
-         /// Put your navigation key into a class
-         /// In this case we put navigator key on
-         /// ```dart
-         /// class NavigationService{
-         ///    static var navigatorKey = GlobalKey<NavigatorState>();
-         /// }
-         /// ```
-         navigatorKey: NavigationService.navigatorKey,
-         initialRoute: MainPage.routeName,
-         routes: NavigationService.routes,
-     ),
+    return MaterialApp(
+      title: 'Network inspector',
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+      ),
+      /// Put your navigation key into a class
+      /// In this case we put navigator key on
+      /// ```dart
+      /// class NavigationService{
+      ///    static var navigatorKey = GlobalKey<NavigatorState>();
+      /// }
+      /// ```
+      navigatorKey: NavigationService.navigatorKey,
+      initialRoute: MainPage.routeName,
+      routes: NavigationService.routes,
+    ),
   }
 ```
 

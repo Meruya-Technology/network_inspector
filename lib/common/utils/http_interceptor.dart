@@ -8,6 +8,7 @@ import '../../domain/entities/http_request.dart';
 import '../../domain/entities/http_response.dart';
 import '../../network_inspector.dart';
 import 'byte_util.dart';
+import 'json_util.dart';
 import 'url_util.dart';
 
 class HttpInterceptor extends BaseClient {

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../network_inspector_infrastructure.dart';
+import '../models/http_activity_model.dart';
 import '../models/http_request_model.dart';
 import '../models/http_response_model.dart';
 import 'log_datasource.dart';

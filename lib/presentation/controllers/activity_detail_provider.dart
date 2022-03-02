@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../common/utils/json_util.dart';
 import '../../const/network_inspector_enum.dart';
 import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
-import '../../network_inspector.dart';
 
 class ActivityDetailProvider extends ChangeNotifier {
   final BuildContext context;
