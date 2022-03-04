@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:network_inspector/network_inspector_presentation.dart';
+import 'package:network_inspector/network_inspector.dart';
 
 import 'navigation_service.dart';
 

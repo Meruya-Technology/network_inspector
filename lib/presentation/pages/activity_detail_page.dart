@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../const/network_inspector_enum.dart';
 import '../../domain/entities/http_activity.dart';
-import '../../network_inspector_presentation.dart';
+import '../controllers/activity_detail_provider.dart';
 import '../widgets/titled_label.dart';
 import 'http_error_page.dart';
 import 'http_request_page.dart';

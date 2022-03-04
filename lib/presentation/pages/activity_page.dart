@@ -10,6 +10,16 @@ import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_provider.dart';
 import '../widgets/container_label.dart';
 
+/// A page that show list of logged HTTP Activities, for navigating to this
+/// page use regular Navigator.push
+/// ```dart
+///  Navigator.push(
+///   context,
+///   MaterialPageRoute<void>(
+///     builder: (context) => ActivityPage(),
+///   ),
+/// );
+/// ```
 class ActivityPage extends StatelessWidget {
   static const String routeName = '/http-activity';
 

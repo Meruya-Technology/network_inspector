@@ -1,5 +1,5 @@
 import '../../domain/entities/http_activity.dart';
-import '../../network_inspector_infrastructure.dart';
+import '../models/http_activity_model.dart';
 import 'http_request_mapper.dart';
 import 'http_response_mapper.dart';
 
