@@ -1,3 +1,7 @@
+## 1.0.1 - 4 March 2022
+
+* Add documentation
+
 ## 1.0.0 - 23 February 2022
 
 * Update version for alpha release
