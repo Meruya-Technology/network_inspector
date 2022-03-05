@@ -1,5 +1,5 @@
 name: network_inspector
-description: A new Flutter package project.
+description: Http inspector / logger for Dio and Http package
 version: 1.0.1
 homepage: https://meruyatechnology.com
 
