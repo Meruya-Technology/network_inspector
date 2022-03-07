@@ -1,8 +1,6 @@
 Easy to use, http client class debugger & logger for multiple http client.
 This package contains a set of high-level functions and classes that make it easy to log / debug HTTP activities on the fly. It's also depend on [Dio](https://pub.dev/packages/dio) and [Http](https://pub.dev/packages/http) package.
 
-https://user-images.githubusercontent.com/27884014/156951569-539bf1b4-246a-446f-a01e-7abdfae2d28b.mp4
-
 <table>
   <tr>
     <td>
@@ -19,6 +17,8 @@ https://user-images.githubusercontent.com/27884014/156951569-539bf1b4-246a-446f-
     </td>
   </tr>
 </table>
+
+https://user-images.githubusercontent.com/27884014/156951569-539bf1b4-246a-446f-a01e-7abdfae2d28b.mp4
 
 # Get Started
 add dependency
