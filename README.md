@@ -1,6 +1,25 @@
 Easy to use, http client class debugger & logger for multiple http client.
 This package contains a set of high-level functions and classes that make it easy to log / debug HTTP activities on the fly. It's also depend on [Dio](https://pub.dev/packages/dio) and [Http](https://pub.dev/packages/http) package.
 
+https://user-images.githubusercontent.com/27884014/156951569-539bf1b4-246a-446f-a01e-7abdfae2d28b.mp4
+
+<table>
+  <tr>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/156951215-7618a785-1d9a-490f-8045-689c8238538f.png" width="250px">
+    </td>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/156951219-3ea77c62-c106-43ac-aa7f-ac8cd7034faf.png" width="250px">
+    </td>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/156951223-51c86335-83ae-415f-8254-b8744ec20933.png" width="250px">
+    </td>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/156951229-44befbf6-0ef0-47b1-a8f8-be6538ab4e63.png" width="250px">
+    </td>
+  </tr>
+</table>
+
 # Get Started
 add dependency
 ```yaml
