@@ -24,4 +24,6 @@ abstract class LogDatasource {
   Future<bool> logHttpResponse({
     required HttpResponseModel httpResponseModel,
   });
+
+  Future<bool> deleteHttpActivities();
 }
