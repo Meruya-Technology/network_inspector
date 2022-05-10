@@ -135,10 +135,14 @@ class ActivityPage extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '${activity.request?.method} '
-            '${activity.request?.path ?? '-'}',
-            style: Theme.of(context).textTheme.bodyText1,
+          Expanded(
+            flex: 1,
+            child: Text(
+              '${activity.request?.method} '
+              '${activity.request?.path ?? '-'}',
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
           ContainerLabel(
             text: '${activity.response?.responseStatusCode ?? 'N/A'}',
@@ -168,10 +172,14 @@ class ActivityPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 4),
-              Text(
-                activity.request?.baseUrl ?? '-',
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  activity.request?.baseUrl ?? '-',
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+              )
             ],
           ),
           const SizedBox(height: 4),
