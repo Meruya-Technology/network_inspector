@@ -50,6 +50,11 @@ class ActivityProvider extends ChangeNotifier {
     });
   }
 
+  Future<void> deleteActivities() async {
+    await _fetchHttpActivities?.deleteHttpActivities();
+    fetchActivities();
+  }
+
   Future<void> goToDetailActivity(HttpActivity httpActivity) async {
     await Navigator.push(
       context,

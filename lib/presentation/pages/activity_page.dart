@@ -37,6 +37,17 @@ class ActivityPage extends StatelessWidget {
       builder: (context, child) => Scaffold(
         appBar: AppBar(
           title: const Text('Http Activities'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                var provider = context.read<ActivityProvider>();
+                provider.deleteActivities();
+              },
+              icon: const Icon(
+                Icons.delete,
+              ),
+            ),
+          ],
         ),
         body: buildBody(context),
       ),

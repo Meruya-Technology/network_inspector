@@ -9,6 +9,7 @@ import '../mappers/http_response_mapper.dart';
 
 class LogRepositoryImpl implements LogRepository {
   final LogDatasource logDatasource;
+
   LogRepositoryImpl({
     required this.logDatasource,
   });
@@ -93,6 +94,12 @@ class LogRepositoryImpl implements LogRepository {
     var result = await logDatasource.logHttpResponse(
       httpResponseModel: model,
     );
+    return result;
+  }
+
+  @override
+  Future<bool> deleteHttpActivities() async {
+    var result = logDatasource.deleteHttpActivities();
     return result;
   }
 }
