@@ -1,5 +1,5 @@
 ## 1.0.3 - 17 May 2022
-* updated packages to newest versions
+* Update dependencies version to the newest versions
 
 ## 1.0.2 - 11 April 2022
 
