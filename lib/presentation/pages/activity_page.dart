@@ -78,8 +78,8 @@ class ActivityPage extends StatelessWidget {
   Widget doneWidget(BuildContext context, AsyncSnapshot snapshot) {
     return Visibility(
       visible: snapshot.hasData,
-      child: successBody(context, snapshot.data),
       replacement: errorMessage(context, snapshot.error),
+      child: successBody(context, snapshot.data),
     );
   }
 
@@ -89,8 +89,8 @@ class ActivityPage extends StatelessWidget {
   ) {
     return Visibility(
       visible: data?.isNotEmpty ?? false,
-      child: activityList(context, data),
       replacement: emptyBody(context),
+      child: activityList(context, data),
     );
   }
 
