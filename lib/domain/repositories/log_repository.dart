@@ -25,4 +25,6 @@ abstract class LogRepository {
   Future<bool> logHttpResponse({
     required HttpResponse httpResponseModel,
   });
+
+  Future<bool> deleteHttpActivities();
 }

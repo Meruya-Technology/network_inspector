@@ -2,7 +2,7 @@
 
 * Add delete all log action
 * Fix renderflex overflow
-* Update dependency versions
+* Update dependencies version to the newest versions
 
 ## 1.0.2 - 11 April 2022
 

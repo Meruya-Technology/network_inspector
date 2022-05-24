@@ -5,19 +5,24 @@ import '../entities/http_activity.dart';
 import '../repositories/log_repository.dart';
 
 class FetchHttpActivities
-    extends UseCase<List<HttpActivity>?, FetchHttpActivitysParam?> {
+    extends UseCase<List<HttpActivity>?, FetchHttpActivitiesParam?> {
   final LogRepository logRepository;
   FetchHttpActivities({
     required this.logRepository,
   });
 
   @override
-  Future<List<HttpActivity>?> build(FetchHttpActivitysParam? param) async {
+  Future<List<HttpActivity>?> build(FetchHttpActivitiesParam? param) async {
     var result = await logRepository.httpActivities(
       url: param?.url,
       startDate: param?.startDate,
       endDate: param?.endDate,
     );
+    return result;
+  }
+
+  Future<bool> deleteHttpActivities() async {
+    var result = await logRepository.deleteHttpActivities();
     return result;
   }
 
@@ -27,12 +32,12 @@ class FetchHttpActivities
   }
 }
 
-class FetchHttpActivitysParam {
+class FetchHttpActivitiesParam {
   int? startDate;
   int? endDate;
   String? url;
 
-  FetchHttpActivitysParam({
+  FetchHttpActivitiesParam({
     this.url,
     this.startDate,
     this.endDate,

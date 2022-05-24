@@ -15,12 +15,12 @@ dependencies:
   sqflite: ^2.0.1
   provider: ^6.0.1
   intl: ^0.17.0
-  analyzer: ^3.2.0
+  analyzer: ^4.1.0
   collection: ^1.15.0
-  share_plus: ^3.0.4
+  share_plus: ^4.0.4
 
 dev_dependencies:
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 

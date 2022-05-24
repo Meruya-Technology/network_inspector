@@ -130,4 +130,12 @@ class LogDatasourceImpl implements LogDatasource {
         : null;
     return activities;
   }
+
+  @override
+  Future<bool> deleteHttpActivities() async {
+    var id = await database.delete(
+      HttpRequestModel.tableName,
+    );
+    return (id != 0);
+  }
 }
