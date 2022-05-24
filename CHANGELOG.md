@@ -1,4 +1,7 @@
-## 1.0.3 - 17 May 2022
+## 1.0.3 - 24 May 2022
+
+* Add delete all log action
+* Fix renderflex overflow
 * Update dependencies version to the newest versions
 
 ## 1.0.2 - 11 April 2022

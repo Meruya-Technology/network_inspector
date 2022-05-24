@@ -4,7 +4,7 @@ version: 1.0.3
 homepage: https://github.com/Meruya-Techhnology/network_inspector
 
 environment:
-  sdk: ">=2.14.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
