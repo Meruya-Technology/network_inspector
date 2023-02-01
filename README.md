@@ -21,6 +21,25 @@ This package contains a set of high-level functions and classes that make it eas
 
 https://user-images.githubusercontent.com/27884014/156951569-539bf1b4-246a-446f-a01e-7abdfae2d28b.mp4
 
+# Material 3 & Dark mode support 🆕
+Now you can use your favorite material 3 theme and dark mode, starting from version `1.0.4`
+<table>
+  <tr>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/215930054-fb788a1f-6cbe-47c8-8422-87fd9280c045.png" height="250px">
+    </td>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/215930065-7fbcd2fb-e886-4650-9b6e-921f495fa637.png" height="250px">
+    </td>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/215930067-62e9bcb9-28a8-442d-b2b4-90c003a17334.png" height="250px">
+    </td>
+    <td>
+        <img src="https://user-images.githubusercontent.com/27884014/215930075-6a6ea153-3db4-471c-86ca-31724e2e78c5.png" height="250px">
+    </td>
+  </tr>
+</table>
+
 # Get Started
 add dependency
 ```yaml

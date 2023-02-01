@@ -95,14 +95,20 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget emptyBody(BuildContext context) {
-    return const Center(
-      child: Text('There is no log, try to fetch something !'),
+    return Center(
+      child: Text(
+        'There is no log, try to fetch something !',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 
   Widget errorMessage(BuildContext context, error) {
     return Center(
-      child: Text('Log has error $error'),
+      child: Text(
+        'Log has error $error',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 
@@ -113,8 +119,11 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget idleWidget(BuildContext context) {
-    return const Center(
-      child: Text('Please wait'),
+    return Center(
+      child: Text(
+        'Please wait',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 
