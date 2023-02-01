@@ -41,7 +41,12 @@ class ContentContainer extends StatelessWidget {
         ),
         Scrollbar(
           child: Material(
-            color: Colors.grey[100],
+            color: (Theme.of(context).brightness == Brightness.dark)
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.25),
             borderRadius: BorderRadius.circular(8),
             child: Container(
               width: double.infinity,

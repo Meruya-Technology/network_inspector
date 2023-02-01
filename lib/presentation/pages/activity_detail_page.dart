@@ -56,7 +56,6 @@ class ActivityDetailPage extends StatelessWidget {
             ],
           ),
           body: buildBody(context),
-          backgroundColor: Colors.white,
         );
       },
     );
@@ -84,7 +83,12 @@ class ActivityDetailPage extends StatelessWidget {
           margin: const EdgeInsets.all(16),
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: (Theme.of(context).brightness == Brightness.dark)
+                ? Theme.of(context).colorScheme.surface
+                : Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(0.25),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -104,18 +108,27 @@ class ActivityDetailPage extends StatelessWidget {
         ),
         TabBar(
           labelStyle: Theme.of(context).textTheme.button,
-          labelColor: Colors.black,
-          indicatorColor: Colors.blue,
-          unselectedLabelColor: Colors.grey,
-          tabs: const [
+          labelColor: Theme.of(context).colorScheme.onBackground,
+          indicatorColor: Theme.of(context).colorScheme.primary,
+          unselectedLabelColor: Theme.of(context).colorScheme.surface,
+          tabs: [
             Tab(
-              child: Text('Request'),
+              child: Text(
+                'Request',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
             Tab(
-              child: Text('Response'),
+              child: Text(
+                'Response',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
             Tab(
-              child: Text('Error'),
+              child: Text(
+                'Error',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
           ],
         ),
