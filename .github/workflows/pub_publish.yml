@@ -20,13 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "3.0.1"
+      FLUTTER_VERSION: "3.3.10"
     steps:
       - uses: actions/checkout@v2
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.1'
+          flutter-version: '3.3.10'
       - name: Config flutter
         run: flutter config --no-enable-web
       - name: Install dependencies
