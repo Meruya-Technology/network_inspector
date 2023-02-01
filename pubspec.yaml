@@ -14,10 +14,10 @@ dependencies:
   dio: ^4.0.4
   sqflite: ^2.0.1
   provider: ^6.0.1
-  intl: ^0.17.0
-  analyzer: ^4.1.0
-  collection: ^1.15.0
-  share_plus: ^4.0.4
+  intl: ^0.18.0
+  analyzer: ^5.2.0
+  collection: ^1.16.0
+  share_plus: ^6.3.0
 
 dev_dependencies:
   flutter_lints: ^2.0.1
