@@ -1,3 +1,9 @@
+## 1.0.4 - 1 February 2023
+
+* Material 3 support
+* Dark mode
+* Upgrade dependencies to newest
+
 ## 1.0.3 - 24 May 2022
 
 * Add delete all log action

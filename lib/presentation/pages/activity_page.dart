@@ -78,8 +78,8 @@ class ActivityPage extends StatelessWidget {
   Widget doneWidget(BuildContext context, AsyncSnapshot snapshot) {
     return Visibility(
       visible: snapshot.hasData,
-      child: successBody(context, snapshot.data),
       replacement: errorMessage(context, snapshot.error),
+      child: successBody(context, snapshot.data),
     );
   }
 
@@ -89,20 +89,26 @@ class ActivityPage extends StatelessWidget {
   ) {
     return Visibility(
       visible: data?.isNotEmpty ?? false,
-      child: activityList(context, data),
       replacement: emptyBody(context),
+      child: activityList(context, data),
     );
   }
 
   Widget emptyBody(BuildContext context) {
-    return const Center(
-      child: Text('There is no log, try to fetch something !'),
+    return Center(
+      child: Text(
+        'There is no log, try to fetch something !',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 
   Widget errorMessage(BuildContext context, error) {
     return Center(
-      child: Text('Log has error $error'),
+      child: Text(
+        'Log has error $error',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 
@@ -113,8 +119,11 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget idleWidget(BuildContext context) {
-    return const Center(
-      child: Text('Please wait'),
+    return Center(
+      child: Text(
+        'Please wait',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
     );
   }
 
