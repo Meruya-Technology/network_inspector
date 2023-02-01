@@ -28,7 +28,10 @@ class ExampleApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         title: 'Network inspector',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+            brightness: Brightness.dark,
+          ),
         ),
         navigatorKey: NavigationService.navigatorKey,
         initialRoute: MainPage.routeName,
