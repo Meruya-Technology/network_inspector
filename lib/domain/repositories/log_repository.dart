@@ -7,6 +7,7 @@ abstract class LogRepository {
   Future<List<HttpActivity>?> httpActivities({
     int? startDate,
     int? endDate,
+    List<int?>? statusCodes,
     String? url,
   });
 

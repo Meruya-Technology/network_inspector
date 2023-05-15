@@ -1,0 +1,15 @@
+{
+  "planet": [
+    {
+      "message": "success",
+      "data": [
+        {
+          "id": 1,
+          "name": "Earth",
+          "description": "some description",
+          "image": ""
+        }
+      ]
+    }
+  ]
+}

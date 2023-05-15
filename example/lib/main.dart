@@ -28,11 +28,29 @@ class ExampleApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         title: 'Network inspector',
         theme: ThemeData(
+          brightness: Brightness.light,
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.deepPurple,
-            brightness: Brightness.dark,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                Colors.deepPurple,
+              ),
+            ),
           ),
         ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                Colors.black.withOpacity(0.3),
+              ),
+            ),
+          ),
+        ),
+        themeMode: ThemeMode.dark,
         navigatorKey: NavigationService.navigatorKey,
         initialRoute: MainPage.routeName,
         routes: NavigationService.routes,
