@@ -161,7 +161,7 @@ class ActivityPage extends StatelessWidget {
               '${activity.request?.method} '
               '${activity.request?.path ?? '-'}',
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
           ),
           ContainerLabel(
@@ -197,7 +197,7 @@ class ActivityPage extends StatelessWidget {
                 child: Text(
                   activity.request?.baseUrl ?? '-',
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               )
             ],
@@ -208,7 +208,7 @@ class ActivityPage extends StatelessWidget {
             children: [
               Text(
                 activity.request?.createdAt?.convertToYmdHms ?? '-',
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
                 _byteUtil.totalTransferSize(
@@ -216,14 +216,14 @@ class ActivityPage extends StatelessWidget {
                   activity.response?.responseSize,
                   false,
                 ),
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
                 _dateTimeUtil.milliSecondDifference(
                   activity.request?.createdAt,
                   activity.response?.createdAt,
                 ),
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),

@@ -107,7 +107,7 @@ class ActivityDetailPage extends StatelessWidget {
           ),
         ),
         TabBar(
-          labelStyle: Theme.of(context).textTheme.button,
+          labelStyle: Theme.of(context).textTheme.labelLarge,
           labelColor: Theme.of(context).colorScheme.onBackground,
           indicatorColor: Theme.of(context).colorScheme.primary,
           unselectedLabelColor: Theme.of(context).colorScheme.surface,

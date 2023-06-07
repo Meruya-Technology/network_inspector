@@ -1,3 +1,9 @@
+## 1.1.0 - 7 June 2023
+
+* Upgrade Dependency with latest version
+* Solved breaking changes of dependency
+* Fix warning linter
+
 ## 1.0.4 - 1 February 2023
 
 * Material 3 support

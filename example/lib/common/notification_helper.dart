@@ -11,12 +11,12 @@ class NotificationHelper {
     return const AndroidInitializationSettings('meruya_logo');
   }
 
-  static IOSInitializationSettings? get iosInitSetting {
-    return const IOSInitializationSettings();
+  static DarwinInitializationSettings? get iosInitSetting {
+    return const DarwinInitializationSettings();
   }
 
-  static MacOSInitializationSettings? get macOsInitSetting {
-    return const MacOSInitializationSettings();
+  static DarwinInitializationSettings? get macOsInitSetting {
+    return const DarwinInitializationSettings();
   }
 
   static InitializationSettings get initializationSettings {
@@ -28,17 +28,18 @@ class NotificationHelper {
   }
 
   static Future<void> initialize({
-    Function(String?)? callback,
+    Function(NotificationResponse?)? callback,
   }) async {
     await localNotification.initialize(
       initializationSettings,
-      onSelectNotification: callback ?? selectNotification,
+      onDidReceiveNotificationResponse: callback ?? selectNotification,
     );
   }
 
-  static Future<void> selectNotification(String? payload) async {
+  static Future<void> selectNotification(NotificationResponse? response) async {
+    final payload = response?.payload;
     if (payload != null) {
-      debugPrint('notification payload: $payload');
+      debugPrint('notification payload: $response');
     }
     var context = NavigationService.navigatorKey.currentContext;
     if (context != null) {

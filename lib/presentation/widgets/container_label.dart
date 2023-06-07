@@ -24,7 +24,8 @@ class ContainerLabel extends StatelessWidget {
       ),
       child: Text(
         text ?? 'N/A',
-        style: Theme.of(context).textTheme.caption?.copyWith(color: textColor),
+        style:
+            Theme.of(context).textTheme.bodySmall?.copyWith(color: textColor),
       ),
     );
   }
