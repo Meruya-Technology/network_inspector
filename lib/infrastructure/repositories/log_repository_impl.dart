@@ -18,11 +18,13 @@ class LogRepositoryImpl implements LogRepository {
   Future<List<HttpActivity>?> httpActivities({
     int? startDate,
     int? endDate,
+    List<int?>? statusCodes,
     String? url,
   }) async {
     var models = await logDatasource.httpActivities(
       url: url,
       startDate: startDate,
+      statusCodes: statusCodes,
       endDate: endDate,
     );
     var entities = (models != null)

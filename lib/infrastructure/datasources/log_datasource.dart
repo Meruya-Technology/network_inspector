@@ -6,6 +6,7 @@ abstract class LogDatasource {
   Future<List<HttpActivityModel>?> httpActivities({
     int? startDate,
     int? endDate,
+    List<int?>? statusCodes,
     String? url,
   });
 

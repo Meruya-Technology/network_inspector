@@ -3,6 +3,7 @@
 * Upgrade Dependency with latest version
 * Solved breaking changes of dependency
 * Fix warning linter
+* Implement Http Activity filter by status code
 
 ## 1.0.4 - 1 February 2023
 
