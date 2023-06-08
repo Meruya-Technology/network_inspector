@@ -1,3 +1,7 @@
+## 1.1.0 - 15 May 2023
+
+* Implement Http Activity filter by status code
+
 ## 1.0.4 - 1 February 2023
 
 * Material 3 support

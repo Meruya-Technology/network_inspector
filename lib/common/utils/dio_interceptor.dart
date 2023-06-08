@@ -57,10 +57,16 @@ class DioInterceptor extends Interceptor {
   void onError(
     DioError err,
     ErrorInterceptorHandler handler,
-  ) {
+  ) async {
     var logError = '\n[Error Message]: ${err.message}';
     if (logIsAllowed) {
       developer.log(logError);
+      await saveResponse(err.response!);
+      await finishActivity(
+        err.response!,
+        err.response!.requestOptions.uri.toString(),
+        err.response!.data.toString(),
+      );
     }
 
     var errorResponse = '\n[Error Response]'

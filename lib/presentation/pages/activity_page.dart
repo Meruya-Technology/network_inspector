@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../common/base/data_wrapper.dart';
 import '../../common/extensions/unix_extension.dart';
 import '../../common/extensions/url_extension.dart';
 import '../../common/utils/byte_util.dart';
 import '../../common/utils/date_time_util.dart';
+import '../../common/widgets/bottom_sheet.dart';
 import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_provider.dart';
 import '../widgets/container_label.dart';
+import '../widgets/filter_bottom_sheet_content.dart';
 
 /// A page that show list of logged HTTP Activities, for navigating to this
 /// page use regular Navigator.push
@@ -40,7 +43,15 @@ class ActivityPage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                var provider = context.read<ActivityProvider>();
+                onTapFilterIcon(context);
+              },
+              icon: const Icon(
+                Icons.filter_list_alt,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                final provider = context.read<ActivityProvider>();
                 provider.deleteActivities();
               },
               icon: const Icon(
@@ -58,28 +69,23 @@ class ActivityPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       child: Consumer<ActivityProvider>(
-        builder: (context, provider, child) =>
-            FutureBuilder<List<HttpActivity>?>(
-          future: provider.fetchedActivity,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return doneWidget(context, snapshot);
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
+        builder: (context, provider, child) {
+          final result = provider.fetchedActivity;
+          switch (provider.fetchedActivity.status) {
+            case Status.loading:
               return loadingWidget(context);
-            } else {
-              return idleWidget(context);
-            }
-          },
-        ),
+            case Status.success:
+              return successBody(
+                context,
+                result.data,
+              );
+            case Status.error:
+              return errorMessage(context, result.message);
+            default:
+              return const SizedBox.shrink();
+          }
+        },
       ),
-    );
-  }
-
-  Widget doneWidget(BuildContext context, AsyncSnapshot snapshot) {
-    return Visibility(
-      visible: snapshot.hasData,
-      replacement: errorMessage(context, snapshot.error),
-      child: successBody(context, snapshot.data),
     );
   }
 
@@ -229,6 +235,30 @@ class ActivityPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void onTapFilterIcon(BuildContext context) {
+    final provider = context.read<ActivityProvider>();
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return BottomSheetTemplate(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: FilterBottomSheetContent(
+              responseStatusCodes: provider.statusCodes,
+              onTapApplyFilter: (list) {
+                Navigator.pop(context);
+                provider.filterHttpActivities(list);
+              },
+              provider: provider.filterProvider!,
+            ),
+          ),
+        );
+      },
     );
   }
 }
