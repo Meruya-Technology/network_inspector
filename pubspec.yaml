@@ -10,14 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.5
+  http: ^1.0.0
   dio: ^5.1.0
   sqflite: ^2.2.6
   provider: ^6.0.5
-  intl: ^0.17.0
+  intl: ^0.18.1
   analyzer: ^5.10.0
   collection: ^1.17.1
-  share_plus: ^6.3.1
+  share_plus: ^7.0.2
 
 dev_dependencies:
   flutter_lints: ^2.0.1

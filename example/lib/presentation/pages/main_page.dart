@@ -23,11 +23,11 @@ class MainPage extends StatelessWidget {
               children: [
                 Text(
                   'Json',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Text(
                   'Create Http Activity with Json payload',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
             title: const Text('Dio'),
             subtitle: Text(
               'Create http activity with Dio package',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {
               Navigator.pushNamed(context, DioPage.routeName);
@@ -47,7 +47,7 @@ class MainPage extends StatelessWidget {
             title: const Text('Http'),
             subtitle: Text(
               'Create http activity with http package',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {
               Navigator.pushNamed(context, HttpPage.routeName);
@@ -57,7 +57,7 @@ class MainPage extends StatelessWidget {
             title: const Text('Http vanilla'),
             subtitle: Text(
               'Create http activity with vanilla http client (io/http)',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {
               Navigator.pushNamed(context, VanillaPage.routeName);

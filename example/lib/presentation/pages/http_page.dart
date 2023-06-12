@@ -23,11 +23,11 @@ class HttpPage extends ChangeNotifierPage<HttpProvider> {
               children: [
                 Text(
                   'Planet',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
                 Text(
                   'Create http activity using planet data',
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
@@ -37,7 +37,7 @@ class HttpPage extends ChangeNotifierPage<HttpProvider> {
             title: const Text('Get'),
             subtitle: Text(
               'Create http activity with method GET',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {
               provider(context).fetchPlanet!.execute();
@@ -47,7 +47,7 @@ class HttpPage extends ChangeNotifierPage<HttpProvider> {
             title: const Text('Post'),
             subtitle: Text(
               'Create http activity with method POST',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {
               provider(context).createPlanet!.execute(
@@ -60,7 +60,7 @@ class HttpPage extends ChangeNotifierPage<HttpProvider> {
             title: const Text('Put'),
             subtitle: Text(
               'Create http activity with method PUT',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {},
           ),
@@ -68,7 +68,7 @@ class HttpPage extends ChangeNotifierPage<HttpProvider> {
             title: const Text('Delete'),
             subtitle: Text(
               'Create http activity with method DELETE',
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             onTap: () {},
           ),

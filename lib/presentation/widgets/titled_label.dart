@@ -18,13 +18,13 @@ class TitledLabel extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.caption,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         const SizedBox(height: 4),
         content ??
             Text(
               text ?? 'N/A',
-              style: Theme.of(context).textTheme.bodyText2,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
       ],
     );

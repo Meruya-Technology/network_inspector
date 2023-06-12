@@ -55,7 +55,7 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onError(
-    DioError err,
+    DioException err,
     ErrorInterceptorHandler handler,
   ) async {
     var logError = '\n[Error Message]: ${err.message}';
