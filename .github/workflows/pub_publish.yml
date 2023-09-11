@@ -1,52 +1,30 @@
-# This is a basic workflow to help you get started with Actions
-name: Pub publish
+# .github/workflows/publish.yml
+name: Publish to pub.dev
 
-# Controls when the workflow will run
 on:
   push:
-    # Pattern matched against refs/tags
-    tags:        
-      - '**'
+    tags:
+    - 'v[0-9]+.[0-9]+.[0-9]+*' # tag pattern on pub.dev: 'v'
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-  # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# Publish using custom workflow
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    name: Build and publish package
-    # The type of runner that the job will run on
+  publish:
+    permissions:
+      id-token: write # Required for authentication using OIDC
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      # Specify the github actions deployment environment
+      environment: pub.dev
+      # working-directory: path/to/package/within/repository
     runs-on: ubuntu-latest
-    env:
-      JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "stable" # Set this to 'stable' to use the latest Flutter version
-      DART_SDK: "2.18.4" # Set this to the desired Dart SDK version
     steps:
       - uses: actions/checkout@v3
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - name: Config flutter
-        run: flutter config --no-enable-web
+      - uses: dart-lang/setup-dart@v1
       - name: Install dependencies
-        run: flutter pub get
+        run: dart pub get
       - name: Analyze
         run: flutter analyze
       - name: Run tests
         run: flutter test
-      - name: Setup Pub Credentials
-        shell: bash
-        env:
-          PUB_DEV_PUBLISH_ACCESS_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_ACCESS_TOKEN }}
-          PUB_DEV_PUBLISH_REFRESH_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_REFRESH_TOKEN }}
-          PUB_DEV_PUBLISH_ID_TOKEN: ${{ secrets.PUB_DEV_PUBLISH_ID_TOKEN }}
-          PUB_DEV_PUBLISH_TOKEN_ENDPOINT: ${{ secrets.PUB_DEV_PUBLISH_TOKEN_ENDPOINT }}
-          PUB_DEV_PUBLISH_EXPIRATION: ${{ secrets.PUB_DEV_PUBLISH_EXPIRATION }}
-        run: |
-          sh ./pub_login.sh
-      - name: Check Publish Warnings
-        run: flutter pub publish --dry-run
-      - name: Publish Package
-        run: flutter pub publish -f
+      - name: Publish
+        run: dart pub publish --force
