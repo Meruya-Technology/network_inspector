@@ -1,6 +1,7 @@
 import '../../domain/entities/http_request.dart';
 import '../models/http_request_model.dart';
 
+/// @nodoc
 class HttpRequestMapper {
   static HttpRequest toEntity(HttpRequestModel model) {
     return HttpRequest(

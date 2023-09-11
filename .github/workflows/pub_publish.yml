@@ -20,13 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAVA_VERSION: "11.0"
-      FLUTTER_VERSION: "3.3.10"
+      FLUTTER_VERSION: "stable" # Set this to 'stable' to use the latest Flutter version
+      DART_SDK: "2.18.4" # Set this to the desired Dart SDK version
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.3.10'
+          channel: 'stable'
       - name: Config flutter
         run: flutter config --no-enable-web
       - name: Install dependencies

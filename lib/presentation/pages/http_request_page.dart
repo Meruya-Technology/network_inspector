@@ -7,6 +7,8 @@ import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_detail_provider.dart';
 import '../widgets/content_container.dart';
 
+/// [HttpRequestPage] is a tab for Request Http Activity, this page is used from
+/// [ActivityDetailProvider] to display the request information
 class HttpRequestPage extends StatelessWidget {
   final HttpActivity httpActivity;
   const HttpRequestPage({

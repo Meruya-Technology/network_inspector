@@ -63,7 +63,7 @@ class FilterBottomSheetContent extends StatelessWidget {
                                 ),
                                 Text(
                                   '(${responseStatusCodes[key]})',
-                                  style: Theme.of(context).textTheme.caption,
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 )
                               ],
                             ),
@@ -91,7 +91,7 @@ class FilterBottomSheetContent extends StatelessWidget {
           child: ElevatedButton(
             child: Text(
               'Apply Filter',
-              style: Theme.of(context).textTheme.button?.copyWith(
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

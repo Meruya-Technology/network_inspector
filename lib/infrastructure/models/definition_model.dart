@@ -1,3 +1,4 @@
+/// @nodoc
 class DefinitionModel {
   final String? fields;
   final String? type;

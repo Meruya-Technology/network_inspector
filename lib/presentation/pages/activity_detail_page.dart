@@ -9,6 +9,8 @@ import 'http_error_page.dart';
 import 'http_request_page.dart';
 import 'http_response_page.dart';
 
+/// ActivityDetailPage contain detailed HTTP activity information, which contain
+/// Request, Response, And Error tabs.
 class ActivityDetailPage extends StatelessWidget {
   static const String routeName = '/http-activity-detail';
 

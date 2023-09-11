@@ -4,6 +4,7 @@ import '../../common/utils/use_case.dart';
 import '../entities/http_activity.dart';
 import '../repositories/log_repository.dart';
 
+/// @nodoc
 class FetchHttpActivities
     extends UseCase<List<HttpActivity>?, FetchHttpActivitiesParam?> {
   final LogRepository logRepository;

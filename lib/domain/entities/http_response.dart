@@ -1,3 +1,4 @@
+/// @nodoc
 class HttpResponse {
   final int? id;
   final int? createdAt;

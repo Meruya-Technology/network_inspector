@@ -1,5 +1,6 @@
 import 'definition_model.dart';
 
+/// @nodoc
 class MapToTable {
   final String tableName;
   final List<DefinitionModel>? definition;

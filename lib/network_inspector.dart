@@ -18,11 +18,14 @@ export 'presentation/pages/activity_page.dart';
 /// This class is called in multiple place, first it's needed to called on the
 /// initial phase of the application in order to initialized the local database
 /// for http activities log
+///
 /// ```dart
 /// NetworkInspector.initialize();
 /// ```
+///
 /// Then it's needed for invoked to network interceptors constructor
 /// Dio example
+///
 /// ```dart
 /// Dio(
 ///   BaseOptions(

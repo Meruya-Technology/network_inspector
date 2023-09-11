@@ -3,6 +3,7 @@ import '../../common/utils/use_case.dart';
 import '../entities/http_request.dart';
 import '../repositories/log_repository.dart';
 
+/// @nodoc
 class FetchHttpRequests extends UseCase<List<HttpRequest>?, int?> {
   final LogRepository logRepository;
   FetchHttpRequests({
