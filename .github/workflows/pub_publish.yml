@@ -9,13 +9,9 @@ on:
 # Publish using custom workflow
 jobs:
   publish:
+    environment: pub.dev
     permissions:
       id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      # Specify the github actions deployment environment
-      environment: pub.dev
-      # working-directory: path/to/package/within/repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,5 +22,7 @@ jobs:
         run: flutter analyze
       - name: Run tests
         run: flutter test
+      - name: Publish - dry run
+        run: dart pub publish --dry-run
       - name: Publish
-        run: dart pub publish --force
+        run: dart pub publish -f
