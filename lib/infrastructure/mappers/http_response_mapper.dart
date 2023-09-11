@@ -1,6 +1,7 @@
 import '../../domain/entities/http_response.dart';
 import '../models/http_response_model.dart';
 
+/// @nodoc
 class HttpResponseMapper {
   static HttpResponse toEntity(HttpResponseModel model) {
     return HttpResponse(

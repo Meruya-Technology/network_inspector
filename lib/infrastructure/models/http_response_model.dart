@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
+/// @nodoc
 class HttpResponseModel {
   final int? id;
   final int? createdAt;

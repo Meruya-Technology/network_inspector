@@ -1,3 +1,4 @@
+/// @nodoc
 class HttpRequest {
   final int? id;
   final int? createdAt;

@@ -1,9 +1,10 @@
-## 1.1.0 - 7 June 2023
+## 1.1.0 - 11 June 2023
 
 * Upgrade Dependency with latest version
 * Solved breaking changes of dependency
 * Fix warning linter
 * Implement Http Activity filter by status code
+* Update documentation Ready for official release
 
 ## 1.0.4 - 1 February 2023
 

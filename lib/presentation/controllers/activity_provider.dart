@@ -13,6 +13,7 @@ import '../../infrastructure/repositories/log_repository_impl.dart';
 import '../pages/activity_detail_page.dart';
 import 'activity_filter_provider.dart';
 
+/// @nodoc
 class ActivityProvider extends ChangeNotifier {
   final BuildContext context;
 

@@ -9,6 +9,7 @@ import '../../const/network_inspector_enum.dart';
 import '../../const/network_inspector_value.dart';
 import '../../domain/entities/http_activity.dart';
 
+/// @nodoc
 class ActivityDetailProvider extends ChangeNotifier {
   final BuildContext context;
   final HttpActivity httpActivity;

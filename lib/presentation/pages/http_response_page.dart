@@ -7,6 +7,8 @@ import '../../domain/entities/http_activity.dart';
 import '../controllers/activity_detail_provider.dart';
 import '../widgets/content_container.dart';
 
+/// [HttpResponsePage] is a tab for Http Response Activity, this page is used
+/// from [ActivityDetailProvider] to display the error information
 class HttpResponsePage extends StatelessWidget {
   final HttpActivity httpActivity;
   const HttpResponsePage({

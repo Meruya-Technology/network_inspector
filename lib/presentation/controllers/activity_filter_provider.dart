@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// @nodoc
 class ActivityFilterProvider extends ChangeNotifier {
   List<int?> selectedStatusCodes = [];
 

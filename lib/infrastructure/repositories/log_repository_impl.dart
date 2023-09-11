@@ -7,6 +7,7 @@ import '../mappers/http_activity_mapper.dart';
 import '../mappers/http_request_mapper.dart';
 import '../mappers/http_response_mapper.dart';
 
+/// @nodoc
 class LogRepositoryImpl implements LogRepository {
   final LogDatasource logDatasource;
 

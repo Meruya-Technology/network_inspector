@@ -6,6 +6,7 @@ import '../models/http_request_model.dart';
 import '../models/http_response_model.dart';
 import 'log_datasource.dart';
 
+/// @nodoc
 class LogDatasourceImpl implements LogDatasource {
   final Database database;
 

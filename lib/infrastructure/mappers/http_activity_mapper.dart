@@ -3,6 +3,7 @@ import '../models/http_activity_model.dart';
 import 'http_request_mapper.dart';
 import 'http_response_mapper.dart';
 
+/// @nodoc
 class HttpActivityMapper {
   static HttpActivity toEntity(HttpActivityModel model) {
     return HttpActivity(
