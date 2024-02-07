@@ -20,6 +20,6 @@ class LogHttpResponse extends UseCase<bool, HttpResponse> {
 
   @override
   Future<void> handleError(error) async {
-    debugPrint(error);
+    debugPrint('$error');
   }
 }
