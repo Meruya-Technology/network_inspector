@@ -1,3 +1,6 @@
+## 1.1.1 - 16 February 2024
+* Fix HTTP request log being error and throwing into body
+
 ## 1.1.0 - 11 June 2023
 
 * Upgrade Dependency with latest version
