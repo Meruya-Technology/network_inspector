@@ -207,10 +207,10 @@ class HttpInterceptor extends BaseClient {
   Future<void> saveResponse(Response response, int requestHashCode) async {
     var payload = HttpResponse(
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: _jsonUtil.encodeRawJson(response.headers),
-      responseBody: _jsonUtil.encodeRawJson(response.body),
+      responseHeader: _jsonUtil.encodeRawJson(response.headers).toString(),
+      responseBody: _jsonUtil.encodeRawJson(response.body).toString(),
       responseStatusCode: response.statusCode,
-      responseStatusMessage: response.reasonPhrase,
+      responseStatusMessage: response.reasonPhrase.toString(),
       responseSize: _byteUtil.stringToBytes(response.body.toString()),
       requestHashCode: requestHashCode,
     );

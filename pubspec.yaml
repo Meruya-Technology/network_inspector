@@ -1,6 +1,6 @@
 name: network_inspector
 description: Http inspector / logger for Dio and Http package. This package would allow you to log every Http request, response, and error from Dio & Http.
-version: 1.1.0
+version: 1.1.1
 homepage: https://github.com/Meruya-Techhnology/network_inspector
 
 environment:
@@ -14,13 +14,13 @@ dependencies:
   dio: ^5.1.0
   sqflite: ^2.2.6
   provider: ^6.0.5
-  intl: ^0.18.1
-  analyzer: ^5.13.0
+  intl: ^0.19.0
+  analyzer: ^6.2.0
   collection: ^1.17.2
   share_plus: ^7.0.2
 
 dev_dependencies:
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 
