@@ -60,14 +60,15 @@ void main() {
 # Dio Users
 1. Add interceptor class `DioInterceptor` for dio client.
 2. Create another Network Inspector class to used on the `DioInterceptor` constructor.
-3. use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
+3. Use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
 ```dart
 /// Client Declaration
 Dio get dioClient{
   final networkInspector = NewtworkInspector();
   final client = Dio()..interceptors.add(
     DioInterceptor(
-      logIsAllowed: true,
+      logIsAllowed: true, //Enable/Disable overall logging 
+      isConsoleLogAllowed: true, //Enable/Disable only console logging
       networkInspector: networkInspector,
       onHttpFinish: (hashCode, title, message) {
         notifyActivity(
@@ -89,14 +90,15 @@ await dioClient.post('/test', data: {'id': 1, 'name': 'jhon folks'});
 # Http Users
 1. Add interceptor class `HttpInterceptor` for dio client.
 2. Initialize `Client` to client class, then use `client` on the `HttpInterceptor` constructor
-2. Create another Network Inspector class to used on the `DioInterceptor` constructor.
-3. use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
+3. Create another Network Inspector class to used on the `DioInterceptor` constructor.
+4. Use `onHttpFinish` as a callback when http activities is finish (Can be success/error)
 ```dart
 HttpInterceptor get httpClient {
   final networkInspector = NewtworkInspector();
   final client = Client();
   final interceptor = HttpInterceptor(
-    logIsAllowed: true,
+    logIsAllowed: true, //Enable/Disable overall logging 
+    isConsoleLogAllowed: true, //Enable/Disable only console logging
     client: client,
     baseUrl: Uri.parse('http://192.168.1.3:8000/'),
     networkInspector: networkInspector,
