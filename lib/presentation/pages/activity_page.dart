@@ -39,7 +39,7 @@ class ActivityPage extends StatelessWidget {
       ),
       builder: (context, child) => Scaffold(
         appBar: AppBar(
-          title: const Text('Http Activities'),
+          title: const Text('API Logs'),
           actions: [
             IconButton(
               onPressed: () {
@@ -66,7 +66,7 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.all(8),
       child: Consumer<ActivityProvider>(
         builder: (context, provider, child) {

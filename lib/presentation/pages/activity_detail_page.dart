@@ -31,7 +31,7 @@ class ActivityDetailPage extends StatelessWidget {
         final provider = context.read<ActivityDetailProvider>();
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Detail Http Activity'),
+            title: const Text('API Log Details'),
             actions: [
               IconButton(
                 onPressed: () {

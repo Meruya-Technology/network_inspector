@@ -48,12 +48,12 @@ class ContentContainer extends StatelessWidget {
                     .primaryContainer
                     .withOpacity(0.25),
             borderRadius: BorderRadius.circular(8),
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
                 scrollDirection: Axis.horizontal,
-                child: Text(
+                child: SelectableText(
                   processedContent,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),

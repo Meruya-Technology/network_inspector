@@ -39,7 +39,7 @@ class DioInterceptor extends Interceptor {
     if (logIsAllowed) {
       await saveRequest(options);
     }
-    handler.next(options);
+    return super.onRequest(options, handler);
   }
 
   @override
@@ -55,7 +55,7 @@ class DioInterceptor extends Interceptor {
         response.data.toString(),
       );
     }
-    handler.next(response);
+    return super.onResponse(response, handler);
   }
 
   @override
@@ -85,7 +85,7 @@ class DioInterceptor extends Interceptor {
     if (logIsAllowed && isConsoleLogAllowed) {
       developer.log(errorResponse);
     }
-    handler.next(err);
+    return super.onError(err, handler);
   }
 
   Future<void> logRequest(RequestOptions request) async {
