@@ -13,8 +13,8 @@ class HttpRequestPage extends StatelessWidget {
   final HttpActivity httpActivity;
   const HttpRequestPage({
     required this.httpActivity,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

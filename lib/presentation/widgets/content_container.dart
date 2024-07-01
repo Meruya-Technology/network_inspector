@@ -15,8 +15,8 @@ class ContentContainer extends StatelessWidget {
     this.onShareTap,
     this.onCopyTap,
     this.isJson = true,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// This constant is used for replacing string when content is missing / null
   static const String defaultEmptyContent = 'N/A';

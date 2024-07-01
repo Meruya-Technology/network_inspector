@@ -17,8 +17,8 @@ class ActivityDetailPage extends StatelessWidget {
   final HttpActivity httpActivity;
   const ActivityDetailPage({
     required this.httpActivity,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,7 @@ class ActivityDetailPage extends StatelessWidget {
         ),
         TabBar(
           labelStyle: Theme.of(context).textTheme.labelLarge,
-          labelColor: Theme.of(context).colorScheme.onBackground,
+          labelColor: Theme.of(context).colorScheme.onSurface,
           indicatorColor: Theme.of(context).colorScheme.primary,
           unselectedLabelColor: Theme.of(context).colorScheme.surface,
           tabs: [

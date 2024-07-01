@@ -8,8 +8,8 @@ class ContainerLabel extends StatelessWidget {
     this.text,
     this.color = Colors.grey,
     this.textColor = Colors.white,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

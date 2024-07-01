@@ -33,8 +33,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
-  share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
 
 PODFILE CHECKSUM: c4c93c5f6502fe2754f48404d3594bf779584011
