@@ -26,7 +26,7 @@ import '../widgets/filter_bottom_sheet_content.dart';
 class ActivityPage extends StatelessWidget {
   static const String routeName = '/http-activity';
 
-  ActivityPage({Key? key}) : super(key: key);
+  ActivityPage({super.key});
 
   final _byteUtil = ByteUtil();
   final _dateTimeUtil = DateTimeUtil();

@@ -34,7 +34,7 @@ class ExampleApp extends StatelessWidget {
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(
                 Colors.deepPurple,
               ),
             ),
@@ -44,7 +44,7 @@ class ExampleApp extends StatelessWidget {
           brightness: Brightness.dark,
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(
                 Colors.black.withOpacity(0.3),
               ),
             ),

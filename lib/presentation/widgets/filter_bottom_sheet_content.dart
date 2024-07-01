@@ -11,11 +11,11 @@ class FilterBottomSheetContent extends StatelessWidget {
   final ActivityFilterProvider provider;
 
   const FilterBottomSheetContent({
-    Key? key,
+    super.key,
     required this.responseStatusCodes,
     required this.onTapApplyFilter,
     required this.provider,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

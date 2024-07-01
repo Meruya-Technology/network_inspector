@@ -12,8 +12,8 @@ class HttpErrorPage extends StatelessWidget {
   final HttpActivity httpActivity;
   const HttpErrorPage({
     required this.httpActivity,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

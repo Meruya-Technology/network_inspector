@@ -8,8 +8,8 @@ class TitledLabel extends StatelessWidget {
     required this.title,
     this.text,
     this.content,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

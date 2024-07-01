@@ -10,8 +10,8 @@ class SectionTitle extends StatelessWidget {
     this.isVisible = true,
     this.onShareTap,
     this.onCopyTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
