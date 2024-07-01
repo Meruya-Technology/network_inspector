@@ -20,6 +20,6 @@ class LogHttpRequest extends UseCase<bool, HttpRequest> {
 
   @override
   Future<void> handleError(error) async {
-    debugPrint(error);
+    debugPrint(error.toString());
   }
 }
