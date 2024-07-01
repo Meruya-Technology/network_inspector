@@ -1,5 +1,5 @@
-## 1.1.1 - 04 Mar 2024
-
+## 1.1.1 - 1 July 2024
+* Fix HTTP request log being error and throwing into body
 * Added a flag to enable/disable console logging
 
 ## 1.1.0 - 11 June 2023
