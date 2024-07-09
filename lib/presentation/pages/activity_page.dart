@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/base/data_wrapper.dart';
 import '../../common/extensions/unix_extension.dart';
 import '../../common/extensions/url_extension.dart';
-import '../../common/formatters/ip_input_formatter.dart';
 import '../../common/utils/byte_util.dart';
 import '../../common/utils/date_time_util.dart';
 import '../../common/widgets/bottom_sheet.dart';
@@ -41,30 +39,42 @@ class ActivityPage extends StatelessWidget {
       create: (context) => ActivityProvider(
         context: context,
       ),
-      builder: (context, child) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Http Activities'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                onTapFilterIcon(context);
-              },
-              icon: const Icon(
-                Icons.filter_list_alt,
+      builder: (context, child) => Consumer<ActivityProvider>(
+        builder: (context, provider, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Http Activities'),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    onTapFilterIcon(context);
+                  },
+                  icon: const Icon(
+                    Icons.filter_list_alt,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    final provider = context.read<ActivityProvider>();
+                    provider.deleteActivities();
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                  ),
+                ),
+              ],
+            ),
+            body: buildBody(context),
+            key: provider.scaffoldState,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+              onPressed: provider.showConnectBottomSheet,
+              child: const Icon(
+                Icons.lan,
               ),
             ),
-            IconButton(
-              onPressed: () {
-                final provider = context.read<ActivityProvider>();
-                provider.deleteActivities();
-              },
-              icon: const Icon(
-                Icons.delete,
-              ),
-            ),
-          ],
-        ),
-        body: buildBody(context),
+          );
+        },
       ),
     );
   }
@@ -95,181 +105,6 @@ class ActivityPage extends StatelessWidget {
                 },
               ),
             ),
-          ),
-          Consumer<ActivityProvider>(
-            builder: (context, provider, child) {
-              return Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),
-                  border: Border(
-                    top: BorderSide(
-                      width: 2,
-                      color: Theme.of(context).dividerColor,
-                    ),
-                  ),
-                ),
-                child: Form(
-                  key: provider.formKey,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 12,
-                        ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.new_releases),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              'New Feature !',
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Divider(),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      const Text(
-                        'Inspect network straight from your PC with '
-                        'Beyond Socket and Beyond Console',
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: TextFormField(
-                              controller: provider.ipInputController,
-                              textInputAction: TextInputAction.next,
-                              validator: (value) {
-                                if (value?.isEmpty ?? false) {
-                                  return 'required';
-                                }
-                                return null;
-                              },
-                              inputFormatters: [
-                                IpInputFormatter(),
-                              ],
-                              decoration: InputDecoration(
-                                filled: true,
-                                hintText: 'Web socket server IP',
-                                suffixIcon:
-                                    ValueListenableBuilder<TextEditingValue>(
-                                  valueListenable: provider.ipInputController,
-                                  builder: (context, value, child) =>
-                                      Visibility(
-                                    visible: (value.text.isNotEmpty),
-                                    child: IconButton(
-                                      onPressed: provider.onIpInputClear,
-                                      icon: const Icon(
-                                        Icons.clear,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: TextFormField(
-                              controller: provider.portInputController,
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.next,
-                              validator: (value) {
-                                if (value?.isEmpty ?? false) {
-                                  return 'required';
-                                }
-                                return null;
-                              },
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(4),
-                              ],
-                              decoration: const InputDecoration(
-                                filled: true,
-                                hintText: 'Port',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      TextFormField(
-                        controller: provider.serverIdInputController,
-                        textInputAction: TextInputAction.go,
-                        validator: (value) {
-                          if (value?.isEmpty ?? false) {
-                            return 'required';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          filled: true,
-                          hintText: 'Server ID',
-                          suffixIcon: ValueListenableBuilder<TextEditingValue>(
-                            valueListenable: provider.serverIdInputController,
-                            builder: (context, value, child) => Visibility(
-                              visible: (value.text.isNotEmpty),
-                              child: IconButton(
-                                onPressed: provider.onIpInputClear,
-                                icon: const Icon(
-                                  Icons.clear,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          /// TODO: UNRELEASED FEATURE
-                          // FilledButton.tonalIcon(
-                          //   onPressed: () {},
-                          //   label: const Text(
-                          //     'Scan QR',
-                          //   ),
-                          //   icon: const Icon(
-                          //     Icons.qr_code_scanner_outlined,
-                          //   ),
-                          // ),
-                          // const SizedBox(
-                          //   width: 12,
-                          // ),
-                          FilledButton(
-                            onPressed: () {
-                              provider.disconnect();
-                            },
-                            child: const Text(
-                              'Connect',
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
           ),
         ],
       ),

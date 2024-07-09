@@ -20,6 +20,7 @@ import '../../infrastructure/datasources/log_datasource.dart';
 import '../../infrastructure/datasources/log_datasource_impl.dart';
 import '../../infrastructure/repositories/log_repository_impl.dart';
 import '../pages/activity_detail_page.dart';
+import '../widgets/connect_bottom_sheet.dart';
 import 'activity_filter_provider.dart';
 
 /// @nodoc
@@ -34,14 +35,33 @@ class ActivityProvider extends ChangeNotifier {
     });
   }
 
+  final scaffoldState = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   final ipInputController = TextEditingController();
   final portInputController = TextEditingController(
     text: '8080',
   );
   final serverIdInputController = TextEditingController();
+  final deviceInfoPlugin = DeviceInfoPlugin();
   final _connectionController = StreamController<dynamic>.broadcast();
   final _getIt = GetIt.instance;
+
+  Future<String> get brand async =>
+      Platform.isAndroid ? (await deviceInfoPlugin.androidInfo).brand : 'Apple';
+
+  Future<String?> get osVersion async =>
+      Platform.isAndroid ? await androidVersion : await iosVersion;
+
+  Future<String> get androidVersion async {
+    final androidInfo = await deviceInfoPlugin.androidInfo;
+    return '${androidInfo.version.release} ${androidInfo.version.codename}';
+  }
+
+  Future<String> get iosVersion async {
+    final iosInfo = await deviceInfoPlugin.iosInfo;
+    return '${iosInfo.systemName} ${iosInfo.systemVersion}';
+  }
+
   Future<String?> get deviceIp async => await NetworkInfo().getWifiIP();
   WebSocket? socket;
   Database? _database;
@@ -74,6 +94,20 @@ class ActivityProvider extends ChangeNotifier {
 
   Future<void> initState() async {
     fetchActivities();
+  }
+
+  void showConnectBottomSheet() {
+    scaffoldState.currentState?.showBottomSheet(
+      (context) {
+        return ConnectBottomSheet(
+          formKey: formKey,
+          ipInputController: ipInputController,
+          portInputController: portInputController,
+          serverIdInputController: serverIdInputController,
+          onConnectTap: connectWebSocket,
+        );
+      },
+    );
   }
 
   void filterHttpActivities(List<int?> filterList) {
@@ -134,9 +168,11 @@ class ActivityProvider extends ChangeNotifier {
 
   Future<void> connectWebSocket() async {
     if (formKey.currentState?.validate() ?? false) {
+      final ip = ipInputController.text;
+      final port = portInputController.text;
       socket = WebSocket(
         Uri.parse(
-          'ws://192.168.18.2:8080',
+          'ws://$ip:$port',
         ),
       );
 
@@ -171,27 +207,18 @@ class ActivityProvider extends ChangeNotifier {
     _connectionController.add(status);
     if (status is Connected) {
       final clientId = await deviceIp;
-      final deviceInfoPlugin = DeviceInfoPlugin();
-      final brand = Platform.isAndroid
-          ? (await deviceInfoPlugin.androidInfo).brand
-          : 'Apple';
-
-      final osVersion = Platform.isAndroid
-          ? (await deviceInfoPlugin.androidInfo).version.release
-          : (await deviceInfoPlugin.iosInfo).systemName;
-
       socket!.send(
         jsonEncode(
           {
             'clientId': clientId,
-            'roomId': 'Server01',
+            'roomId': serverIdInputController.text,
             'metadata': {
               'clientType': 'client',
               'actionType': 'connected',
             },
             'payload': {
-              'brand': brand,
-              'osVersion': osVersion,
+              'brand': await brand,
+              'osVersion': await osVersion,
             },
           },
         ),
@@ -203,7 +230,7 @@ class ActivityProvider extends ChangeNotifier {
     final clientId = await deviceIp;
     final payload = jsonEncode({
       'clientId': clientId,
-      'roomId': 'Server01',
+      'roomId': serverIdInputController.text,
       'metadata': {
         'clientType': 'client',
         'actionType': 'disconnect',
