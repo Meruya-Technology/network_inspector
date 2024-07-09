@@ -27,7 +27,7 @@ class MainProvider extends ChangeNotifier {
   Dio get dioClient {
     return Dio(
       BaseOptions(
-        baseUrl: 'http://10.10.43.100:8080/',
+        baseUrl: 'http://192.168.18.2:8000/',
         connectTimeout: const Duration(seconds: 10),
         headers: {
           'Content-type': 'application/json',
@@ -55,7 +55,7 @@ class MainProvider extends ChangeNotifier {
     final interceptor = HttpInterceptor(
       logIsAllowed: true,
       client: client,
-      baseUrl: Uri.parse('http://10.10.43.100:8080/'),
+      baseUrl: Uri.parse('http://192.168.18.2:8000/'),
       networkInspector: networkInspector,
       onHttpFinish: (hashCode, title, message) {
         notifyActivity(

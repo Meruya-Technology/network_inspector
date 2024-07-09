@@ -1,7 +1,13 @@
 library network_inspector;
 
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
 /// Import section
 import 'package:sqflite/sqflite.dart';
+import 'package:web_socket_client/web_socket_client.dart';
 import 'common/utils/database_helper.dart';
 import 'domain/entities/http_request.dart';
 import 'domain/entities/http_response.dart';
@@ -76,6 +82,8 @@ class NetworkInspector {
     injectDependencies();
   }
 
+  final _getIt = GetIt.instance;
+
   /// Call this method on the main initialization
   static Future<void> initialize() async {
     await DatabaseHelper.initialize();
@@ -106,11 +114,31 @@ class NetworkInspector {
 
   /// writeHttpRequestLog is used to log http request data,
   Future<bool?> writeHttpRequestLog(HttpRequest param) async {
+    if (socket != null) {
+      socket?.send(
+        jsonEncode(param.toJson()),
+      );
+    }
     return await logHttpRequest?.execute(param);
   }
 
   /// writeHttpResponseLog is used to log http response data
   Future<bool?> writeHttpResponseLog(HttpResponse param) async {
+    if (socket != null) {
+      socket?.send(
+        jsonEncode(param.toJson()),
+      );
+    }
     return await logHttpResponse?.execute(param);
+  }
+
+  WebSocket? get socket {
+    WebSocket? socket;
+    try {
+      socket = _getIt<WebSocket>();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return socket;
   }
 }

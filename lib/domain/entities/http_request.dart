@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 /// @nodoc
 class HttpRequest {
   final int? id;
@@ -23,4 +25,25 @@ class HttpRequest {
     this.requestSize,
     this.requestHashCode,
   });
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = <String, dynamic>{};
+    json['id'] = id;
+    json['created_at'] = createdAt;
+    json['base_url'] = baseUrl;
+    json['path'] = path;
+    json['params'] = params;
+    json['method'] = method;
+    if (requestHeader != null) {
+      if (jsonEncode(requestHeader).isNotEmpty) {
+        json['request_header'] = requestHeader;
+      }
+    }
+    if (requestBody != null) {
+      json['request_body'] = requestBody;
+    }
+    json['request_size'] = requestSize;
+    json['request_hash_code'] = requestHashCode;
+    return json;
+  }
 }

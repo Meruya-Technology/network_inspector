@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/base/data_wrapper.dart';
 import '../../common/extensions/unix_extension.dart';
 import '../../common/extensions/url_extension.dart';
+import '../../common/formatters/ip_input_formatter.dart';
 import '../../common/utils/byte_util.dart';
 import '../../common/utils/date_time_util.dart';
 import '../../common/widgets/bottom_sheet.dart';
@@ -26,7 +28,9 @@ import '../widgets/filter_bottom_sheet_content.dart';
 class ActivityPage extends StatelessWidget {
   static const String routeName = '/http-activity';
 
-  ActivityPage({super.key});
+  ActivityPage({
+    super.key,
+  });
 
   final _byteUtil = ByteUtil();
   final _dateTimeUtil = DateTimeUtil();
@@ -66,25 +70,208 @@ class ActivityPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      child: Consumer<ActivityProvider>(
-        builder: (context, provider, child) {
-          final result = provider.fetchedActivity;
-          switch (provider.fetchedActivity.status) {
-            case Status.loading:
-              return loadingWidget(context);
-            case Status.success:
-              return successBody(
-                context,
-                result.data,
+    return SafeArea(
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Consumer<ActivityProvider>(
+                builder: (context, provider, child) {
+                  final result = provider.fetchedActivity;
+                  switch (provider.fetchedActivity.status) {
+                    case Status.loading:
+                      return loadingWidget(context);
+                    case Status.success:
+                      return successBody(
+                        context,
+                        result.data,
+                      );
+                    case Status.error:
+                      return errorMessage(context, result.message);
+                    default:
+                      return const SizedBox.shrink();
+                  }
+                },
+              ),
+            ),
+          ),
+          Consumer<ActivityProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  border: Border(
+                    top: BorderSide(
+                      width: 2,
+                      color: Theme.of(context).dividerColor,
+                    ),
+                  ),
+                ),
+                child: Form(
+                  key: provider.formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 12,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.new_releases),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'New Feature !',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      const Text(
+                        'Inspect network straight from your PC with '
+                        'Beyond Socket and Beyond Console',
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: TextFormField(
+                              controller: provider.ipInputController,
+                              textInputAction: TextInputAction.next,
+                              validator: (value) {
+                                if (value?.isEmpty ?? false) {
+                                  return 'required';
+                                }
+                                return null;
+                              },
+                              inputFormatters: [
+                                IpInputFormatter(),
+                              ],
+                              decoration: InputDecoration(
+                                filled: true,
+                                hintText: 'Web socket server IP',
+                                suffixIcon:
+                                    ValueListenableBuilder<TextEditingValue>(
+                                  valueListenable: provider.ipInputController,
+                                  builder: (context, value, child) =>
+                                      Visibility(
+                                    visible: (value.text.isNotEmpty),
+                                    child: IconButton(
+                                      onPressed: provider.onIpInputClear,
+                                      icon: const Icon(
+                                        Icons.clear,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TextFormField(
+                              controller: provider.portInputController,
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              validator: (value) {
+                                if (value?.isEmpty ?? false) {
+                                  return 'required';
+                                }
+                                return null;
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(4),
+                              ],
+                              decoration: const InputDecoration(
+                                filled: true,
+                                hintText: 'Port',
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        controller: provider.serverIdInputController,
+                        textInputAction: TextInputAction.go,
+                        validator: (value) {
+                          if (value?.isEmpty ?? false) {
+                            return 'required';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          hintText: 'Server ID',
+                          suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                            valueListenable: provider.serverIdInputController,
+                            builder: (context, value, child) => Visibility(
+                              visible: (value.text.isNotEmpty),
+                              child: IconButton(
+                                onPressed: provider.onIpInputClear,
+                                icon: const Icon(
+                                  Icons.clear,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          /// TODO: UNRELEASED FEATURE
+                          // FilledButton.tonalIcon(
+                          //   onPressed: () {},
+                          //   label: const Text(
+                          //     'Scan QR',
+                          //   ),
+                          //   icon: const Icon(
+                          //     Icons.qr_code_scanner_outlined,
+                          //   ),
+                          // ),
+                          // const SizedBox(
+                          //   width: 12,
+                          // ),
+                          FilledButton(
+                            onPressed: () {
+                              provider.disconnect();
+                            },
+                            child: const Text(
+                              'Connect',
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
               );
-            case Status.error:
-              return errorMessage(context, result.message);
-            default:
-              return const SizedBox.shrink();
-          }
-        },
+            },
+          ),
+        ],
       ),
     );
   }

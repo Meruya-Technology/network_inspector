@@ -18,6 +18,10 @@ dependencies:
   analyzer: ^6.2.0
   collection: ^1.17.2
   share_plus: ^9.0.0
+  web_socket_client: ^0.1.4
+  get_it: ^7.7.0
+  network_info_plus: ^3.0.3
+  device_info_plus: ^8.0.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0

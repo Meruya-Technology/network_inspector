@@ -1,6 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:collection/collection.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:web_socket_client/web_socket_client.dart';
+import 'package:web_socket_client/web_socket_client.dart' as wsc;
 
 import '../../common/base/data_wrapper.dart';
 import '../../common/utils/database_helper.dart';
@@ -25,11 +34,22 @@ class ActivityProvider extends ChangeNotifier {
     });
   }
 
+  final formKey = GlobalKey<FormState>();
+  final ipInputController = TextEditingController();
+  final portInputController = TextEditingController(
+    text: '8080',
+  );
+  final serverIdInputController = TextEditingController();
+  final _connectionController = StreamController<dynamic>.broadcast();
+  final _getIt = GetIt.instance;
+  Future<String?> get deviceIp async => await NetworkInfo().getWifiIP();
+  WebSocket? socket;
   Database? _database;
   FetchHttpActivities? _fetchHttpActivities;
   DataWrapper<List<HttpActivity>> fetchedActivity =
       DataWrapper<List<HttpActivity>>.init();
   ActivityFilterProvider? filterProvider;
+  Stream<dynamic> get connectionStatus => _connectionController.stream;
 
   /// Filter variables
   ///
@@ -72,7 +92,7 @@ class ActivityProvider extends ChangeNotifier {
               : null) ??
           [];
       fetchedActivity = DataWrapper.success(result);
-      retrieveResponseStatusCodeListFilter(result);
+      retrieveResponseStatusCodesFilter(result);
       notifyListeners();
     } catch (error) {
       fetchedActivity = DataWrapper.error(
@@ -81,7 +101,9 @@ class ActivityProvider extends ChangeNotifier {
     }
   }
 
-  void retrieveResponseStatusCodeListFilter(List<HttpActivity> httpActivities) {
+  void retrieveResponseStatusCodesFilter(
+    List<HttpActivity> httpActivities,
+  ) {
     final groupedActivity = httpActivities.groupListsBy((activity) {
       return activity.response?.responseStatusCode;
     });
@@ -103,6 +125,94 @@ class ActivityProvider extends ChangeNotifier {
           httpActivity: httpActivity,
         ),
       ),
+    );
+  }
+
+  void onIpInputClear() {
+    ipInputController.clear();
+  }
+
+  Future<void> connectWebSocket() async {
+    if (formKey.currentState?.validate() ?? false) {
+      socket = WebSocket(
+        Uri.parse(
+          'ws://192.168.18.2:8080',
+        ),
+      );
+
+      if (socket != null && !_getIt.isRegistered<WebSocket>()) {
+        _getIt.registerSingleton<WebSocket>(
+          socket!,
+        );
+      }
+
+      socket?.messages.listen(
+        (message) {
+          debugPrint('[Web Socket] Message: $message');
+        },
+        onError: (error) {
+          debugPrint('[Web Socket] ERROR: $error');
+        },
+        onDone: () {
+          debugPrint('[Web Socket] Connection closed');
+        },
+      );
+
+      socket?.connection.listen(
+        (state) {
+          updateConnectionStatus(state);
+        },
+      );
+    }
+  }
+
+  // Method to update connection status
+  Future<void> updateConnectionStatus(wsc.ConnectionState status) async {
+    _connectionController.add(status);
+    if (status is Connected) {
+      final clientId = await deviceIp;
+      final deviceInfoPlugin = DeviceInfoPlugin();
+      final brand = Platform.isAndroid
+          ? (await deviceInfoPlugin.androidInfo).brand
+          : 'Apple';
+
+      final osVersion = Platform.isAndroid
+          ? (await deviceInfoPlugin.androidInfo).version.release
+          : (await deviceInfoPlugin.iosInfo).systemName;
+
+      socket!.send(
+        jsonEncode(
+          {
+            'clientId': clientId,
+            'roomId': 'Server01',
+            'metadata': {
+              'clientType': 'client',
+              'actionType': 'connected',
+            },
+            'payload': {
+              'brand': brand,
+              'osVersion': osVersion,
+            },
+          },
+        ),
+      );
+    }
+  }
+
+  Future<void> disconnect() async {
+    final clientId = await deviceIp;
+    final payload = jsonEncode({
+      'clientId': clientId,
+      'roomId': 'Server01',
+      'metadata': {
+        'clientType': 'client',
+        'actionType': 'disconnect',
+      },
+      'payload': {},
+    });
+    socket?.close(
+      1000,
+      payload,
     );
   }
 }
