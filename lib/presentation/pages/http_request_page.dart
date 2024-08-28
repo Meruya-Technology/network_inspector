@@ -97,6 +97,21 @@ class HttpRequestPage extends StatelessWidget {
                 );
               },
             ),
+            ContentContainer(
+              title: 'cUrl',
+              content: request?.cUrl,
+              onCopyTap: () {
+                provider.copyActivityData(
+                  request?.cUrl ?? NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+              onShareTap: () {
+                provider.shareActivityData(
+                  'cUrl',
+                  request?.cUrl ?? NetworkInspectorValue.defaultEmptyString,
+                );
+              },
+            ),
           ],
         ),
       ),

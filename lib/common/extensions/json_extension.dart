@@ -8,7 +8,7 @@ extension JsonExtension on String? {
         var encoder = const JsonEncoder.withIndent('   ');
         return encoder.convert(decoded);
       } catch (e) {
-        return 'N/A-Cannot Parse';
+        return this ?? 'N/A-Cannot Parse';
       }
     }
     return 'N/A';

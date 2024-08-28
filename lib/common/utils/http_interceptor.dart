@@ -200,6 +200,7 @@ class HttpInterceptor extends BaseClient {
       createdAt: DateTime.now().millisecondsSinceEpoch,
       requestSize: _byteUtil.stringToBytes(request.body.toString()),
       requestHashCode: request.hashCode,
+      cUrl: null
     );
     await networkInspector!.writeHttpRequestLog(payload);
   }
@@ -213,6 +214,7 @@ class HttpInterceptor extends BaseClient {
       responseStatusMessage: response.reasonPhrase.toString(),
       responseSize: _byteUtil.stringToBytes(response.body.toString()),
       requestHashCode: requestHashCode,
+        cUrl: null
     );
     await networkInspector!.writeHttpResponseLog(payload);
   }

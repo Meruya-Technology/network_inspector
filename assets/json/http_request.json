@@ -50,6 +50,11 @@
             "fields": "request_hash_code",
             "type":"int",
             "attribute": null
+        },
+        {
+            "fields": "cUrl",
+            "type":"text",
+            "attribute": null
         }
     ]
 }

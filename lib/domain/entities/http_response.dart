@@ -9,7 +9,7 @@ class HttpResponse {
   final int? responseSize;
   final String? errorLog;
   final int? requestHashCode;
-
+  final String? cUrl;
   HttpResponse({
     this.id,
     this.createdAt,
@@ -20,5 +20,6 @@ class HttpResponse {
     this.errorLog,
     this.responseSize,
     this.requestHashCode,
+    this.cUrl,
   });
 }
