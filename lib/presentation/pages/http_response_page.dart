@@ -72,7 +72,7 @@ class HttpResponsePage extends StatelessWidget {
               isJson: false,
             ),
             const SizedBox(height: 8),
-            ContentContainer(
+/*            ContentContainer(
               title: 'Header',
               content: response?.responseHeader,
               onCopyTap: () {
@@ -90,6 +90,7 @@ class HttpResponsePage extends StatelessWidget {
               },
             ),
             const SizedBox(height: 8),
+*/
             ContentContainer(
               title: 'Body',
               content: response?.responseBody,

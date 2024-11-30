@@ -9,7 +9,11 @@ import 'byte_util.dart';
 import 'json_util.dart';
 
 class DioInterceptor extends Interceptor {
+  /// Enable/Disable overall logging
   final bool logIsAllowed;
+
+  /// Enable/Disable only console logging
+  final bool isConsoleLogAllowed;
   final NetworkInspector? networkInspector;
   final Function(
     int requestHashCode,
@@ -19,6 +23,7 @@ class DioInterceptor extends Interceptor {
 
   DioInterceptor({
     this.logIsAllowed = true,
+    this.isConsoleLogAllowed = true,
     this.networkInspector,
     this.onHttpFinish,
   });
@@ -34,7 +39,7 @@ class DioInterceptor extends Interceptor {
     if (logIsAllowed) {
       await saveRequest(options);
     }
-    handler.next(options);
+    return super.onRequest(options, handler);
   }
 
   @override
@@ -50,7 +55,7 @@ class DioInterceptor extends Interceptor {
         response.data.toString(),
       );
     }
-    handler.next(response);
+    return super.onResponse(response, handler);
   }
 
   @override
@@ -60,7 +65,9 @@ class DioInterceptor extends Interceptor {
   ) async {
     var logError = '\n[Error Message]: ${err.message}';
     if (logIsAllowed) {
-      developer.log(logError);
+      if (isConsoleLogAllowed) {
+        developer.log(logError);
+      }
       await saveResponse(err.response!);
       await finishActivity(
         err.response!,
@@ -75,10 +82,10 @@ class DioInterceptor extends Interceptor {
         '\nData : ${_jsonUtil.encodeRawJson(err.response?.data)}'
         '\nStacktrace: ${err.stackTrace.toString()}';
 
-    if (logIsAllowed) {
+    if (logIsAllowed && isConsoleLogAllowed) {
       developer.log(errorResponse);
     }
-    handler.next(err);
+    return super.onError(err, handler);
   }
 
   Future<void> logRequest(RequestOptions request) async {
@@ -138,7 +145,9 @@ class DioInterceptor extends Interceptor {
     if (onHttpFinish is Function) {
       await onHttpFinish!(response.requestOptions.hashCode, title, message);
     }
-    await logRequest(request);
-    await logResponse(response);
+    if (isConsoleLogAllowed) {
+      await logRequest(request);
+      await logResponse(response);
+    }
   }
 }
