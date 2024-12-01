@@ -48,11 +48,12 @@ class DioInterceptor extends Interceptor {
     ResponseInterceptorHandler handler,
   ) async {
     if (logIsAllowed) {
-      await saveResponse(response);
+      await saveResponse(response, response.requestOptions);
       await finishActivity(
         response,
         response.requestOptions.uri.toString(),
         response.data.toString(),
+        response.requestOptions,
       );
     }
     return super.onResponse(response, handler);
@@ -63,26 +64,27 @@ class DioInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    var logError = '\n[Error Message]: ${err.message}';
+    final logError = '\n[Error Message]: ${err.message}';
     if (logIsAllowed) {
       if (isConsoleLogAllowed) {
         developer.log(logError);
       }
-      await saveResponse(err.response!);
+      await saveResponse(err.response, err.requestOptions);
       await finishActivity(
-        err.response!,
-        err.response!.requestOptions.uri.toString(),
-        err.response!.data.toString(),
+        err.response,
+        (err.response?.requestOptions ?? err.requestOptions).uri.toString(),
+        (err.response?.data ?? '{}').toString(),
+        err.requestOptions,
       );
     }
 
-    var errorResponse = '\n[Error Response]'
-        '\nHeaders : ${err.response?.headers.toString()}'
-        '\nParams: ${err.response?.requestOptions.queryParameters.toString()}'
-        '\nData : ${_jsonUtil.encodeRawJson(err.response?.data)}'
-        '\nStacktrace: ${err.stackTrace.toString()}';
-
     if (logIsAllowed && isConsoleLogAllowed) {
+      final errorResponse = '\n[Error Response]'
+          '\nHeaders : ${err.response?.headers.toString()}'
+          '\nParams: ${err.response?.requestOptions.queryParameters.toString()}'
+          '\nData : ${_jsonUtil.encodeRawJson(err.response?.data)}'
+          '\nStacktrace: ${err.stackTrace.toString()}';
+
       developer.log(errorResponse);
     }
     return super.onError(err, handler);
@@ -122,32 +124,49 @@ class DioInterceptor extends Interceptor {
     await networkInspector!.writeHttpRequestLog(payload);
   }
 
-  Future<void> saveResponse(Response response) async {
-    var request = response.requestOptions;
-    var payload = HttpResponse(
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
-      responseBody: _jsonUtil.encodeRawJson(response.data),
-      responseStatusCode: response.statusCode,
-      responseStatusMessage: response.statusMessage,
-      responseSize: _byteUtil.stringToBytes(response.data.toString()),
-      requestHashCode: request.hashCode,
-    );
-    await networkInspector!.writeHttpResponseLog(payload);
+  Future<void> saveResponse(
+      Response? response, RequestOptions requestOptions) async {
+    if (response != null) {
+      final RequestOptions request = response.requestOptions;
+      final HttpResponse payload = HttpResponse(
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
+        responseBody: _jsonUtil.encodeRawJson(response.data),
+        responseStatusCode: response.statusCode,
+        responseStatusMessage: response.statusMessage,
+        responseSize: _byteUtil.stringToBytes(response.data.toString()),
+        requestHashCode: request.hashCode,
+      );
+      await networkInspector!.writeHttpResponseLog(payload);
+    } else {
+      final HttpResponse payload = HttpResponse(
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        responseHeader: "No Internet or Null from server",
+        responseBody: "Failed",
+        responseStatusCode: 000,
+        responseStatusMessage: ": No Internet or 'null' from server",
+        responseSize: 0,
+        requestHashCode: requestOptions.hashCode,
+      );
+      await networkInspector!.writeHttpResponseLog(payload);
+    }
   }
 
   Future<void> finishActivity(
-    Response response,
+    Response? response,
     String title,
     String message,
+    RequestOptions requestOptions,
   ) async {
-    var request = response.requestOptions;
+    final request = response?.requestOptions ?? requestOptions;
     if (onHttpFinish is Function) {
-      await onHttpFinish!(response.requestOptions.hashCode, title, message);
+      await onHttpFinish!(request.hashCode, title, message);
     }
     if (isConsoleLogAllowed) {
       await logRequest(request);
-      await logResponse(response);
+      if (response != null) {
+        await logResponse(response);
+      }
     }
   }
 }
