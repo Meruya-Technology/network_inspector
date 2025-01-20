@@ -43,10 +43,9 @@ class ContentContainer extends StatelessWidget {
           child: Material(
             color: (Theme.of(context).brightness == Brightness.dark)
                 ? Theme.of(context).colorScheme.surface
-                : Theme.of(context)
-                    .colorScheme
-                    .primaryContainer
-                    .withOpacity(0.25),
+                : Theme.of(context).colorScheme.primaryContainer.withAlpha(
+                      (0.25 * 255).round(),
+                    ),
             borderRadius: BorderRadius.circular(8),
             child: Container(
               width: double.infinity,
