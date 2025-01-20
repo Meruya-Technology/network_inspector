@@ -1,6 +1,6 @@
 name: network_inspector
 description: Http inspector / logger for Dio and Http package. This package would allow you to log every Http request, response, and error from Dio & Http.
-version: 1.1.1
+version: 1.1.2
 homepage: https://github.com/Meruya-Techhnology/network_inspector
 
 environment:
