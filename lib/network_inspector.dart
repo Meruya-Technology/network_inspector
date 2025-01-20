@@ -1,4 +1,4 @@
-library network_inspector;
+library;
 
 /// Import section
 import 'package:sqflite/sqflite.dart';
