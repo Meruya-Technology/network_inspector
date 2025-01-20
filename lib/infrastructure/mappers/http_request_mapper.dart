@@ -15,6 +15,7 @@ class HttpRequestMapper {
       requestBody: model.requestBody,
       requestSize: model.requestSize,
       requestHashCode: model.requestHashCode,
+      cUrl: model.cUrl,
     );
   }
 
@@ -30,6 +31,7 @@ class HttpRequestMapper {
       requestBody: entity.requestBody,
       requestSize: entity.requestSize,
       requestHashCode: entity.requestHashCode,
+      cUrl: entity.cUrl,
     );
   }
 }

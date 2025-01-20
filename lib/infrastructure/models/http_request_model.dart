@@ -14,6 +14,7 @@ class HttpRequestModel {
   final String? requestBody;
   final int? requestSize;
   final int? requestHashCode;
+  final String? cUrl;
 
   HttpRequestModel({
     this.id,
@@ -26,6 +27,7 @@ class HttpRequestModel {
     this.requestBody,
     this.requestSize,
     this.requestHashCode,
+    this.cUrl,
   });
 
   static String tableName = 'http_requests';
@@ -42,6 +44,7 @@ class HttpRequestModel {
         requestBody: json['request_body'],
         requestSize: json['request_size'],
         requestHashCode: json['request_hash_code'],
+        cUrl: json['cUrl']
       );
 
   Map<String, dynamic> toJson() {
@@ -62,6 +65,8 @@ class HttpRequestModel {
     }
     json['request_size'] = requestSize;
     json['request_hash_code'] = requestHashCode;
+    json['cUrl'] = cUrl;
+
     return json;
   }
 

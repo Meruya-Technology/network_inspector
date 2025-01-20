@@ -4,9 +4,11 @@ import 'package:dio/dio.dart';
 
 import '../../domain/entities/http_request.dart';
 import '../../domain/entities/http_response.dart';
+import '../../common/extensions/curl_extension.dart';
 import '../../network_inspector.dart';
 import 'byte_util.dart';
 import 'json_util.dart';
+import 'dart:convert';
 
 class DioInterceptor extends Interceptor {
   /// Enable/Disable overall logging
@@ -94,7 +96,8 @@ class DioInterceptor extends Interceptor {
         '\n[Request param] ${request.queryParameters}'
         '\n[Request body] ${_jsonUtil.encodeRawJson(request.data)}'
         '\n[Request method] ${request.method}'
-        '\n[Request content-type] ${request.contentType}';
+        '\n[Request content-type] ${request.contentType}'
+        '\n[cUrl] ${request.toCurlCmd()}';
     developer.log(logTemplate);
   }
 
@@ -118,6 +121,7 @@ class DioInterceptor extends Interceptor {
       createdAt: DateTime.now().millisecondsSinceEpoch,
       requestSize: _byteUtil.stringToBytes(options.data.toString()),
       requestHashCode: options.hashCode,
+      cUrl: options.toCurlCmd()
     );
     await networkInspector!.writeHttpRequestLog(payload);
   }
@@ -132,6 +136,7 @@ class DioInterceptor extends Interceptor {
       responseStatusMessage: response.statusMessage,
       responseSize: _byteUtil.stringToBytes(response.data.toString()),
       requestHashCode: request.hashCode,
+        cUrl: request.toCurlCmd()
     );
     await networkInspector!.writeHttpResponseLog(payload);
   }

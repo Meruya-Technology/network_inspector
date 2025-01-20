@@ -14,6 +14,7 @@ class HttpResponseMapper {
       responseStatusMessage: model.responseStatusMessage,
       errorLog: model.errorLog,
       requestHashCode: model.requestHashCode,
+      cUrl: null,
     );
   }
 
