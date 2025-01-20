@@ -1,3 +1,11 @@
+## 1.1.2 - 20 January 2025
+* [Feature] Curl copy by @LavTeamProject in #73
+* [Bump] Update dependencies by @dwikurniantom in #76
+* [Bugfix] Fix library name by @dwikurniantom in #77
+* [Bugfix] Migrate with opacity by @dwikurniantom in #78
+* [Bump] Update sdk constraint by @dwikurniantom in #79
+* [Bump] Package version by @dwikurniantom in #80
+
 ## 1.1.1 - 1 July 2024
 * Fix HTTP request log being error and throwing into body
 * Added a flag to enable/disable console logging
