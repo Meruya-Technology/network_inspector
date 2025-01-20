@@ -35,7 +35,9 @@ class BottomSheetTemplate extends StatelessWidget {
                     borderRadius: const BorderRadius.all(
                       Radius.circular(12),
                     ),
-                    color: Colors.grey.withOpacity(0.6),
+                    color: Colors.grey.withAlpha(
+                      (0.6 * 255).round(),
+                    ),
                   ),
                 ),
               ),

@@ -45,7 +45,9 @@ class ExampleApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(
-                Colors.black.withOpacity(0.3),
+                Colors.black.withAlpha(
+                  (0.3 * 255).round(),
+                ),
               ),
             ),
           ),
