@@ -2,13 +2,12 @@ import 'dart:developer' as developer;
 
 import 'package:dio/dio.dart';
 
+import '../../common/extensions/curl_extension.dart';
 import '../../domain/entities/http_request.dart';
 import '../../domain/entities/http_response.dart';
-import '../../common/extensions/curl_extension.dart';
 import '../../network_inspector.dart';
 import 'byte_util.dart';
 import 'json_util.dart';
-import 'dart:convert';
 
 class DioInterceptor extends Interceptor {
   /// Enable/Disable overall logging
@@ -112,32 +111,30 @@ class DioInterceptor extends Interceptor {
 
   Future<void> saveRequest(RequestOptions options) async {
     var payload = HttpRequest(
-      baseUrl: options.baseUrl,
-      path: options.uri.path,
-      params: _jsonUtil.encodeRawJson(options.queryParameters),
-      method: options.method,
-      requestHeader: _jsonUtil.encodeRawJson(options.headers),
-      requestBody: _jsonUtil.encodeRawJson(options.data),
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      requestSize: _byteUtil.stringToBytes(options.data.toString()),
-      requestHashCode: options.hashCode,
-      cUrl: options.toCurlCmd()
-    );
+        baseUrl: options.baseUrl,
+        path: options.uri.path,
+        params: _jsonUtil.encodeRawJson(options.queryParameters),
+        method: options.method,
+        requestHeader: _jsonUtil.encodeRawJson(options.headers),
+        requestBody: _jsonUtil.encodeRawJson(options.data),
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        requestSize: _byteUtil.stringToBytes(options.data.toString()),
+        requestHashCode: options.hashCode,
+        cUrl: options.toCurlCmd());
     await networkInspector!.writeHttpRequestLog(payload);
   }
 
   Future<void> saveResponse(Response response) async {
     var request = response.requestOptions;
     var payload = HttpResponse(
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
-      responseBody: _jsonUtil.encodeRawJson(response.data),
-      responseStatusCode: response.statusCode,
-      responseStatusMessage: response.statusMessage,
-      responseSize: _byteUtil.stringToBytes(response.data.toString()),
-      requestHashCode: request.hashCode,
-        cUrl: request.toCurlCmd()
-    );
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        responseHeader: _jsonUtil.encodeRawJson(response.headers.map),
+        responseBody: _jsonUtil.encodeRawJson(response.data),
+        responseStatusCode: response.statusCode,
+        responseStatusMessage: response.statusMessage,
+        responseSize: _byteUtil.stringToBytes(response.data.toString()),
+        requestHashCode: request.hashCode,
+        cUrl: request.toCurlCmd());
     await networkInspector!.writeHttpResponseLog(payload);
   }
 
