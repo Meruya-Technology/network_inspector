@@ -100,6 +100,7 @@ class HttpRequestPage extends StatelessWidget {
             ContentContainer(
               title: 'cUrl',
               content: request?.cUrl,
+              isJson: false,
               onCopyTap: () {
                 provider.copyActivityData(
                   request?.cUrl ?? NetworkInspectorValue.defaultEmptyString,

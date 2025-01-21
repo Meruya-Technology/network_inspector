@@ -1,3 +1,6 @@
+## 1.1.3 - 21 January 2025
+* [Bugfix] Fix weird scroll behavior on TabView
+
 ## 1.1.2 - 20 January 2025
 * [Feature] Curl copy by @LavTeamProject in #73
 * [Bump] Update dependencies by @dwikurniantom in #76
