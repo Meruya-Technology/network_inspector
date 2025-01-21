@@ -64,15 +64,17 @@ class ActivityDetailPage extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      initialIndex: 0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          bodyHeader(context),
-          bodyContent(context),
-        ],
+    return SafeArea(
+      child: DefaultTabController(
+        length: 3,
+        initialIndex: 0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            bodyHeader(context),
+            bodyContent(context),
+          ],
+        ),
       ),
     );
   }
