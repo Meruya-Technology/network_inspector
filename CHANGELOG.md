@@ -1,3 +1,6 @@
+## 1.1.4 - 15 September 2025
+* Remove analyzer dependency
+
 ## 1.1.3 - 21 January 2025
 * [Bugfix] Fix weird scroll behavior on TabView
 
