@@ -15,7 +15,6 @@ dependencies:
   sqflite: ^2.2.6
   provider: ^6.0.5
   intl: ^0.20.1
-  analyzer: ^7.2.0
   collection: ^1.17.2
   share_plus: ^10.1.4
 
