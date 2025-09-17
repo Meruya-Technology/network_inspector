@@ -7,7 +7,7 @@ import '../../infrastructure/models/map_to_table.dart';
 
 class DatabaseHelper {
   static const String databaseName = 'network_inspector.db';
-  static const int databaseVersion = 1;
+  static const int databaseVersion = 2;
 
   static Future<Database> initialize() async {
     var database = openDatabase(
@@ -18,6 +18,14 @@ class DatabaseHelper {
         await initializeTable(
           database: db,
           version: version,
+        );
+      },
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        debugPrint('Database Upgrade from version $oldVersion to $newVersion');
+        await migrateDatabase(
+          database: db,
+          oldVersion: oldVersion,
+          newVersion: newVersion,
         );
       },
       onConfigure: (Database db) {
@@ -35,13 +43,54 @@ class DatabaseHelper {
     required int version,
   }) async {
     await createTable(
-      migrationScript: await HttpRequestModel.migration,
+      migrationScript: await HttpRequestModel.migrationWithCurl,
       database: database,
     );
     await createTable(
       migrationScript: await HttpResponseModel.migration,
       database: database,
     );
+  }
+
+  static Future<void> migrateDatabase({
+    required Database database,
+    required int oldVersion,
+    required int newVersion,
+  }) async {
+    debugPrint('Starting database migration from v$oldVersion to v$newVersion');
+
+    if (oldVersion < 2 && newVersion >= 2) {
+      await migrateToAddCurlColumn(database);
+    }
+
+    // Future migrations can be added here
+    // if (oldVersion < 3 && newVersion >= 3) {
+    //   await _migrateTo_v3_SomeOtherChange(database);
+    // }
+  }
+
+  static Future<void> migrateToAddCurlColumn(Database database) async {
+    debugPrint('Migrating to v2: Adding cUrl column to http_requests table');
+
+    try {
+      final result = await database
+          .rawQuery("PRAGMA table_info(${HttpRequestModel.tableName})");
+
+      bool curlColumnExists = result.any((column) => column['name'] == 'cUrl');
+
+      if (!curlColumnExists) {
+        await database.execute(
+            'ALTER TABLE ${HttpRequestModel.tableName} ADD COLUMN cUrl TEXT');
+        debugPrint(
+            'Successfully added cUrl column to ${HttpRequestModel.tableName}');
+      } else {
+        debugPrint(
+            'cUrl column already exists in ${HttpRequestModel.tableName}');
+      }
+    } catch (e) {
+      debugPrint('Error during v2 migration: $e');
+      rethrow;
+    }
   }
 
   static Future<void> createTable({
