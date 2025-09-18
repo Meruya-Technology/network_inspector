@@ -34,18 +34,17 @@ class HttpRequestModel {
 
   factory HttpRequestModel.fromJson(Map<String, dynamic> json) =>
       HttpRequestModel(
-        id: json['id'],
-        createdAt: json['created_at'],
-        baseUrl: json['base_url'],
-        path: json['path'],
-        params: json['params'],
-        method: json['method'],
-        requestHeader: json['request_header'],
-        requestBody: json['request_body'],
-        requestSize: json['request_size'],
-        requestHashCode: json['request_hash_code'],
-        cUrl: json['cUrl']
-      );
+          id: json['id'],
+          createdAt: json['created_at'],
+          baseUrl: json['base_url'],
+          path: json['path'],
+          params: json['params'],
+          method: json['method'],
+          requestHeader: json['request_header'],
+          requestBody: json['request_body'],
+          requestSize: json['request_size'],
+          requestHashCode: json['request_hash_code'],
+          cUrl: json['cUrl']);
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
@@ -73,6 +72,14 @@ class HttpRequestModel {
   static Future<Map<String, dynamic>> get migration async {
     final stringJson = await rootBundle.loadString(
       'packages/network_inspector/assets/json/http_request.json',
+    );
+    final migrateScript = json.decode(stringJson);
+    return migrateScript;
+  }
+
+  static Future<Map<String, dynamic>> get migrationWithCurl async {
+    final stringJson = await rootBundle.loadString(
+      'packages/network_inspector/assets/json/http_request_with_curl.json',
     );
     final migrateScript = json.decode(stringJson);
     return migrateScript;
