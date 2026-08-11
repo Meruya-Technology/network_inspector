@@ -1,3 +1,6 @@
+## 1.2.0-rc.1 - 31 October 2025
+* Support Flutter 3.35
+
 ## 1.1.4 - 15 September 2025
 * Remove analyzer dependency
 
